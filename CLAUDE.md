@@ -272,6 +272,19 @@ a universe version.
   `docs/adr/`. The thesis will need these.
 - **Secrets**: `.env` only; `.env.example` committed with empty values.
 
+## Worklogs
+
+Every working session ends with a file in `worklogs/`, named
+`YYYY-MM-DD-short-slug.md`, copied from `worklogs/TEMPLATE.md`: decisions
+taken, work done, problems found, what is still open, what the next session
+should do. Write it at the end of the session — the value is the date on it.
+
+Never edit an old worklog except to fix a typo; if something recorded turns
+out to be wrong, say so in the current one and link back. Decisions appear
+twice: a line in the worklog saying a call was made, and — when the decision
+overrides the proposal — an ADR in `docs/adr/` saying why, with consequences.
+See `worklogs/README.md`.
+
 ## Common commands
 
 ```bash

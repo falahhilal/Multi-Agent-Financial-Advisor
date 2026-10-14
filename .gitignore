@@ -1,0 +1,47 @@
+# --- throwaway prototype ---
+# Single-file clickable mock of the pipeline, kept deliberately untracked.
+prototype.html
+
+# --- secrets and local config ---
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# --- data: caches, vector store, downloaded documents ---
+# Everything under data/ is reproducible from jobs/ingest_*. Never committed.
+data/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# --- editors and OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- logs ---
+*.log
+npm-debug.log*
+
+# NOTE: experiments/results/ is deliberately NOT ignored. Ablation, backtest,
+# personalisation and survey outputs are committed so every number in the
+# thesis is reproducible from a result file, a git SHA and a universe version.
+# See CLAUDE.md, "Evaluation".
