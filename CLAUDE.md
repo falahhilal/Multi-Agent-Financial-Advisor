@@ -282,6 +282,13 @@ Every working session ends with a file in `worklogs/`, named
 taken, work done, problems found, what is still open, what the next session
 should do. Write it at the end of the session — the value is the date on it.
 
+**Every worklog names people.** A `Who:` line listing whoever worked the
+session is mandatory — a worklog with no name on it is incomplete. Beyond
+that, attribute each decision and each work item to the person who made or
+did it, since FYP contributions are assessed individually and `proposal.md`
+§7 already assigns tasks by name. "Debate protocol hardened" is worth less
+in May than "Debate protocol hardened (Mahrukh)".
+
 Never edit an old worklog except to fix a typo; if something recorded turns
 out to be wrong, say so in the current one and link back. Decisions appear
 twice: a line in the worklog saying a call was made, and — when the decision

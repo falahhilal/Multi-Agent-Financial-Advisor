@@ -1,18 +1,18 @@
 # Session YYYY-MM-DD — <short title>
 
-**Who:** <names present>
+**Who:** <names of everyone who worked this session — required, never blank>
 **Span:** <dates, if the session ran over more than one day>
 
 ## Decisions taken
 
-<One line each. Note where the full reasoning lives — docs/adr/NNNN or
-docs/specs.md §N. If a decision overrides the proposal, say which section of
-the proposal it overrides.>
+<One line each, **with the name of whoever made the call**. Note where the
+full reasoning lives — docs/adr/NNNN or docs/specs.md §N. If a decision
+overrides the proposal, say which section of the proposal it overrides.>
 
 ## Work done
 
-<What actually changed. Files written, commits made (with SHAs), experiments
-run. Include results, not just that something ran.>
+<What actually changed, **attributed by name**. Files written, commits made
+(with SHAs), experiments run. Include results, not just that something ran.>
 
 ## Problems found
 

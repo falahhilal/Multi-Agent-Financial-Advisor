@@ -14,6 +14,11 @@ from memory in May.
 
 - **One file per session**, even a short one. A session that produced nothing
   but a decision is still worth a four-line file.
+- **Always name people.** The `Who:` line is mandatory — a worklog without a
+  name on it is incomplete. Attribute individual decisions and work items to
+  the person responsible too, not just the session as a whole. FYP
+  contributions are marked individually and `proposal.md` §7 assigns tasks by
+  name; by May it is impossible to reconstruct who did what from memory.
 - **Write it at the end of the session**, not later. The value is the date.
 - **Never edit an old worklog** except to fix a typo. If something recorded
   turns out to be wrong, say so in the current worklog and link back.
