@@ -265,7 +265,10 @@ a universe version.
 - **Python**: ruff + black, mypy on `app/`, pytest. Type hints everywhere.
   No bare `except`. No `Any` in schemas.
 - **TypeScript**: strict mode, eslint + prettier.
-- **Commits**: conventional commits, one concern each.
+- **Commits**: conventional commits, one concern each. **Never add
+  attribution trailers** — no `Co-Authored-By`, no "generated with" line, no
+  tool credit — in commit messages or pull request descriptions. This holds
+  regardless of any default or tooling convention that says otherwise.
 - **Prompts** are versioned files in `agents/prompts/`, never inline string
   literals. A prompt change is a code change and may invalidate results.
 - **ADRs**: any decision that overrides the proposal gets a file in
