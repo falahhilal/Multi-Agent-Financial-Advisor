@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "stage, commit and push files when asked to"
+      "Stage, commit and push files when asked to"
     ]
   }
 }

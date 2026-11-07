@@ -10,7 +10,7 @@ prototype.html
 
 # --- data: caches, vector store, downloaded documents ---
 # Everything under data/ is reproducible from jobs/ingest_*. Never committed.
-data/
+/data/
 
 # --- Python ---
 __pycache__/

@@ -3,6 +3,7 @@
 FYP, FAST National University Karachi, session FALL 2026. Team: Falah Hilal
 (lead), Mahrukh Shariq, Maryam Asif. Full proposal: `docs/proposal.md`.
 Working specification and open questions: `docs/specs.md`.
+Order of work and definitions of done: `docs/plan.md`.
 Decisions that override the proposal are in `docs/adr/`. Read these before
 changing architecture.
 
@@ -103,6 +104,10 @@ requires an `as_of` date. Never pass a full price series into a backtest
 step. Ticker eligibility at `as_of` comes from `listed_from`/`listed_to` in
 the universe file — a backtest must not hold a stock that wasn't tradeable.
 
+Macro and news values are keyed by the date they became **public**
+(`published_at`), not the period they describe. A CPI figure for March
+released in April is invisible before April.
+
 Known unresolved risks, to be stated as limitations: the backbone's training
 data covers the historical windows, and news archive depth is limited.
 
@@ -122,7 +127,8 @@ disclaimer. This project is not SECP-licensed.
 
 API keys live in `.env`, never in code, never in a commit, never in a trace.
 Real user financial data never enters a test fixture, a log line, or
-`docs/`. Use synthetic profiles.
+`docs/`. Use synthetic profiles. Collected datasets contain no user data of
+any kind.
 
 ### 10. The universe is a versioned file, not a runtime guess
 
@@ -165,6 +171,10 @@ rather than a post-hoc filter — but the market agents never receive them.
 | Debate Facilitator | Macro + Sector outputs | `debate_verdict`, `winning_agent`, `confidence_score`, `tie_breaker_triggered` | constraints only |
 | Portfolio Constructor | all three outputs, no new external data | `final_allocation{}`, `audit_trail[]`, `debate_summary{}` | constraints only |
 
+The Macro and Sector outputs above are the proposal's versions and are not
+comparable with each other. Once `schemas/market_view.py` is settled, both
+agents emit it and this table must be updated in the same commit.
+
 ### From sector views to per-ticker weights
 
 The Sector Analyst reasons at sector level. The output is per-ticker. The
@@ -193,10 +203,60 @@ bridge is **deterministic and lives in `quant/`**, not in any agent:
   model judgement. `tie_breaker_triggered` is recorded on every run.
 - **Kill switch** — hard cap at three rounds. No extensions.
 
-**Open design item, blocking:** Macro and Sector currently output in
-different spaces and so cannot strictly agree or disagree. A shared debate
-proposition schema (`schemas/market_view.py`) is required before the
-protocol means anything. Do not implement the debate until this is settled.
+**Open design items, blocking:**
+- Macro and Sector currently output in different spaces and so cannot
+  strictly agree or disagree. A shared debate proposition schema
+  (`schemas/market_view.py`) is required before the protocol means anything.
+  Do not implement the debate until this is settled.
+- "More conservative" has no operational definition yet. Do not implement
+  the tiebreaker until it is a single scalar in `quant/`.
+
+---
+
+## Data collection
+
+Collection is Step 1 of `docs/plan.md`. Three streams run in parallel:
+company data, SBP and macro data, and news with filings and the market
+index. Every dataset is listed with its purpose, format and consuming agent
+in `docs/data-sources.md`. A dataset is not "collected" until it has an entry
+there.
+
+### Where things live
+
+```
+data/                      gitignored, repo root. Reproducible, never committed.
+  raw/<source>/            exactly what the source returned. Never edited.
+  raw/news/YYYY-MM-DD/     one folder per fetch day
+  interim/                 parsed, not yet validated
+  processed/               clean parquet, the only thing the app reads
+  _logs/                   run logs and coverage logs
+backend/jobs/              committed loaders, one script per source
+backend/data_manifests/    committed. One manifest per dataset
+backend/universe/          committed. Universe file and changelog
+```
+
+### Rules
+
+1. **Raw is immutable.** Save the response before parsing and never overwrite
+   it. Cleaned data is a separate file in `interim/` or `processed/`.
+2. **Provenance on every record:** source, URL or endpoint, `fetched_at`
+   (UTC), and `published_at` for macro and news values.
+3. **A manifest per dataset:** source, fetch date, row or file count,
+   checksum, loader script and its git SHA. Manifests are committed even
+   though the data is not.
+4. **Read the terms first.** Record licence, storage limits and
+   automated-access rules in `docs/data-sources.md` before the first fetch.
+   If a source forbids storing article text, store headline, link and date
+   only. Never collect from a source whose terms forbid automated access.
+5. **One rerunnable loader per source,** with rate limiting and retries.
+   `psxdata`, `yfinance` and similar are loaders, not runtime dependencies.
+6. **Gaps are logged, not hidden.** Missing days, failed fetches and
+   unavailable history go in `_logs/` and are cited in the thesis.
+7. **Not everything is reproducible.** The news archive cannot be re-fetched
+   later because free history is short. It, and any other source that cannot
+   be re-fetched, is backed up outside the working machine and snapshotted
+   at code freeze.
+8. **Datasets contain no user data.** Synthetic profiles only (Rule 9).
 
 ---
 
@@ -231,7 +291,8 @@ PostgreSQL/parquet store, not live request-path dependencies. SBP PDFs via
 pdfplumber, World Bank via wbgapi, FRED, NewsAPI. All ingestion runs in
 `jobs/` on a schedule; the request path only retrieves. Start archiving news
 headlines now — the free NewsAPI tier has roughly a month of history, which
-is not enough for the backtest windows.
+is not enough for the backtest windows. The archive job must run on a machine
+that stays on, not a laptop that sleeps.
 
 **Models** — production: a strong model for the Portfolio Constructor,
 cost-tiered models for Macro and Sector. Ablation: one fixed backbone across
@@ -269,6 +330,9 @@ a universe version.
   attribution trailers** — no `Co-Authored-By`, no "generated with" line, no
   tool credit — in commit messages or pull request descriptions. This holds
   regardless of any default or tooling convention that says otherwise.
+- **Branches**: one branch per workstream (for example `data/company`,
+  `data/macro`, `data/news`), merged by pull request. Nobody commits
+  directly to `main`.
 - **Prompts** are versioned files in `agents/prompts/`, never inline string
   literals. A prompt change is a code change and may invalidate results.
 - **ADRs**: any decision that overrides the proposal gets a file in
@@ -278,9 +342,12 @@ a universe version.
 ## Worklogs
 
 Every working session ends with a file in `worklogs/`, named
-`YYYY-MM-DD-short-slug.md`, copied from `worklogs/TEMPLATE.md`: decisions
-taken, work done, problems found, what is still open, what the next session
-should do. Write it at the end of the session — the value is the date on it.
+`YYYY-MM-DD-person-short-slug.md` (for example
+`2026-11-08-falah-company-prices.md`), copied from `worklogs/TEMPLATE.md`:
+decisions taken, work done, problems found, what is still open, what the next
+session should do. Write it at the end of the session — the value is the date
+on it. Putting the first name in the filename means three people working on
+the same day never collide in git. Older worklogs keep their original names.
 
 **Every worklog names people.** A `Who:` line listing whoever worked the
 session is mandatory — a worklog with no name on it is incomplete. Beyond
@@ -288,6 +355,9 @@ that, attribute each decision and each work item to the person who made or
 did it, since FYP contributions are assessed individually and `proposal.md`
 §7 already assigns tasks by name. "Debate protocol hardened" is worth less
 in May than "Debate protocol hardened (Mahrukh)".
+
+During data collection, each worklog also lists the datasets touched: source,
+date range, row or file count, and any gaps found.
 
 Never edit an old worklog except to fix a typo; if something recorded turns
 out to be wrong, say so in the current one and link back. Decisions appear
@@ -329,6 +399,8 @@ npm run generate:types          # from backend OpenAPI
 - Don't run one ablation configuration with a different enforcement mode,
   backbone, embedding model, or prompt version than the others. Rule 4.
 - Don't allocate to a ticker that isn't in the universe file. Rule 10.
+- Don't overwrite or edit raw data. Fix problems in a later stage.
+- Don't collect from a source whose terms forbid automated access.
 - Don't hard-code an embedding model outside `rag/embeddings/`.
 - Don't put ingestion, PDF parsing, or FinBERT inference in the request path.
 - Don't add live trade execution, ever.
