@@ -75,3 +75,38 @@ are lost (BR and ProPakistani windows are ~11-16 h, so missing more than a few
 hourly runs loses items); first sighting wins, so later edits are only in raw
 snapshots; the BR stocks filter is a keyword match and can miss or wrongly
 keep items; GitHub's cron can be delayed or skip runs at busy times.
+
+### news_aaj_psx_archive
+
+| | |
+|---|---|
+| Purpose | Historical PSX market news (2021 onward) for backtest windows the RSS archive cannot reach. Sector Analyst (FinBERT, retrieval). |
+| Loader | `backend/jobs/news_aaj_psx.py` (run once; re-runs add only new articles) |
+| Fetch mode | `reproducible`: the tag archive can be re-walked, though the site may edit or remove pages |
+| Location | HF `news/backfill/aaj_psx/`: `articles.parquet`, `coverage_by_month.csv`, `raw/articles/<site_id>.html.gz`, `raw/listing/fetch_date=D/…`, `runs/` |
+| Format | Parquet, one row per article: `article_id` (same scheme as news_rss), `site_article_id`, `url`, `canonical_url`, `source`, `title`, `published_at` (UTC, from the article page's JSON-LD), `published_at_raw`, `published_tz`, `modified_at`, `authors`, `summary`, `full_text`, `language`, `tags`, `tickers_mentioned` (empty), `listing_page`, `fetched_at`, `raw_file` |
+
+First run 2026-11-08: 14 listing pages, **418 articles**, 0 errors, published
+2021-01-14 to 2026-11-05. Per year: 2021: 9, 2022: 23, 2023: 82, 2024: 122,
+2025: 125, 2026: 57. Median 3 articles a month; **11 of 71 months have none**
+(2021-02, 05, 06, 07, 12; 2022-01, 10; 2023-02 to 05). This is what Aaj tagged
+"pakistan-stock-exchange", not a complete record of PSX news. 56 articles are
+syndicated from Business Recorder (author field).
+
+**Terms and access** (read 2026-11-08): english.aaj.tv has no terms page; its
+About page says it belongs to the Business Recorder Group, so Business
+Recorder's terms are applied (see news_rss_articles). robots.txt allows
+`/trends/` and `/news/` (disallows `/search`, print views, some author pages).
+Requests at one per 3 s. Same full-text decision as news_rss_articles.
+
+### PSX Data Portal (dps.psx.com.pk): not collected
+
+Company announcements and filings (planned dataset `news_psx_announcements`)
+are **not collected**. PSX's Terms of Use (www.psx.com.pk/psx/terms-of-use,
+read 2026-11-08) prohibit "software, spiders, robots … or other devices or
+mechanisms to navigate, search or determine the PSX Website" without prior
+written permission; the Data Portal has no separate terms. Decision (Maryam,
+2026-11-08): skip until PSX grants written permission. The same clause
+affects anything else fetched from dps.psx.com.pk by script (psxdata prices,
+KSE-100 levels). Announcements reported by the press are covered by the
+news datasets above.
