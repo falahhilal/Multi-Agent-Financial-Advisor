@@ -303,3 +303,19 @@ def test_http_get_rate_limits_per_host(server: str) -> None:
 def test_http_get_rejects_non_http() -> None:
     with pytest.raises(ValueError):
         common.http_get("file:///etc/passwd")
+
+
+def test_same_host_https_to_http_redirect_stays_https() -> None:
+    handler = common._KeepHttpsRedirectHandler()
+    req = common.urllib.request.Request("https://www.example.com/terms")
+    new = handler.redirect_request(
+        req, None, 301, "Moved", {}, "http://www.example.com/terms/"
+    )
+    assert new is not None and new.full_url == "https://www.example.com/terms/"
+
+
+def test_cross_host_https_to_http_redirect_refused() -> None:
+    handler = common._KeepHttpsRedirectHandler()
+    req = common.urllib.request.Request("https://www.example.com/a")
+    with pytest.raises(common.urllib.error.HTTPError):
+        handler.redirect_request(req, None, 302, "Found", {}, "http://evil.example/a")

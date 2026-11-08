@@ -253,10 +253,49 @@ def _wait_for_host(host: str, interval: float) -> None:
         time.sleep(start - now)
 
 
+class _KeepHttpsRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Never follow a redirect from https to plain http.
+
+    Some sites (seen on brecorder.com and dawn.com) redirect
+    ``https://host/path`` to ``http://host/path/``. For the same host the
+    scheme is kept as https. A downgrade to a different host is refused
+    (surfaces as ``HttpError`` with the 3xx status).
+    """
+
+    def redirect_request(
+        self,
+        req: urllib.request.Request,
+        fp: Any,
+        code: int,
+        msg: str,
+        headers: Any,
+        newurl: str,
+    ) -> urllib.request.Request | None:
+        old = urllib.parse.urlsplit(req.full_url)
+        new = urllib.parse.urlsplit(newurl)
+        if old.scheme == "https" and new.scheme == "http":
+            if (new.hostname or "").lower() != (old.hostname or "").lower():
+                raise urllib.error.HTTPError(
+                    newurl,
+                    code,
+                    f"refusing https->http redirect to {newurl}",
+                    headers,
+                    fp,
+                )
+            port = f":{new.port}" if new.port and new.port != 80 else ""
+            newurl = urllib.parse.urlunsplit(
+                new._replace(scheme="https", netloc=f"{new.hostname}{port}")
+            )
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_opener = urllib.request.build_opener(_KeepHttpsRedirectHandler)
+
+
 def _fetch_once(url: str, headers: Mapping[str, str], timeout: float) -> HttpResponse:
     req = urllib.request.Request(url, headers=dict(headers), method="GET")
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
+        with _opener.open(req, timeout=timeout) as r:
             return HttpResponse(
                 url=r.geturl(),
                 status=r.status,
@@ -517,6 +556,32 @@ def upload_to_hf(
     revision = str(info.oid)
     log.info("uploaded %s -> %s:%s @ %s", src.name, HF_REPO, path_in_repo, revision)
     return revision
+
+
+def hf_download(path_in_repo: str, *, revision: str | None = None) -> Path | None:
+    """Download one file from ``HF_REPO`` and return its local cached path.
+
+    Returns ``None`` if the file does not exist at that revision (default: main).
+    Read-only, so any stream's folder may be read. Needs ``HF_TOKEN``.
+    """
+    try:
+        from huggingface_hub import hf_hub_download
+        from huggingface_hub.errors import EntryNotFoundError
+    except ImportError as exc:  # pragma: no cover - depends on environment
+        raise ImportError(
+            "hf_download needs huggingface_hub: pip install huggingface_hub"
+        ) from exc
+    try:
+        local = hf_hub_download(
+            repo_id=HF_REPO,
+            repo_type=HF_REPO_TYPE,
+            filename=path_in_repo,
+            revision=revision,
+            token=get_secret("HF_TOKEN"),
+        )
+    except EntryNotFoundError:
+        return None
+    return Path(str(local))
 
 
 # --------------------------------------------------------------------------
