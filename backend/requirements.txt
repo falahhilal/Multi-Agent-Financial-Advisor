@@ -55,6 +55,9 @@ feedparser>=6.0
 beautifulsoup4>=4.12
 lxml>=5.2
 
+# ---- Shared data storage (private HF dataset; see backend/jobs/common.py) ----
+huggingface_hub>=0.24
+
 # ---- PDF parsing (SBP and PSX filings) ----
 pdfplumber>=0.11
 # OCR fallback for scanned pages (also needs the tesseract binary installed)
