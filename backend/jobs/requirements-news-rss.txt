@@ -1,0 +1,9 @@
+# Minimal dependencies for jobs/news_rss.py, so the hourly GitHub Action
+# installs in seconds instead of pulling the whole backend (torch etc.).
+# Keep in step with backend/requirements.txt.
+feedparser>=6.0
+pyyaml>=6.0
+pyarrow>=16.0
+beautifulsoup4>=4.12
+lxml>=5.2
+huggingface_hub>=0.24
