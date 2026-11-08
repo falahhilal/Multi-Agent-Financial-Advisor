@@ -1,0 +1,707 @@
+"""RSS news archiver -> dataset ``news_rss_articles`` (stream ``news``).
+
+RSS feeds only expose their latest items, so anything not captured in time is
+lost for good. This job is an **append-only snapshot**: the copy on Hugging
+Face (``news/rss/``) is the archive of record. Run it hourly (GitHub Actions:
+``.github/workflows/news_rss_hourly.yml``).
+
+Each run:
+
+1. fetches every feed in ``jobs/config/news_feeds.yaml`` with ``http_get``;
+2. saves each response unmodified (gzipped) to
+   ``raw/fetch_date=D/<run_id>_<feed>.xml.gz``;
+3. parses items into the article schema below. ``filter`` feeds keep only
+   items whose title or summary matches the feed's filter;
+4. dedupes by ``article_id = sha256(canonical_url)[:16]``, both within the run
+   and against ``index/article_ids.parquet`` on HF (first sighting wins);
+5. writes new articles to ``articles/fetch_date=D/part-<run_id>.parquet``;
+6. writes a run log ``runs/fetch_date=D/run-<run_id>.json`` with per-feed
+   status, item counts and newest item, so gaps stay visible;
+7. uploads this run's files to ``news/rss/`` in one HF commit;
+8. writes ``backend/data_manifests/news_rss_articles.json`` and uploads a copy
+   to ``news/rss/manifest.json``. Actions runs cannot commit to git, so
+   refresh the committed manifest with ``--pull-manifest``.
+
+Run from ``backend/``::
+
+    python -m jobs.news_rss                  # fetch + upload (needs HF_TOKEN)
+    python -m jobs.news_rss --no-upload      # local test: stage under data/news/rss/
+    python -m jobs.news_rss --feeds dawn_business,propakistani
+    python -m jobs.news_rss --pull-manifest  # copy the HF manifest into git
+"""
+
+from __future__ import annotations
+
+import argparse
+import calendar
+import gzip
+import hashlib
+import json
+import logging
+import re
+import shutil
+import sys
+import tempfile
+import urllib.parse
+from collections.abc import Iterable
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from typing import Any
+
+import feedparser
+import pyarrow as pa
+import pyarrow.parquet as pq
+import yaml
+from bs4 import BeautifulSoup
+
+from jobs.common import (
+    DATA_DIR,
+    HF_REPO,
+    HF_REPO_TYPE,
+    MANIFEST_DIR,
+    HttpError,
+    RobotsDisallowedError,
+    get_secret,
+    git_info,
+    hf_download,
+    http_get,
+    sha256_file,
+    upload_to_hf,
+    write_manifest,
+)
+
+log = logging.getLogger("jobs.news_rss")
+
+STREAM = "news"
+DATASET = "rss_articles"
+HF_PREFIX = "news/rss"
+CONFIG_PATH = Path(__file__).resolve().parent / "config" / "news_feeds.yaml"
+LOCAL_ROOT = DATA_DIR / "news" / "rss"
+INDEX_REL = "index/article_ids.parquet"
+MANIFEST_REL = "manifest.json"
+ROLES = frozenset({"primary", "filter", "test"})
+
+NOTES = (
+    "RSS feeds expose only their latest items and cannot be re-fetched "
+    "historically, so this is an append-only snapshot: the HF copy under "
+    "news/rss/ is the archive of record and must be backed up and snapshotted "
+    "at code freeze. Coverage before the first run (2026-11-08) is only what "
+    "each feed still showed then. row_count = articles in the archive; "
+    "file_count = article parquet partitions; files = this run's outputs. "
+    "Dedupe is by canonical URL (slug dropped where configured); the first "
+    "sighting of an article is kept and later edits are not captured, except "
+    "in the raw feed snapshots. full_text is plain text from content:encoded "
+    "when the feed includes it. language is the feed-declared code, or 'ur' "
+    "when the title is mostly Arabic script. tickers_mentioned is empty until "
+    "tagging is built."
+)
+
+_TS = pa.timestamp("s", tz="UTC")
+ARTICLE_SCHEMA = pa.schema(
+    [
+        ("article_id", pa.string()),
+        ("url", pa.string()),
+        ("canonical_url", pa.string()),
+        ("source", pa.string()),
+        ("feed_name", pa.string()),
+        ("feed_url", pa.string()),
+        ("feed_role", pa.string()),
+        ("guid", pa.string()),
+        ("title", pa.string()),
+        ("published_at", _TS),  # UTC
+        ("published_at_raw", pa.string()),  # exactly as in the feed
+        ("published_tz", pa.string()),  # original UTC offset, e.g. +05:00
+        ("fetched_at", _TS),
+        ("summary", pa.string()),
+        ("full_text", pa.string()),
+        ("full_text_source", pa.string()),  # "content:encoded" or null
+        ("language", pa.string()),
+        ("categories", pa.list_(pa.string())),
+        ("author", pa.string()),
+        ("tickers_mentioned", pa.list_(pa.string())),
+        ("run_id", pa.string()),
+    ]
+)
+INDEX_SCHEMA = pa.schema(
+    [
+        ("article_id", pa.string()),
+        ("canonical_url", pa.string()),
+        ("feed_name", pa.string()),
+        ("published_at", _TS),
+        ("first_fetched_at", _TS),
+        ("partition", pa.string()),
+    ]
+)
+
+_TRACKING_PARAM = re.compile(r"^(utm_\w+|fbclid|gclid|mc_cid|mc_eid|cmpid)$", re.I)
+_ARABIC_SCRIPT = re.compile("[\u0600-\u06ff\u0750-\u077f\ufb50-\ufdff\ufe70-\ufeff]")
+_LETTER = re.compile(r"[^\W\d_]")
+_BLOCK_TAGS = ["p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "tr"]
+
+
+# --------------------------------------------------------------------------
+# Config
+# --------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Feed:
+    name: str
+    source: str
+    url: str
+    role: str
+    filter_name: str | None
+    filter_re: re.Pattern[str] | None
+    canonical_id_re: re.Pattern[str] | None
+    store_full_text: bool
+
+
+@dataclass(frozen=True)
+class Config:
+    version: int
+    sha256: str
+    min_interval: float
+    stale_after_days: int
+    feeds: tuple[Feed, ...]
+
+
+def load_config(path: Path = CONFIG_PATH) -> Config:
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    defaults = raw.get("defaults", {})
+    filters = {k: v["pattern"].strip() for k, v in (raw.get("filters") or {}).items()}
+    feeds: list[Feed] = []
+    for f in raw["feeds"]:
+        role = f["role"]
+        if role not in ROLES:
+            raise ValueError(f"feed {f['name']}: unknown role {role!r}")
+        filter_name = f.get("filter")
+        if (role == "filter") != bool(filter_name):
+            raise ValueError(f"feed {f['name']}: role 'filter' needs a filter (only)")
+        if filter_name and filter_name not in filters:
+            raise ValueError(f"feed {f['name']}: unknown filter {filter_name!r}")
+        if not f["url"].startswith("https://"):
+            raise ValueError(f"feed {f['name']}: url must be https")
+        pattern = f.get("canonical_id_pattern")
+        feeds.append(
+            Feed(
+                name=f["name"],
+                source=f["source"],
+                url=f["url"],
+                role=role,
+                filter_name=filter_name,
+                filter_re=(
+                    re.compile(filters[filter_name], re.I) if filter_name else None
+                ),
+                canonical_id_re=re.compile(pattern) if pattern else None,
+                store_full_text=bool(f.get("store_full_text", True)),
+            )
+        )
+    names = [f.name for f in feeds]
+    if len(names) != len(set(names)):
+        raise ValueError("feed names must be unique")
+    return Config(
+        version=int(raw.get("version", 1)),
+        sha256=sha256_file(path),
+        min_interval=float(defaults.get("min_interval_seconds", 2.0)),
+        stale_after_days=int(defaults.get("stale_after_days", 7)),
+        feeds=tuple(feeds),
+    )
+
+
+# --------------------------------------------------------------------------
+# Parsing helpers
+# --------------------------------------------------------------------------
+
+
+def canonical_url(link: str, id_pattern: re.Pattern[str] | None = None) -> str:
+    """Normalise a link: https, lower-case host, no fragment, no tracking
+    params, no trailing slash. Then, if ``id_pattern`` matches, keep group 1
+    (e.g. ``https://www.dawn.com/news/2042903``)."""
+    parts = urllib.parse.urlsplit(link.strip())
+    scheme = "https" if parts.scheme in ("http", "https") else parts.scheme
+    host = (parts.hostname or "").lower()
+    port = f":{parts.port}" if parts.port and parts.port not in (80, 443) else ""
+    query = urllib.parse.urlencode(
+        [
+            (k, v)
+            for k, v in urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+            if not _TRACKING_PARAM.match(k)
+        ]
+    )
+    path = parts.path or "/"
+    if len(path) > 1:
+        path = path.rstrip("/")
+    url = urllib.parse.urlunsplit((scheme, host + port, path, query, ""))
+    if id_pattern is not None:
+        m = id_pattern.match(url)
+        if m:
+            url = m.group(1)
+    return url
+
+
+def article_id(canonical: str) -> str:
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
+
+
+def html_to_text(html: str | None) -> str | None:
+    """Plain text from an HTML fragment, one paragraph per line."""
+    if not html or not html.strip():
+        return None
+    soup = BeautifulSoup(html, "lxml")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    for br in soup.find_all("br"):
+        br.replace_with("\n")
+    for block in soup.find_all(_BLOCK_TAGS):
+        block.append("\n")
+    lines = (
+        re.sub("[ \t\xa0]+", " ", ln).strip() for ln in soup.get_text("").splitlines()
+    )
+    text = "\n".join(ln for ln in lines if ln)
+    return text or None
+
+
+def _fmt_offset(dt: datetime) -> str | None:
+    off = dt.utcoffset()
+    if off is None:
+        return None
+    total = int(off.total_seconds())
+    sign = "+" if total >= 0 else "-"
+    hours, minutes = divmod(abs(total) // 60, 60)
+    return f"{sign}{hours:02d}:{minutes:02d}"
+
+
+def parse_published(entry: Any) -> tuple[datetime | None, str | None, str | None]:
+    """Return (published_at UTC, raw string, original offset)."""
+    raw = entry.get("published") or entry.get("updated")
+    if raw:
+        dt: datetime | None
+        try:
+            dt = parsedate_to_datetime(raw)  # RFC 822, as used by RSS 2.0
+        except (TypeError, ValueError, IndexError):
+            try:
+                dt = datetime.fromisoformat(raw.strip().replace("Z", "+00:00"))
+            except ValueError:
+                dt = None
+        if dt is not None and dt.tzinfo is not None:
+            return dt.astimezone(timezone.utc), raw, _fmt_offset(dt)
+    parsed = entry.get("published_parsed") or entry.get("updated_parsed")
+    if parsed:  # feedparser's struct is already UTC; original offset unknown
+        return (
+            datetime.fromtimestamp(calendar.timegm(parsed), tz=timezone.utc),
+            raw,
+            None,
+        )
+    return None, raw, None
+
+
+def detect_language(feed_language: str | None, title: str) -> str | None:
+    letters = _LETTER.findall(title)
+    if letters and len(_ARABIC_SCRIPT.findall(title)) / len(letters) > 0.5:
+        return "ur"
+    return feed_language.lower() if feed_language else None
+
+
+# --------------------------------------------------------------------------
+# Per-feed processing
+# --------------------------------------------------------------------------
+
+
+def _iso(dt: datetime | None) -> str | None:
+    return dt.strftime("%Y-%m-%dT%H:%M:%SZ") if dt else None
+
+
+def parse_feed(
+    content: bytes, feed: Feed, fetched_at: datetime, run_id: str
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Parse one feed response into article records plus stats."""
+    parsed = feedparser.parse(content)
+    feed_language = parsed.feed.get("language")
+    records: list[dict[str, Any]] = []
+    stats: dict[str, Any] = {
+        "items": len(parsed.entries),
+        "kept": 0,
+        "filtered_out": 0,
+        "no_link": 0,
+        "no_date": 0,
+        "with_full_text": 0,
+        "parse_warning": str(parsed.get("bozo_exception")) if parsed.bozo else None,
+    }
+    dates: list[datetime] = []
+    for entry in parsed.entries:
+        link = (entry.get("link") or "").strip()
+        if not link:
+            stats["no_link"] += 1
+            continue
+        title = html_to_text(entry.get("title")) or ""
+        summary = html_to_text(entry.get("summary"))
+        published_at, published_raw, published_tz = parse_published(entry)
+        if published_at is None:
+            stats["no_date"] += 1
+        else:
+            dates.append(published_at)
+        if feed.filter_re is not None and not feed.filter_re.search(
+            f"{title}\n{summary or ''}"
+        ):
+            stats["filtered_out"] += 1
+            continue
+        full_text = None
+        contents = entry.get("content") or []
+        if contents and feed.store_full_text:
+            full_text = html_to_text(contents[0].get("value"))
+        if full_text:
+            stats["with_full_text"] += 1
+        canonical = canonical_url(link, feed.canonical_id_re)
+        records.append(
+            {
+                "article_id": article_id(canonical),
+                "url": link,
+                "canonical_url": canonical,
+                "source": feed.source,
+                "feed_name": feed.name,
+                "feed_url": feed.url,
+                "feed_role": feed.role,
+                "guid": entry.get("id"),
+                "title": title,
+                "published_at": published_at,
+                "published_at_raw": published_raw,
+                "published_tz": published_tz,
+                "fetched_at": fetched_at,
+                "summary": summary if feed.store_full_text else None,
+                "full_text": full_text,
+                "full_text_source": "content:encoded" if full_text else None,
+                "language": detect_language(feed_language, title),
+                "categories": [
+                    t.get("term") for t in entry.get("tags", []) if t.get("term")
+                ],
+                "author": entry.get("author"),
+                "tickers_mentioned": [],
+                "run_id": run_id,
+            }
+        )
+    stats["kept"] = len(records)
+    stats["newest_published_at"] = _iso(max(dates)) if dates else None
+    stats["oldest_published_at"] = _iso(min(dates)) if dates else None
+    return records, stats
+
+
+# --------------------------------------------------------------------------
+# Index (dedupe state)
+# --------------------------------------------------------------------------
+
+
+def _empty_index() -> pa.Table:
+    return INDEX_SCHEMA.empty_table()
+
+
+def _hf_api() -> Any:
+    from huggingface_hub import HfApi
+
+    return HfApi(token=get_secret("HF_TOKEN"))
+
+
+def _rebuild_index_from_hf() -> pa.Table:
+    """Fallback if the index file is missing but partitions exist on HF."""
+    api = _hf_api()
+    try:
+        entries = api.list_repo_tree(
+            HF_REPO,
+            path_in_repo=f"{HF_PREFIX}/articles",
+            repo_type=HF_REPO_TYPE,
+            recursive=True,
+        )
+        paths = sorted(e.path for e in entries if e.path.endswith(".parquet"))
+    except (
+        Exception
+    ) as exc:  # noqa: BLE001 - HF raises several types for "missing folder"
+        if "404" in str(exc) or "not found" in str(exc).lower():
+            return _empty_index()
+        raise
+    tables = []
+    for p in paths:
+        local = hf_download(p)
+        if local is None:
+            continue
+        t = pq.read_table(
+            local,
+            columns=[
+                "article_id",
+                "canonical_url",
+                "feed_name",
+                "published_at",
+                "fetched_at",
+            ],
+        )
+        rel = p[len(HF_PREFIX) + 1 :]
+        tables.append(
+            pa.table(
+                {
+                    "article_id": t["article_id"],
+                    "canonical_url": t["canonical_url"],
+                    "feed_name": t["feed_name"],
+                    "published_at": t["published_at"],
+                    "first_fetched_at": t["fetched_at"],
+                    "partition": pa.array([rel] * t.num_rows, pa.string()),
+                },
+                schema=INDEX_SCHEMA,
+            )
+        )
+    if paths:
+        log.warning("index missing on HF: rebuilt from %d partitions", len(paths))
+    return pa.concat_tables(tables) if tables else _empty_index()
+
+
+def load_index(remote: bool) -> pa.Table:
+    if remote:
+        local = hf_download(f"{HF_PREFIX}/{INDEX_REL}")
+        if local is None:
+            return _rebuild_index_from_hf()
+        return pq.read_table(local, schema=INDEX_SCHEMA)
+    path = LOCAL_ROOT / INDEX_REL
+    return (
+        pq.read_table(path, schema=INDEX_SCHEMA) if path.is_file() else _empty_index()
+    )
+
+
+# --------------------------------------------------------------------------
+# Run
+# --------------------------------------------------------------------------
+
+
+def _write_new(path: Path, data: bytes) -> Path:
+    """Write a file that must not already exist (raw data is immutable)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("xb") as fh:
+        fh.write(data)
+    return path
+
+
+def _upload_run(files: Iterable[Path], run_id: str, n_new: int) -> str:
+    """Upload this run's files to news/rss/ in a single HF commit."""
+    with tempfile.TemporaryDirectory(prefix="news_rss_upload_") as tmp:
+        for f in files:
+            rel = f.relative_to(LOCAL_ROOT)
+            dest = Path(tmp) / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(f, dest)
+        return upload_to_hf(
+            tmp,
+            f"{HF_PREFIX}/",
+            stream=STREAM,
+            commit_message=f"news/rss: run {run_id} (+{n_new} articles)",
+        )
+
+
+def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
+    fetched_at = datetime.now(timezone.utc).replace(microsecond=0)
+    run_id = fetched_at.strftime("%Y%m%dT%H%M%SZ")
+    fetch_date = fetched_at.date().isoformat()
+    feeds = [f for f in config.feeds if only is None or f.name in only]
+    if only and len(feeds) != len(only):
+        raise SystemExit(f"unknown feed(s): {sorted(only - {f.name for f in feeds})}")
+
+    run_files: list[Path] = []
+    feed_stats: dict[str, dict[str, Any]] = {}
+    records: list[dict[str, Any]] = []
+    warnings: list[str] = []
+
+    for feed in feeds:
+        stats: dict[str, Any] = {"url": feed.url, "role": feed.role, "ok": False}
+        try:
+            resp = http_get(feed.url, min_interval=config.min_interval)
+        except (HttpError, RobotsDisallowedError) as exc:
+            stats["error"] = str(exc)
+            warnings.append(f"{feed.name}: fetch failed: {exc}")
+            feed_stats[feed.name] = stats
+            log.error("%s: %s", feed.name, exc)
+            continue
+        stats["raw_file"] = None
+        if feed.store_full_text:  # raw feeds contain article text: only if terms allow
+            raw_name = f"{run_id}_{feed.name}.xml.gz"
+            raw_path = LOCAL_ROOT / "raw" / f"fetch_date={fetch_date}" / raw_name
+            run_files.append(_write_new(raw_path, gzip.compress(resp.content, mtime=0)))
+            stats["raw_file"] = raw_path.relative_to(LOCAL_ROOT).as_posix()
+        recs, parsed_stats = parse_feed(resp.content, feed, fetched_at, run_id)
+        stats.update(
+            parsed_stats, ok=True, http_status=resp.status, bytes=len(resp.content)
+        )
+        newest = parsed_stats["newest_published_at"]
+        if parsed_stats["items"] == 0:
+            warnings.append(f"{feed.name}: feed returned no items")
+        elif newest is None or datetime.fromisoformat(newest.replace("Z", "+00:00")) < (
+            fetched_at - timedelta(days=config.stale_after_days)
+        ):
+            warnings.append(
+                f"{feed.name}: newest item ({newest}) older than "
+                f"{config.stale_after_days} days"
+            )
+        if parsed_stats["parse_warning"]:
+            warnings.append(
+                f"{feed.name}: feed parse warning: {parsed_stats['parse_warning']}"
+            )
+        feed_stats[feed.name] = stats
+        records.extend(recs)
+        log.info(
+            "%s: %d items, kept %d, filtered %d, full text %d, newest %s",
+            feed.name,
+            stats["items"],
+            stats["kept"],
+            stats["filtered_out"],
+            stats["with_full_text"],
+            newest,
+        )
+
+    # Dedupe against the archive and within this run (first sighting wins).
+    index_ok = True
+    try:
+        index = load_index(remote=upload)
+    except Exception as exc:  # noqa: BLE001 - keep raw snapshots even if HF read fails
+        index_ok = False
+        index = _empty_index()
+        warnings.append(
+            f"could not load dedupe index, articles not written this run: {exc}"
+        )
+        log.error("index load failed: %s", exc)
+    seen = set(index.column("article_id").to_pylist())
+    new_records: list[dict[str, Any]] = []
+    dupes = 0
+    for rec in records:
+        if rec["article_id"] in seen:
+            dupes += 1
+            continue
+        seen.add(rec["article_id"])
+        new_records.append(rec)
+        feed_stats[rec["feed_name"]]["new"] = (
+            feed_stats[rec["feed_name"]].get("new", 0) + 1
+        )
+
+    if index_ok and new_records:
+        part_rel = f"articles/fetch_date={fetch_date}/part-{run_id}.parquet"
+        table = pa.Table.from_pylist(new_records, schema=ARTICLE_SCHEMA)
+        part_path = LOCAL_ROOT / part_rel
+        part_path.parent.mkdir(parents=True, exist_ok=True)
+        pq.write_table(table, part_path, compression="zstd")
+        run_files.append(part_path)
+        added = pa.table(
+            {
+                "article_id": table["article_id"],
+                "canonical_url": table["canonical_url"],
+                "feed_name": table["feed_name"],
+                "published_at": table["published_at"],
+                "first_fetched_at": table["fetched_at"],
+                "partition": pa.array([part_rel] * table.num_rows, pa.string()),
+            },
+            schema=INDEX_SCHEMA,
+        )
+        index = pa.concat_tables([index, added])
+        index_path = LOCAL_ROOT / INDEX_REL
+        index_path.parent.mkdir(parents=True, exist_ok=True)
+        pq.write_table(index, index_path, compression="zstd")
+        run_files.append(index_path)
+
+    ok_feeds = [n for n, s in feed_stats.items() if s["ok"]]
+    n_new = len(new_records) if index_ok else 0
+    summary = {
+        "run_id": run_id,
+        "fetched_at": _iso(fetched_at),
+        "git": git_info(),
+        "config_version": config.version,
+        "config_sha256": config.sha256,
+        "feeds_ok": len(ok_feeds),
+        "feeds_failed": len(feeds) - len(ok_feeds),
+        "items_kept": len(records),
+        "new_articles": n_new,
+        "duplicates": dupes,
+        "articles_written": index_ok,
+        "warnings": warnings,
+        "feeds": feed_stats,
+    }
+    runlog = LOCAL_ROOT / "runs" / f"fetch_date={fetch_date}" / f"run-{run_id}.json"
+    run_files.append(
+        _write_new(runlog, (json.dumps(summary, indent=2) + "\n").encode())
+    )
+    log.info(
+        "run %s: %d/%d feeds ok, %d items, %d new, %d duplicates",
+        run_id,
+        len(ok_feeds),
+        len(feeds),
+        len(records),
+        summary["new_articles"],
+        dupes,
+    )
+
+    revision = None
+    exit_code = 0 if ok_feeds and index_ok else 1
+    if upload:
+        try:
+            revision = _upload_run(run_files, run_id, n_new)
+        except Exception as exc:  # noqa: BLE001 - report and fail the run
+            log.error("upload failed: %s", exc)
+            return 1
+
+    published = [d for d in index.column("published_at").to_pylist() if d is not None]
+    manifest = write_manifest(
+        stream=STREAM,
+        dataset=DATASET,
+        source="RSS feeds: " + "; ".join(f"{f.source} <{f.url}>" for f in config.feeds),
+        fetch_mode="append_only_snapshot",
+        row_count=index.num_rows,
+        file_count=len(set(index.column("partition").to_pylist())),
+        date_range=(min(published), max(published)) if published else None,
+        hf_path=f"{HF_PREFIX}/" if upload else None,
+        hf_revision=revision,
+        notes=NOTES,
+        extra={"last_run": {k: v for k, v in summary.items() if k != "warnings"}},
+        files=run_files,
+        warnings=warnings,
+    )
+    if upload:
+        try:
+            upload_to_hf(
+                manifest,
+                f"{HF_PREFIX}/{MANIFEST_REL}",
+                stream=STREAM,
+                commit_message=f"news/rss: manifest for run {run_id}",
+            )
+        except Exception as exc:  # noqa: BLE001 - data is already uploaded
+            log.error(
+                "manifest upload failed (data commit %s is fine): %s", revision, exc
+            )
+            exit_code = 1
+    return exit_code
+
+
+def pull_manifest() -> int:
+    """Copy news/rss/manifest.json from HF into backend/data_manifests/ (to commit)."""
+    local = hf_download(f"{HF_PREFIX}/{MANIFEST_REL}")
+    if local is None:
+        log.error("no manifest on HF yet")
+        return 1
+    dest = MANIFEST_DIR / f"{STREAM}_{DATASET}.json"
+    shutil.copyfile(local, dest)
+    log.info("wrote %s", dest)
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser.add_argument("--no-upload", action="store_true", help="stage locally only")
+    parser.add_argument("--feeds", help="comma-separated feed names (default: all)")
+    parser.add_argument("--config", type=Path, default=CONFIG_PATH)
+    parser.add_argument("--pull-manifest", action="store_true")
+    args = parser.parse_args(argv)
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
+    if args.pull_manifest:
+        return pull_manifest()
+    only = (
+        {s.strip() for s in args.feeds.split(",") if s.strip()} if args.feeds else None
+    )
+    return run(load_config(args.config), upload=not args.no_upload, only=only)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

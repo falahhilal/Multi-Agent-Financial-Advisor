@@ -1,0 +1,50 @@
+# Hourly RSS news archive -> HF dataset fyp-psx-advisor/fyp-data, folder news/rss/.
+# Owner: Maryam (news stream). Script: backend/jobs/news_rss.py.
+#
+# Needs repository secret HF_TOKEN (write access to the dataset).
+# Schedules only run from the default branch (main), so this starts once merged.
+#
+# Cost: the repo is private, so each run uses the owner's Actions minutes
+# (billed per job, rounded up to whole minutes; a run takes about 1 minute).
+# Hourly is about 744 minutes a month. To halve it, change the cron to
+# "7 */2 * * *" (every 2 hours). Keep it at least every 2 hours: the
+# Business Recorder and ProPakistani feeds only show the last ~11-16 hours.
+
+name: news-rss-hourly
+
+on:
+  schedule:
+    - cron: "7 * * * *"   # minute 7 of every hour, UTC
+  workflow_dispatch: {}    # manual "Run workflow" button
+
+permissions:
+  contents: read
+
+concurrency:
+  group: news-rss          # never two runs at once (shared dedupe index)
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/jobs/requirements-news-rss.txt
+
+      - name: Install dependencies
+        run: pip install -r jobs/requirements-news-rss.txt
+
+      - name: Archive RSS feeds
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_HUB_DISABLE_PROGRESS_BARS: "1"
+        run: python -m jobs.news_rss

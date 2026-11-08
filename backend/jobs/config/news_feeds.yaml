@@ -1,0 +1,84 @@
+# RSS feeds archived by backend/jobs/news_rss.py into dataset news_rss_articles.
+# Changing this file changes what is collected: note it in the worklog.
+#
+# role:
+#   primary  core Pakistani business/markets feeds; keep every item
+#   filter   keep only items matching `filter` (title + summary)
+#   test     on trial; keep every item, review coverage before promoting
+# canonical_id_pattern: optional regex; group 1 is used as the canonical URL,
+#   dropping the editable slug so a headline edit does not create a duplicate.
+#   (Checked 2026-11-08: Dawn and BR guids are exactly /news/<id>.)
+# store_full_text: false keeps only title, link and dates: no summary, no full
+#   text, and no raw feed snapshot (raw feeds contain the text). Use if terms forbid storage.
+#
+# Not used (do not add back without re-checking):
+#   brecorder.com/feeds/pakistan/markets, brecorder.com/feeds/business-finance/pakistan
+#     (reported stale); Profit / Pakistan Today feed (reported dead).
+
+version: 1
+
+defaults:
+  min_interval_seconds: 2.0   # between requests to the same host
+  stale_after_days: 7         # manifest warning if a feed's newest item is older
+
+filters:
+  pakistan_psx:
+    description: >-
+      Pakistan/PSX-specific terms. Deliberately excludes "rupee"/"Rs", which
+      also match Indian market reports in the BR stocks feed.
+    pattern: >-
+      \b(PSX|KSE(-?(100|30|All))?|Pakistan|Pakistani|Karachi|Lahore|Islamabad|SECP|SBP|State Bank of Pakistan)\b
+
+feeds:
+  - name: brecorder_latest
+    source: Business Recorder
+    url: https://www.brecorder.com/feeds/latest-news
+    role: primary
+    canonical_id_pattern: '^(https://www\.brecorder\.com/news/\d+)'
+    store_full_text: true
+    notes: Window ~16h on a Sunday; likely shorter on weekdays. Needs hourly runs.
+
+  - name: tribune_business
+    source: The Express Tribune
+    url: https://tribune.com.pk/feed/business
+    role: primary
+    canonical_id_pattern: '^(https://tribune\.com\.pk/story/\d+)'
+    store_full_text: true
+
+  - name: dawn_business
+    source: Dawn
+    url: https://www.dawn.com/feeds/business/
+    role: primary
+    canonical_id_pattern: '^(https://www\.dawn\.com/news/\d+)'
+    store_full_text: true
+    notes: Mostly macro/policy.
+
+  - name: brecorder_stocks
+    source: Business Recorder
+    url: https://www.brecorder.com/feeds/markets/stocks
+    role: filter
+    filter: pakistan_psx
+    canonical_id_pattern: '^(https://www\.brecorder\.com/news/\d+)'
+    store_full_text: true
+    notes: Mostly foreign markets (3/30 Pakistan items on 2026-11-08).
+
+  - name: financialdaily
+    source: The Financial Daily
+    url: https://thefinancialdaily.com/feed/
+    role: test
+    store_full_text: true
+    notes: Summary only, no full text in feed.
+
+  - name: pakgulfeconomist
+    source: Pakistan & Gulf Economist
+    url: https://www.pakistangulfeconomist.com/feed/
+    role: test
+    store_full_text: true
+    notes: Weekly magazine; summary only; expect staleness warnings.
+
+  - name: propakistani
+    source: ProPakistani
+    url: https://propakistani.pk/feed/
+    role: test
+    store_full_text: true
+    notes: All topics (not business-only); window ~11h, needs hourly runs.
