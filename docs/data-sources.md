@@ -63,9 +63,12 @@ Handling: the dataset is private, used only for non-commercial academic
 research, and never redistributed; no article text is published in the thesis
 or app beyond short quotations with citation. Per-feed `store_full_text: false`
 switches a feed to headline, link and dates only (no summary, no raw snapshot)
-if the team decides a source's terms require it. **Open: the team's decision
-on full-text storage for Business Recorder, Dawn and Tribune, see the
-2026-11-08 worklog.**
+if the team decides a source's terms require it.
+
+**Decision (Maryam, 2026-11-08): keep full text for all seven feeds**, on the
+basis above (private, non-commercial academic research, never redistributed).
+Supervisor confirmation still to be recorded. Removing text from HF later
+means rewriting the dataset history, so revisit this early if it changes.
 
 Known gaps and limits: items published and dropped from a feed between runs
 are lost (BR and ProPakistani windows are ~11-16 h, so missing more than a few
