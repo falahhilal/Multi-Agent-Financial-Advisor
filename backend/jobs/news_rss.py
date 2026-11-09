@@ -33,20 +33,16 @@ Run from ``backend/``::
 from __future__ import annotations
 
 import argparse
-import calendar
 import gzip
-import hashlib
 import json
 import logging
 import re
 import shutil
 import sys
 import tempfile
-import urllib.parse
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
 
@@ -54,7 +50,6 @@ import feedparser
 import pyarrow as pa
 import pyarrow.parquet as pq
 import yaml
-from bs4 import BeautifulSoup
 
 from jobs.common import (
     DATA_DIR,
@@ -70,6 +65,13 @@ from jobs.common import (
     sha256_file,
     upload_to_hf,
     write_manifest,
+)
+from jobs.news_common import (  # re-exported for callers and tests
+    article_id,
+    canonical_url,
+    detect_language,
+    html_to_text,
+    parse_published,
 )
 
 log = logging.getLogger("jobs.news_rss")
@@ -134,11 +136,6 @@ INDEX_SCHEMA = pa.schema(
         ("partition", pa.string()),
     ]
 )
-
-_TRACKING_PARAM = re.compile(r"^(utm_\w+|fbclid|gclid|mc_cid|mc_eid|cmpid)$", re.I)
-_ARABIC_SCRIPT = re.compile("[\u0600-\u06ff\u0750-\u077f\ufb50-\ufdff\ufe70-\ufeff]")
-_LETTER = re.compile(r"[^\W\d_]")
-_BLOCK_TAGS = ["p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "tr"]
 
 
 # --------------------------------------------------------------------------
@@ -213,95 +210,6 @@ def load_config(path: Path = CONFIG_PATH) -> Config:
 # --------------------------------------------------------------------------
 # Parsing helpers
 # --------------------------------------------------------------------------
-
-
-def canonical_url(link: str, id_pattern: re.Pattern[str] | None = None) -> str:
-    """Normalise a link: https, lower-case host, no fragment, no tracking
-    params, no trailing slash. Then, if ``id_pattern`` matches, keep group 1
-    (e.g. ``https://www.dawn.com/news/2042903``)."""
-    parts = urllib.parse.urlsplit(link.strip())
-    scheme = "https" if parts.scheme in ("http", "https") else parts.scheme
-    host = (parts.hostname or "").lower()
-    port = f":{parts.port}" if parts.port and parts.port not in (80, 443) else ""
-    query = urllib.parse.urlencode(
-        [
-            (k, v)
-            for k, v in urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
-            if not _TRACKING_PARAM.match(k)
-        ]
-    )
-    path = parts.path or "/"
-    if len(path) > 1:
-        path = path.rstrip("/")
-    url = urllib.parse.urlunsplit((scheme, host + port, path, query, ""))
-    if id_pattern is not None:
-        m = id_pattern.match(url)
-        if m:
-            url = m.group(1)
-    return url
-
-
-def article_id(canonical: str) -> str:
-    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
-
-
-def html_to_text(html: str | None) -> str | None:
-    """Plain text from an HTML fragment, one paragraph per line."""
-    if not html or not html.strip():
-        return None
-    soup = BeautifulSoup(html, "lxml")
-    for tag in soup(["script", "style"]):
-        tag.decompose()
-    for br in soup.find_all("br"):
-        br.replace_with("\n")
-    for block in soup.find_all(_BLOCK_TAGS):
-        block.append("\n")
-    lines = (
-        re.sub("[ \t\xa0]+", " ", ln).strip() for ln in soup.get_text("").splitlines()
-    )
-    text = "\n".join(ln for ln in lines if ln)
-    return text or None
-
-
-def _fmt_offset(dt: datetime) -> str | None:
-    off = dt.utcoffset()
-    if off is None:
-        return None
-    total = int(off.total_seconds())
-    sign = "+" if total >= 0 else "-"
-    hours, minutes = divmod(abs(total) // 60, 60)
-    return f"{sign}{hours:02d}:{minutes:02d}"
-
-
-def parse_published(entry: Any) -> tuple[datetime | None, str | None, str | None]:
-    """Return (published_at UTC, raw string, original offset)."""
-    raw = entry.get("published") or entry.get("updated")
-    if raw:
-        dt: datetime | None
-        try:
-            dt = parsedate_to_datetime(raw)  # RFC 822, as used by RSS 2.0
-        except (TypeError, ValueError, IndexError):
-            try:
-                dt = datetime.fromisoformat(raw.strip().replace("Z", "+00:00"))
-            except ValueError:
-                dt = None
-        if dt is not None and dt.tzinfo is not None:
-            return dt.astimezone(timezone.utc), raw, _fmt_offset(dt)
-    parsed = entry.get("published_parsed") or entry.get("updated_parsed")
-    if parsed:  # feedparser's struct is already UTC; original offset unknown
-        return (
-            datetime.fromtimestamp(calendar.timegm(parsed), tz=timezone.utc),
-            raw,
-            None,
-        )
-    return None, raw, None
-
-
-def detect_language(feed_language: str | None, title: str) -> str | None:
-    letters = _LETTER.findall(title)
-    if letters and len(_ARABIC_SCRIPT.findall(title)) / len(letters) > 0.5:
-        return "ur"
-    return feed_language.lower() if feed_language else None
 
 
 # --------------------------------------------------------------------------
