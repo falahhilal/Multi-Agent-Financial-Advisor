@@ -11,19 +11,23 @@ API facts (checked 2026-11-08, see docs/data-sources.md):
   ``format=json``, ``startdatetime``/``enddatetime`` as ``YYYYMMDDHHMMSS``.
 * Searchable from 2017-01-01 (blog, 2018-05-18; confirmed: a 2017-01 window
   returned 45 articles). Article lists only consider the last 3 months of a
-  window, so windows here are one week.
+  window, so windows here are 30 days (a 2017 month is ~150-250 articles;
+  full windows are split, see below).
 * At most 250 records per query: a full window is split in half until it
   is under the cap (or marked ``capped`` at one hour).
 * Phrases under 4 characters are rejected ("PSX" fails).
-* Rate limit "one request every 5 seconds"; this job waits 6 s between
-  requests. Shared cloud IPs get 429s even when slower, so run it from
-  GitHub Actions (``.github/workflows/news_gdelt_backfill.yml``) or a PC.
+* Rate limit "one request every 5 seconds". Shared IPs (cloud machines and
+  GitHub's runners) still get many 429s: on 2026-11-09 one-week windows ran
+  at ~1.6 min each with ~35% failing. So this job waits 10 s between
+  requests, retries a 429 only twice, leaves the window ``failed`` for the
+  next run, and stops itself after ``--max-minutes`` (default 200) so the
+  4-hour Actions timeout never cuts off the final save.
 
-State is kept on HF, so runs resume: every week window has a row in
+State is kept on HF, so runs resume: every window has a row in
 ``windows.parquet`` (``ok`` / ``empty`` / ``capped`` / ``failed``). A run
-queries only weeks that are new, ``failed``, or end within the last 3 days
-(still filling up). Changing the query starts a fresh set of windows
-(keyed by ``query_sha``).
+queries only windows that are new, ``failed``, incomplete, or end within the
+last 3 days. Changing the query or the window length starts a fresh set of
+windows (both are in ``query_sha``); articles already found are kept.
 
 Run from ``backend/``::
 
@@ -44,6 +48,7 @@ import logging
 import shutil
 import sys
 import tempfile
+import time
 from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -78,18 +83,22 @@ API = "https://api.gdeltproject.org/api/v2/doc/doc"
 DOMAINS = ("brecorder.com", "dawn.com", "tribune.com.pk")
 TERMS = ('"KSE-100"', '"KSE100"', '"Pakistan Stock Exchange"')
 QUERY = f"({' OR '.join(TERMS)}) ({' OR '.join(f'domainis:{d}' for d in DOMAINS)})"
-QUERY_SHA = hashlib.sha256(QUERY.encode()).hexdigest()[:12]
+WINDOW = timedelta(days=30)
+# Window length is part of the key: a different grid must not reuse old rows.
+QUERY_SHA = hashlib.sha256(f"{QUERY}|window={WINDOW.days}d".encode()).hexdigest()[:12]
 START = datetime(2017, 1, 1, tzinfo=timezone.utc)
-WINDOW = timedelta(days=7)
 MIN_SPLIT = timedelta(hours=1)
 MAX_RECORDS = 250
-MIN_INTERVAL = 6.0
+MIN_INTERVAL = 10.0
+RETRIES = 2  # per request on 429/5xx; the window is retried next run anyway
+BACKOFF = 20.0
+MAX_MINUTES = 200.0  # stop and save before the 240-minute Actions timeout
 PARTIAL_DAYS = 3  # weeks ending this recently are re-queried next run
-CHECKPOINT_EVERY = 50  # windows between intermediate uploads
+CHECKPOINT_EVERY = 20  # windows between intermediate uploads
 
 NOTES = (
     "GDELT DOC 2.0 article lists (title, URL, seendate) for PSX/KSE-100 terms "
-    "on brecorder.com, dawn.com and tribune.com.pk, one-week windows from "
+    "on brecorder.com, dawn.com and tribune.com.pk, 30-day windows from "
     "2017-01-01. seendate is when GDELT saw the article, not its publish time "
     "(usually within hours, not guaranteed). No article text: see "
     "news_wayback_backfill. Coverage is limited to what GDELT crawled; on "
@@ -141,7 +150,7 @@ def _fmt(dt: datetime) -> str:
     return dt.strftime("%Y%m%d%H%M%S")
 
 
-def week_windows(start: datetime, end: datetime) -> list[tuple[datetime, datetime]]:
+def make_windows(start: datetime, end: datetime) -> list[tuple[datetime, datetime]]:
     out = []
     s = start
     while s < end:
@@ -165,8 +174,8 @@ def gdelt_fetch(s: datetime, e: datetime) -> tuple[bytes | None, str | None]:
             API,
             params=params,
             min_interval=MIN_INTERVAL,
-            retries=3,
-            backoff=15,
+            retries=RETRIES,
+            backoff=BACKOFF,
             timeout=90,
         )
     except (HttpError, RobotsDisallowedError) as exc:
@@ -339,8 +348,10 @@ def run(
     end: datetime | None,
     max_windows: int | None,
     fetch: Fetcher = gdelt_fetch,
+    max_minutes: float = MAX_MINUTES,
 ) -> int:
     fetched_at = datetime.now(timezone.utc).replace(microsecond=0)
+    deadline = time.monotonic() + max_minutes * 60
     end = min(end or fetched_at, fetched_at)
     r = Run(
         upload=upload,
@@ -359,7 +370,7 @@ def run(
     patterns = _canonical_patterns()
     todo = [
         (s, e)
-        for s, e in week_windows(start, end)
+        for s, e in make_windows(start, end)
         if needs_query(r.windows.get(s), fetched_at)
     ]
     if max_windows is not None:
@@ -368,8 +379,17 @@ def run(
 
     new_articles = 0
     failed_this_run = 0
+    stopped_early = False
+    queried = 0
     for i, (s, e) in enumerate(todo, 1):
+        if time.monotonic() > deadline:
+            stopped_early = True
+            log.warning(
+                "time budget of %.0f min reached after %d windows", max_minutes, i - 1
+            )
+            break
         res = query_window(s, e, fetch)
+        queried += 1
         failed_this_run += res.status == "failed"
         prev = r.windows.get(s)
         r.windows[s] = {
@@ -437,7 +457,9 @@ def run(
         "git": git_info(),
         "query": QUERY,
         "query_sha": QUERY_SHA,
-        "windows_queried": len(todo),
+        "windows_planned": len(todo),
+        "windows_queried": queried,
+        "stopped_early": stopped_early,
         "new_articles": new_articles,
         "windows_failed_this_run": failed_this_run,
         "total_articles": len(r.articles),
@@ -449,6 +471,11 @@ def run(
     r.checkpoint(extra=[runlog])
 
     warnings = []
+    if stopped_early:
+        warnings.append(
+            f"time budget reached: {len(todo) - queried} windows left; "
+            "re-run to continue"
+        )
     if statuses.get("failed"):
         warnings.append(
             f"{statuses['failed']} week windows failed; re-run to retry them"
@@ -487,7 +514,7 @@ def run(
         new_articles,
         dict(statuses),
     )
-    return 1 if todo and failed_this_run == len(todo) else 0
+    return 1 if queried and failed_this_run == queried else 0
 
 
 def pull_manifest() -> int:
@@ -511,6 +538,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--start", type=_date, default=START, help="YYYY-MM-DD")
     parser.add_argument("--end", type=_date, help="YYYY-MM-DD (default: now)")
     parser.add_argument("--max-windows", type=int)
+    parser.add_argument("--max-minutes", type=float, default=MAX_MINUTES)
     parser.add_argument("--pull-manifest", action="store_true")
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -523,6 +551,7 @@ def main(argv: list[str] | None = None) -> int:
         start=args.start,
         end=args.end,
         max_windows=args.max_windows,
+        max_minutes=args.max_minutes,
     )
 
 

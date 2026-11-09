@@ -37,12 +37,19 @@ def test_query_string_has_no_short_phrases() -> None:
     assert "domainis:dawn.com" in news_gdelt.QUERY
 
 
-def test_week_windows_cover_range() -> None:
+def test_make_windows_cover_range() -> None:
     s = datetime(2017, 1, 1, tzinfo=UTC)
-    w = news_gdelt.week_windows(s, s + timedelta(days=17))
-    assert w[0] == (s, s + timedelta(days=7))
-    assert w[-1] == (s + timedelta(days=14), s + timedelta(days=17))
+    w = news_gdelt.make_windows(s, s + timedelta(days=65))
+    assert w[0] == (s, s + timedelta(days=30))
+    assert w[-1] == (s + timedelta(days=60), s + timedelta(days=65))
     assert len(w) == 3
+
+
+def test_window_length_is_part_of_query_key() -> None:
+    import hashlib
+
+    plain = hashlib.sha256(news_gdelt.QUERY.encode()).hexdigest()[:12]
+    assert news_gdelt.QUERY_SHA != plain  # old 7-day rows are not reused
 
 
 def test_split_when_capped() -> None:
@@ -75,7 +82,7 @@ def test_failed_and_non_json() -> None:
 def test_needs_query() -> None:
     now = datetime(2026, 11, 9, tzinfo=UTC)
     s = datetime(2024, 1, 1, tzinfo=UTC)
-    row = {"status": "ok", "window_start": s, "window_end": s + timedelta(days=7)}
+    row = {"status": "ok", "window_start": s, "window_end": s + news_gdelt.WINDOW}
     assert not news_gdelt.needs_query(row, now)
     assert news_gdelt.needs_query({**row, "status": "failed"}, now)
     assert news_gdelt.needs_query({**row, "window_end": s + timedelta(days=3)}, now)
@@ -104,11 +111,11 @@ def test_run_resumes_and_dedupes(
     monkeypatch.setattr(news_gdelt, "LOCAL_ROOT", tmp_path / "gdelt")
     monkeypatch.setattr(common, "MANIFEST_DIR", tmp_path / "manifests")
     start = datetime(2017, 1, 1, tzinfo=UTC)
-    end = start + timedelta(days=21)
+    end = start + 3 * news_gdelt.WINDOW
     fail_second = {"on": True}
 
     def fetch(a: datetime, b: datetime) -> tuple[bytes | None, str | None]:
-        if fail_second["on"] and a == start + timedelta(days=7):
+        if fail_second["on"] and a == start + news_gdelt.WINDOW:
             return None, "HTTP 429"
         return _body(3, start), None  # same 3 URLs every window -> dedupe
 
@@ -130,7 +137,7 @@ def test_run_resumes_and_dedupes(
         return fetch(a, b)
 
     news_gdelt.run(upload=False, start=start, end=end, max_windows=None, fetch=fetch2)
-    assert calls == [start + timedelta(days=7)]  # only the failed window is retried
+    assert calls == [start + news_gdelt.WINDOW]  # only the failed window is retried
     w = pq.read_table(tmp_path / "gdelt" / "windows.parquet").to_pylist()
     assert [x["status"] for x in w] == ["ok", "ok", "ok"] and w[1]["attempts"] == 2
     m = json.loads((tmp_path / "manifests" / "news_gdelt_index.json").read_text())
@@ -151,3 +158,23 @@ def test_all_failed_exits_nonzero(
         fetch=lambda a, b: (None, "HTTP 429"),
     )
     assert code == 1
+
+
+def test_time_budget_stops_and_saves(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_gdelt, "LOCAL_ROOT", tmp_path / "gdelt")
+    monkeypatch.setattr(common, "MANIFEST_DIR", tmp_path / "manifests")
+    start = datetime(2017, 1, 1, tzinfo=UTC)
+    code = news_gdelt.run(
+        upload=False,
+        start=start,
+        end=start + 3 * news_gdelt.WINDOW,
+        max_windows=None,
+        fetch=lambda a, b: (_body(1, a), None),
+        max_minutes=0,
+    )
+    assert code == 0
+    m = json.loads((tmp_path / "manifests" / "news_gdelt_index.json").read_text())
+    assert m["extra"]["last_run"]["stopped_early"] is True
+    assert any("time budget" in w for w in m["warnings"])
