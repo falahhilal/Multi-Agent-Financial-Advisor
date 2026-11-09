@@ -1,8 +1,12 @@
 # GDELT DOC 2.0 backfill -> HF dataset fyp-psx-advisor/fyp-data, folder news/backfill/gdelt/.
 # Owner: Maryam (news stream). Script: backend/jobs/news_gdelt.py.
 #
-# Manual only: Actions -> news-gdelt-backfill -> Run workflow. GitHub's
-# runners are used because GDELT rate-limits shared cloud IPs.
+# Runs nightly at 21:41 UTC (02:41 PKT) and on demand (Actions ->
+# news-gdelt-backfill -> Run workflow). GitHub's runners are used because
+# GDELT rate-limits shared cloud IPs. Each night retries failed windows and
+# refreshes the last few days; once caught up a run takes a few minutes.
+# While many windows are still failing, a night can take up to ~1.5 hours of
+# the owner's Actions minutes. To stop the schedule, delete the cron line.
 #
 # Runs resume: state is kept on HF, so each run queries only 30-day windows
 # that are new, failed, or recent. GDELT answers many requests with 429 even
@@ -14,6 +18,8 @@
 name: news-gdelt-backfill
 
 on:
+  schedule:
+    - cron: "41 21 * * *"  # 21:41 UTC daily; off the hour, away from news-rss (:23)
   workflow_dispatch:
     inputs:
       start:
@@ -59,7 +65,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_HUB_DISABLE_PROGRESS_BARS: "1"
-          START: ${{ inputs.start }}
+          START: ${{ inputs.start || '2017-01-01' }}  # schedule has no inputs
           END: ${{ inputs.end }}
           MAX_WINDOWS: ${{ inputs.max_windows }}
         run: |
