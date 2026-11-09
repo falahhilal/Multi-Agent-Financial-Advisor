@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import html
 import json
 import logging
 import re
@@ -71,6 +72,7 @@ from jobs.news_common import (  # re-exported for callers and tests
     canonical_url,
     detect_language,
     html_to_text,
+    parse_article,
     parse_published,
 )
 
@@ -95,7 +97,11 @@ NOTES = (
     "Dedupe is by canonical URL (slug dropped where configured); the first "
     "sighting of an article is kept and later edits are not captured, except "
     "in the raw feed snapshots. full_text is plain text from content:encoded "
-    "when the feed includes it. language is the feed-declared code, or 'ur' "
+    "when the feed includes it. Business Recorder's RSS shows only 30 items and "
+    "publishes in bursts, so its news sitemap (100 latest) is also read each run "
+    "and missing articles are fetched from their pages (feed_role='sitemap', "
+    "full_text_source='article_page'). "
+    "language is the feed-declared code, or 'ur' "
     "when the title is mostly Arabic script. tickers_mentioned is empty until "
     "tagging is built."
 )
@@ -156,12 +162,31 @@ class Feed:
 
 
 @dataclass(frozen=True)
+class Sitemap:
+    """A Google News sitemap listing a site's latest articles (URL, title, day).
+
+    Used where the RSS feed is too short to catch publishing bursts (Business
+    Recorder: 30 RSS items vs 100 sitemap items). Each article not yet in the
+    archive is fetched once from its page for the exact time and full text.
+    """
+
+    name: str
+    source: str
+    url: str
+    canonical_id_re: re.Pattern[str] | None
+    max_fetch: int
+    min_interval: float
+    store_full_text: bool
+
+
+@dataclass(frozen=True)
 class Config:
     version: int
     sha256: str
     min_interval: float
     stale_after_days: int
     feeds: tuple[Feed, ...]
+    sitemaps: tuple[Sitemap, ...] = ()
 
 
 def load_config(path: Path = CONFIG_PATH) -> Config:
@@ -195,15 +220,32 @@ def load_config(path: Path = CONFIG_PATH) -> Config:
                 store_full_text=bool(f.get("store_full_text", True)),
             )
         )
-    names = [f.name for f in feeds]
+    sitemaps = []
+    for sm in raw.get("sitemaps") or []:
+        if not sm["url"].startswith("https://"):
+            raise ValueError(f"sitemap {sm['name']}: url must be https")
+        pattern = sm.get("canonical_id_pattern")
+        sitemaps.append(
+            Sitemap(
+                name=sm["name"],
+                source=sm["source"],
+                url=sm["url"],
+                canonical_id_re=re.compile(pattern) if pattern else None,
+                max_fetch=int(sm.get("max_fetch_per_run", 150)),
+                min_interval=float(sm.get("min_interval_seconds", 3.0)),
+                store_full_text=bool(sm.get("store_full_text", True)),
+            )
+        )
+    names = [f.name for f in feeds] + [s.name for s in sitemaps]
     if len(names) != len(set(names)):
-        raise ValueError("feed names must be unique")
+        raise ValueError("feed and sitemap names must be unique")
     return Config(
         version=int(raw.get("version", 1)),
         sha256=sha256_file(path),
         min_interval=float(defaults.get("min_interval_seconds", 2.0)),
         stale_after_days=int(defaults.get("stale_after_days", 7)),
         feeds=tuple(feeds),
+        sitemaps=tuple(sitemaps),
     )
 
 
@@ -293,6 +335,128 @@ def parse_feed(
     stats["newest_published_at"] = _iso(max(dates)) if dates else None
     stats["oldest_published_at"] = _iso(min(dates)) if dates else None
     return records, stats
+
+
+# --------------------------------------------------------------------------
+# News sitemaps (catch items that fall out of short RSS feeds)
+# --------------------------------------------------------------------------
+
+
+_SM_URL = re.compile(r"<url>(.*?)</url>", re.S)
+_SM_LOC = re.compile(r"<loc>\s*(.*?)\s*</loc>", re.S)
+_SM_TITLE = re.compile(r"<news:title>\s*(.*?)\s*</news:title>", re.S)
+
+
+def parse_news_sitemap(xml: bytes) -> list[tuple[str, str | None]]:
+    """(url, title) for each ``<url>`` that carries ``<news:news>``, in file order.
+    Section pages in the same sitemap (no news block) are skipped."""
+    text = xml.decode("utf-8", "replace")
+    out: list[tuple[str, str | None]] = []
+    for block in _SM_URL.findall(text):
+        if "<news:news>" not in block:
+            continue
+        loc = _SM_LOC.search(block)
+        if not loc:
+            continue
+        title = _SM_TITLE.search(block)
+        out.append(
+            (
+                html.unescape(loc.group(1)),
+                html.unescape(title.group(1)) if title else None,
+            )
+        )
+    return out
+
+
+def process_sitemap(
+    sm: Sitemap,
+    *,
+    seen: set[str],
+    fetched_at: datetime,
+    run_id: str,
+    fetch_date: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any], list[Path], list[str]]:
+    """Fetch one news sitemap and every listed article not yet in ``seen``.
+
+    Returns (new records, stats, files written, warnings). Adds new ids to ``seen``.
+    """
+    stats: dict[str, Any] = {"url": sm.url, "role": "sitemap", "ok": False}
+    files: list[Path] = []
+    warnings: list[str] = []
+    try:
+        resp = http_get(sm.url, min_interval=sm.min_interval)
+    except (HttpError, RobotsDisallowedError) as exc:
+        stats["error"] = str(exc)
+        return [], stats, files, [f"{sm.name}: fetch failed: {exc}"]
+    raw_dir = LOCAL_ROOT / "raw" / f"fetch_date={fetch_date}"
+    if sm.store_full_text:
+        files.append(
+            _write_new(
+                raw_dir / f"{run_id}_{sm.name}.xml.gz",
+                gzip.compress(resp.content, mtime=0),
+            )
+        )
+    entries = parse_news_sitemap(resp.content)
+    todo: dict[str, tuple[str, str, str | None]] = {}
+    for loc, title in entries:
+        canon = canonical_url(loc, sm.canonical_id_re)
+        aid = article_id(canon)
+        if aid not in seen:
+            todo.setdefault(aid, (loc, canon, title))
+    stats.update(
+        ok=True, items=len(entries), new_candidates=len(todo), fetched=0, failed=0
+    )
+    if len(todo) > sm.max_fetch:
+        stats["capped"] = len(todo) - sm.max_fetch
+        warnings.append(
+            f"{sm.name}: {stats['capped']} new articles left for the next run "
+            f"(max_fetch_per_run={sm.max_fetch})"
+        )
+    records: list[dict[str, Any]] = []
+    for aid, (loc, canon, sm_title) in list(todo.items())[: sm.max_fetch]:
+        try:
+            page = http_get(canon, min_interval=sm.min_interval)
+        except (HttpError, RobotsDisallowedError) as exc:
+            stats["failed"] += 1
+            warnings.append(f"{sm.name}: article {canon}: {exc}")
+            continue
+        if sm.store_full_text:
+            files.append(
+                _write_new(
+                    raw_dir / f"{run_id}_{sm.name}_{aid}.html.gz",
+                    gzip.compress(page.content, mtime=0),
+                )
+            )
+        f = parse_article(page.content, page.url)
+        full_text = f["full_text"] if sm.store_full_text else None
+        records.append(
+            {
+                "article_id": aid,
+                "url": loc,
+                "canonical_url": canon,
+                "source": sm.source,
+                "feed_name": sm.name,
+                "feed_url": sm.url,
+                "feed_role": "sitemap",
+                "guid": None,
+                "title": f["title"] or sm_title,
+                "published_at": f["published_at"],
+                "published_at_raw": f["published_at_raw"],
+                "published_tz": f["published_tz"],
+                "fetched_at": fetched_at,
+                "summary": f["summary"] if sm.store_full_text else None,
+                "full_text": full_text,
+                "full_text_source": "article_page" if full_text else None,
+                "language": f["language"],
+                "categories": f["tags"],
+                "author": ", ".join(f["authors"]) or None,
+                "tickers_mentioned": [],
+                "run_id": run_id,
+            }
+        )
+        seen.add(aid)
+        stats["fetched"] += 1
+    return records, stats, files, warnings
 
 
 # --------------------------------------------------------------------------
@@ -407,8 +571,10 @@ def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
     run_id = fetched_at.strftime("%Y%m%dT%H%M%SZ")
     fetch_date = fetched_at.date().isoformat()
     feeds = [f for f in config.feeds if only is None or f.name in only]
-    if only and len(feeds) != len(only):
-        raise SystemExit(f"unknown feed(s): {sorted(only - {f.name for f in feeds})}")
+    sitemaps = [sm for sm in config.sitemaps if only is None or sm.name in only]
+    if only and len(feeds) + len(sitemaps) != len(only):
+        known = {f.name for f in feeds} | {sm.name for sm in sitemaps}
+        raise SystemExit(f"unknown feed(s): {sorted(only - known)}")
 
     run_files: list[Path] = []
     feed_stats: dict[str, dict[str, Any]] = {}
@@ -485,6 +651,30 @@ def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
             feed_stats[rec["feed_name"]].get("new", 0) + 1
         )
 
+    # Sitemaps last, so items already caught by RSS are not fetched again.
+    sitemap_stats: dict[str, dict[str, Any]] = {}
+    if index_ok:
+        for sm in sitemaps:
+            recs, st, files, warns = process_sitemap(
+                sm,
+                seen=seen,
+                fetched_at=fetched_at,
+                run_id=run_id,
+                fetch_date=fetch_date,
+            )
+            new_records.extend(recs)
+            run_files.extend(files)
+            warnings.extend(warns)
+            sitemap_stats[sm.name] = st
+            log.info(
+                "%s: %s items, %s new, %s fetched, %s failed",
+                sm.name,
+                st.get("items"),
+                st.get("new_candidates"),
+                st.get("fetched"),
+                st.get("failed"),
+            )
+
     if index_ok and new_records:
         part_rel = f"articles/fetch_date={fetch_date}/part-{run_id}.parquet"
         table = pa.Table.from_pylist(new_records, schema=ARTICLE_SCHEMA)
@@ -525,6 +715,7 @@ def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
         "articles_written": index_ok,
         "warnings": warnings,
         "feeds": feed_stats,
+        "sitemaps": sitemap_stats,
     }
     runlog = LOCAL_ROOT / "runs" / f"fetch_date={fetch_date}" / f"run-{run_id}.json"
     run_files.append(
@@ -553,7 +744,10 @@ def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
     manifest = write_manifest(
         stream=STREAM,
         dataset=DATASET,
-        source="RSS feeds: " + "; ".join(f"{f.source} <{f.url}>" for f in config.feeds),
+        source="RSS feeds: "
+        + "; ".join(f"{f.source} <{f.url}>" for f in config.feeds)
+        + "; news sitemaps: "
+        + "; ".join(f"{sm.source} <{sm.url}>" for sm in config.sitemaps),
         fetch_mode="append_only_snapshot",
         row_count=index.num_rows,
         file_count=len(set(index.column("partition").to_pylist())),
