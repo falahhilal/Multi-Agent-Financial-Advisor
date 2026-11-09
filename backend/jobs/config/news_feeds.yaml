@@ -82,3 +82,17 @@ feeds:
     role: test
     store_full_text: true
     notes: All topics (not business-only); window ~11h, needs hourly runs.
+
+# News sitemaps: read after the feeds each run. Any listed article not yet in
+# the archive is fetched from its page (exact time + full text), at most
+# max_fetch_per_run per run (the rest wait for the next run).
+# Added 2026-11-09: the BR latest-news RSS (30 items) had missed 70 of BR's
+# 100 most recent articles, because BR publishes in bursts (print edition).
+sitemaps:
+  - name: brecorder_sitemap
+    source: Business Recorder
+    url: https://www.brecorder.com/feeds/sitemap
+    canonical_id_pattern: '^(https://www\.brecorder\.com/news/\d+)'
+    max_fetch_per_run: 150
+    min_interval_seconds: 3.0
+    store_full_text: true

@@ -162,3 +162,112 @@ def test_stale_feed_warns(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> No
     news_rss.run(cfg, upload=False)
     m = json.loads((tmp_path / "manifests" / "news_rss_articles.json").read_text())
     assert any("older than 0 days" in w for w in m["warnings"])
+
+
+SITEMAP_XML = b"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+<url><loc>https://www.example.com/</loc></url>
+<url><loc>https://www.example.com/news/101/psx-gains</loc><news:news>
+  <news:publication_date>2026-11-09</news:publication_date>
+  <news:title>PSX: KSE-100 gains 500 points</news:title></news:news></url>
+<url><loc>https://www.example.com/news/201/print-edition</loc><news:news>
+  <news:publication_date>2026-11-09</news:publication_date>
+  <news:title>Lahore&#039;s smog</news:title></news:news></url>
+<url><loc>https://www.example.com/news/202/another</loc><news:news>
+  <news:title>Another</news:title></news:news></url>
+</urlset>
+"""
+
+
+def _article_page(n: int) -> bytes:
+    return (
+        b'<html lang="en"><head><script type="application/ld+json">'
+        b'{"@type": "NewsArticle", "headline": "Page title %d",'
+        b' "datePublished": "2026-11-09T04:46:04+05:00",'
+        b' "author": [{"name": "Recorder Review"}]}</script></head><body>'
+        b'<div class="story__content"><p>Body %d.</p></div>'
+        b'<div class="story__tags"><a>PSX</a></div></body></html>' % (n, n)
+    )
+
+
+def test_parse_news_sitemap_skips_section_pages() -> None:
+    entries = news_rss.parse_news_sitemap(SITEMAP_XML)
+    assert [u for u, _ in entries] == [
+        "https://www.example.com/news/101/psx-gains",
+        "https://www.example.com/news/201/print-edition",
+        "https://www.example.com/news/202/another",
+    ]
+    assert entries[1][1] == "Lahore's smog"
+
+
+def test_config_has_br_sitemap() -> None:
+    cfg = news_rss.load_config()
+    assert [s.name for s in cfg.sitemaps] == ["brecorder_sitemap"]
+
+
+def test_run_fetches_only_articles_missing_from_rss(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_rss, "LOCAL_ROOT", tmp_path / "rss")
+    monkeypatch.setattr(common, "MANIFEST_DIR", tmp_path / "manifests")
+    requested: list[str] = []
+
+    def fake_get(url: str, **kw: Any) -> common.HttpResponse:
+        requested.append(url)
+        if url.endswith("/feed"):
+            body = FEED_XML
+        elif url.endswith("/sitemap"):
+            body = SITEMAP_XML
+        else:
+            body = _article_page(int(url.rsplit("/", 1)[1]))
+        return common.HttpResponse(url, 200, {}, body)
+
+    monkeypatch.setattr(news_rss, "http_get", fake_get)
+    sm = news_rss.Sitemap(
+        "sm", "Synthetic", "https://www.example.com/sitemap", ID_RE, 150, 0.0, True
+    )
+    cfg = news_rss.Config(1, "x", 0.0, 7, (_feed(),), (sm,))
+    assert news_rss.run(cfg, upload=False) == 0
+    # article 101 came from RSS, so only 201 and 202 are fetched from their pages
+    assert [u for u in requested if "/news/" in u] == [
+        "https://www.example.com/news/201",
+        "https://www.example.com/news/202",
+    ]
+    part = next((tmp_path / "rss" / "articles").rglob("*.parquet"))
+    rows = {r["canonical_url"]: r for r in pq.read_table(part).to_pylist()}
+    r = rows["https://www.example.com/news/201"]
+    assert r["feed_role"] == "sitemap" and r["full_text_source"] == "article_page"
+    assert r["title"] == "Page title 201" and r["full_text"] == "Body 201."
+    assert r["published_tz"] == "+05:00" and r["author"] == "Recorder Review"
+    assert len(rows) == 4  # 2 from RSS (101, 102) + 2 from the sitemap
+
+    requested.clear()
+    import time
+
+    time.sleep(1.1)
+    news_rss.run(cfg, upload=False)
+    assert not [u for u in requested if "/news/" in u]  # nothing fetched twice
+
+
+def test_sitemap_cap_defers_rest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_rss, "LOCAL_ROOT", tmp_path / "rss")
+    monkeypatch.setattr(
+        news_rss,
+        "http_get",
+        lambda url, **kw: common.HttpResponse(
+            url, 200, {}, SITEMAP_XML if url.endswith("/sitemap") else _article_page(1)
+        ),
+    )
+    sm = news_rss.Sitemap(
+        "sm", "S", "https://www.example.com/sitemap", ID_RE, 1, 0.0, True
+    )
+    recs, stats, _, warns = news_rss.process_sitemap(
+        sm,
+        seen=set(),
+        fetched_at=datetime.now(timezone.utc),
+        run_id="R",
+        fetch_date="d",
+    )
+    assert len(recs) == 1 and stats["capped"] == 2 and "next run" in warns[0]

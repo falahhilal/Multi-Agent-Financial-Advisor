@@ -62,7 +62,7 @@ from jobs.common import (
     upload_to_hf,
     write_manifest,
 )
-from jobs.news_rss import article_id, canonical_url, html_to_text, parse_published
+from jobs.news_common import article_id, parse_article
 
 log = logging.getLogger("jobs.news_aaj_psx")
 
@@ -137,62 +137,6 @@ def parse_listing(html: bytes, base_url: str) -> list[tuple[str, str]]:
         if m and m.group(1) not in {sid for sid, _ in out}:
             out.append((m.group(1), url))
     return out
-
-
-def _news_article_ld(soup: BeautifulSoup) -> dict[str, Any]:
-    for script in soup.find_all("script", type="application/ld+json"):
-        try:
-            data = json.loads(script.string or "")
-        except json.JSONDecodeError:
-            continue
-        for obj in data if isinstance(data, list) else [data]:
-            if isinstance(obj, dict) and obj.get("@type") in ("NewsArticle", "Article"):
-                return obj
-    return {}
-
-
-def _meta(soup: BeautifulSoup, key: str) -> str | None:
-    tag = soup.find("meta", attrs={"property": key}) or soup.find(
-        "meta", attrs={"name": key}
-    )
-    content = tag.get("content") if tag else None
-    return str(content) if content else None
-
-
-def parse_article(html: bytes, url: str) -> dict[str, Any]:
-    """Fields from one article page. Missing values are None, never guessed."""
-    soup = BeautifulSoup(html, "lxml")
-    ld = _news_article_ld(soup)
-    raw_date = ld.get("datePublished") or _meta(soup, "article:published_time")
-    published_at, published_raw, published_tz = parse_published(
-        {"published": raw_date} if raw_date else {}
-    )
-    raw_mod = ld.get("dateModified") or _meta(soup, "article:modified_time")
-    modified_at, _, _ = parse_published({"published": raw_mod} if raw_mod else {})
-    authors_ld = ld.get("author") or []
-    if isinstance(authors_ld, dict):
-        authors_ld = [authors_ld]
-    authors = [
-        str(a.get("name")) for a in authors_ld if isinstance(a, dict) and a.get("name")
-    ]
-    canon_tag = soup.find("link", rel="canonical")
-    canonical = canonical_url(str(canon_tag["href"]) if canon_tag else url)
-    body = soup.select_one("div.story__content")
-    title = ld.get("headline") or _meta(soup, "og:title")
-    lang = soup.html.get("lang") if soup.html else None
-    return {
-        "title": html_to_text(str(title)) if title else None,
-        "published_at": published_at,
-        "published_at_raw": published_raw,
-        "published_tz": published_tz,
-        "modified_at": modified_at,
-        "authors": authors,
-        "summary": _meta(soup, "description"),
-        "full_text": html_to_text(str(body)) if body else None,
-        "language": str(lang).lower() if lang else None,
-        "tags": [a.get_text(strip=True) for a in soup.select("div.story__tags a")],
-        "canonical_url": canonical,
-    }
 
 
 # --------------------------------------------------------------------------

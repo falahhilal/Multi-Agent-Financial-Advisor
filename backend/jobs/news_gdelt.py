@@ -65,7 +65,8 @@ from jobs.common import (
     upload_to_hf,
     write_manifest,
 )
-from jobs.news_rss import article_id, canonical_url, load_config
+from jobs.news_common import article_id, canonical_url
+from jobs.news_rss import load_config
 
 log = logging.getLogger("jobs.news_gdelt")
 
