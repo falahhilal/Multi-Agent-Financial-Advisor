@@ -92,7 +92,10 @@ NOTES = (
     "done. Urdu and other non-English rows are excluded. Source datasets are "
     "read-only; nothing in them is modified. The same article can appear in "
     "more than one source dataset with different inputs; each is scored "
-    "separately (key: source_dataset + article_id)."
+    "separately (key: source_dataset + article_id). The RSS feeds include "
+    "non-market stories (sport, greetings, awards) that FinBERT also labels, "
+    "often 'positive': filter to market-relevant articles (ticker/sector "
+    "tagging, not built yet) before using these as a market signal."
 )
 
 _TS = pa.timestamp("s", tz="UTC")
