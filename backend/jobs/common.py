@@ -2,9 +2,10 @@
 
 Used by all three streams (news, company, macro). Three public helpers:
 
-* :func:`http_get` makes a polite HTTP GET. It sends the project User-Agent,
-  obeys robots.txt (including Crawl-delay), rate-limits per host, and applies a
-  timeout plus retries with exponential backoff on 429/5xx and network errors.
+* :func:`http_get` makes a polite HTTP GET (:func:`http_post` does the same
+  for form endpoints). It sends the project User-Agent, obeys robots.txt
+  (including Crawl-delay), rate-limits per host, and applies a timeout plus
+  retries with exponential backoff on 429/5xx and network errors.
 * :func:`upload_to_hf` uploads a file or folder to the shared private
   Hugging Face dataset repo ``HF_REPO``. It refuses any ``path_in_repo``
   outside the caller's own stream folder, and never deletes anything.
@@ -292,8 +293,11 @@ class _KeepHttpsRedirectHandler(urllib.request.HTTPRedirectHandler):
 _opener = urllib.request.build_opener(_KeepHttpsRedirectHandler)
 
 
-def _fetch_once(url: str, headers: Mapping[str, str], timeout: float) -> HttpResponse:
-    req = urllib.request.Request(url, headers=dict(headers), method="GET")
+def _fetch_once(
+    url: str, headers: Mapping[str, str], timeout: float, body: bytes | None = None
+) -> HttpResponse:
+    method = "GET" if body is None else "POST"
+    req = urllib.request.Request(url, data=body, headers=dict(headers), method=method)
     try:
         with _opener.open(req, timeout=timeout) as r:
             return HttpResponse(
@@ -331,7 +335,7 @@ def _retry_after_seconds(value: str | None) -> float | None:
     return max(0.0, (when - datetime.now(timezone.utc)).total_seconds())
 
 
-def _get_with_retries(
+def _request_with_retries(
     url: str,
     headers: Mapping[str, str],
     *,
@@ -339,6 +343,7 @@ def _get_with_retries(
     retries: int,
     backoff: float,
     interval: float,
+    body: bytes | None = None,
 ) -> HttpResponse:
     host = urllib.parse.urlsplit(url).netloc.lower()
     attempt = 0
@@ -346,7 +351,7 @@ def _get_with_retries(
         _wait_for_host(host, interval)
         retry_after: float | None = None
         try:
-            resp = _fetch_once(url, headers, timeout)
+            resp = _fetch_once(url, headers, timeout, body)
         except (OSError, http.client.HTTPException) as exc:  # URLError is an OSError
             error = HttpError(url, None, f"{type(exc).__name__}: {exc}")
         else:
@@ -384,7 +389,7 @@ def _robots_for(
         return cached
     rp = urllib.robotparser.RobotFileParser(base + "/robots.txt")
     try:
-        resp = _get_with_retries(
+        resp = _request_with_retries(
             base + "/robots.txt",
             {"User-Agent": USER_AGENT},
             timeout=timeout,
@@ -444,6 +449,60 @@ def http_get(
     """
     if params:
         url = _with_params(url, params)
+    req_headers, interval = _prepare(
+        url, headers, timeout, min_interval, respect_robots
+    )
+    return _request_with_retries(
+        url,
+        req_headers,
+        timeout=timeout,
+        retries=retries,
+        backoff=backoff,
+        interval=interval,
+    )
+
+
+def http_post(
+    url: str,
+    *,
+    data: Mapping[str, Any] | Sequence[tuple[str, Any]],
+    headers: Mapping[str, str] | None = None,
+    timeout: float = DEFAULT_TIMEOUT,
+    retries: int = 3,
+    backoff: float = 2.0,
+    min_interval: float = DEFAULT_MIN_INTERVAL,
+    respect_robots: bool = True,
+) -> HttpResponse:
+    """Polite form POST (``application/x-www-form-urlencoded``).
+
+    Same robots.txt check, User-Agent, rate limit and retries as
+    :func:`http_get`. Use only for read-only search/listing endpoints that
+    take form data (e.g. the PSX Data Portal), since retries re-send the body.
+    """
+    req_headers, interval = _prepare(
+        url, headers, timeout, min_interval, respect_robots
+    )
+    req_headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
+    body = urllib.parse.urlencode(data, doseq=True).encode("utf-8")
+    return _request_with_retries(
+        url,
+        req_headers,
+        timeout=timeout,
+        retries=retries,
+        backoff=backoff,
+        interval=interval,
+        body=body,
+    )
+
+
+def _prepare(
+    url: str,
+    headers: Mapping[str, str] | None,
+    timeout: float,
+    min_interval: float,
+    respect_robots: bool,
+) -> tuple[dict[str, str], float]:
+    """Validate the URL, apply robots.txt, and build request headers."""
     parts = urllib.parse.urlsplit(url)
     if parts.scheme not in ("http", "https") or not parts.netloc:
         raise ValueError(f"not an http(s) URL: {url!r}")
@@ -458,14 +517,7 @@ def http_get(
     req_headers = {"Accept": "*/*", **(headers or {})}
     req_headers = {k: v for k, v in req_headers.items() if k.lower() != "user-agent"}
     req_headers["User-Agent"] = USER_AGENT
-    return _get_with_retries(
-        url,
-        req_headers,
-        timeout=timeout,
-        retries=retries,
-        backoff=backoff,
-        interval=interval,
-    )
+    return req_headers, interval
 
 
 # --------------------------------------------------------------------------
