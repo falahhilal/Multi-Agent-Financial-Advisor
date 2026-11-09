@@ -38,10 +38,10 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: backend/jobs/requirements-news-rss.txt
+          cache-dependency-path: backend/jobs/requirements-news.txt
 
       - name: Install dependencies
-        run: pip install -r jobs/requirements-news-rss.txt
+        run: pip install -r jobs/requirements-news.txt
 
       - name: Archive RSS feeds
         env:

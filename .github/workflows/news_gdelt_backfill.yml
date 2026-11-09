@@ -1,0 +1,67 @@
+# GDELT DOC 2.0 backfill -> HF dataset fyp-psx-advisor/fyp-data, folder news/backfill/gdelt/.
+# Owner: Maryam (news stream). Script: backend/jobs/news_gdelt.py.
+#
+# Manual only: Actions -> news-gdelt-backfill -> Run workflow. GitHub's
+# runners are used because GDELT rate-limits shared cloud IPs.
+#
+# Runs resume: state is kept on HF, so each run queries only week windows that
+# are new, failed, or recent. Re-run it to retry failed windows. A full pass
+# from 2017 is about 515 windows at one request per 6 s: roughly 1 hour.
+# Needs repository secret HF_TOKEN (write access to the dataset).
+
+name: news-gdelt-backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "First date to query (YYYY-MM-DD)"
+        default: "2017-01-01"
+        required: true
+      end:
+        description: "Last date (YYYY-MM-DD); empty = now"
+        default: ""
+        required: false
+      max_windows:
+        description: "Max week windows this run; empty = all pending"
+        default: ""
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: news-gdelt          # state on HF must not be written by two runs
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/jobs/requirements-news.txt
+
+      - name: Install dependencies
+        run: pip install -r jobs/requirements-news.txt
+
+      - name: Query GDELT
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_HUB_DISABLE_PROGRESS_BARS: "1"
+          START: ${{ inputs.start }}
+          END: ${{ inputs.end }}
+          MAX_WINDOWS: ${{ inputs.max_windows }}
+        run: |
+          args=(--start "$START")
+          if [ -n "$END" ]; then args+=(--end "$END"); fi
+          if [ -n "$MAX_WINDOWS" ]; then args+=(--max-windows "$MAX_WINDOWS"); fi
+          python -m jobs.news_gdelt "${args[@]}"
