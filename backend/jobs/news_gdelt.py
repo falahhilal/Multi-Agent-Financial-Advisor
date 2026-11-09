@@ -103,7 +103,10 @@ NOTES = (
     "(usually within hours, not guaranteed). No article text: see "
     "news_wayback_backfill. Coverage is limited to what GDELT crawled; on "
     "2026-11-08 Business Recorder appeared in 2017 but not in 2018 or 2026 "
-    "test windows, and the latest week returned nothing. Failed windows are "
+    "test windows, and the latest week returned nothing. GDELT treats "
+    "enddatetime as covering that whole day, so items seen on a window's last "
+    "day also appear in the next window (deduped; window_start records the "
+    "first window that returned the article). Failed windows are "
     "listed in windows.parquet and retried on the next run. GDELT data: "
     "unlimited use with citation to the GDELT Project and a link to "
     "https://www.gdeltproject.org/."
@@ -477,9 +480,7 @@ def run(
             "re-run to continue"
         )
     if statuses.get("failed"):
-        warnings.append(
-            f"{statuses['failed']} week windows failed; re-run to retry them"
-        )
+        warnings.append(f"{statuses['failed']} windows failed; re-run to retry them")
     if statuses.get("capped"):
         warnings.append(
             f"{statuses['capped']} windows hit the 250 cap at 1 h; some missing"
