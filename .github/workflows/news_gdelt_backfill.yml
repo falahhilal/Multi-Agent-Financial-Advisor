@@ -4,9 +4,11 @@
 # Manual only: Actions -> news-gdelt-backfill -> Run workflow. GitHub's
 # runners are used because GDELT rate-limits shared cloud IPs.
 #
-# Runs resume: state is kept on HF, so each run queries only week windows that
-# are new, failed, or recent. Re-run it to retry failed windows. A full pass
-# from 2017 is about 515 windows at one request per 6 s: roughly 1 hour.
+# Runs resume: state is kept on HF, so each run queries only 30-day windows
+# that are new, failed, or recent. GDELT answers many requests with 429 even
+# from GitHub's runners, so expect some failed windows: just re-run to retry
+# them. A full pass from 2017 is ~120 windows (plus splits for busy months).
+# The job stops itself after 200 minutes and saves; re-run to continue.
 # Needs repository secret HF_TOKEN (write access to the dataset).
 
 name: news-gdelt-backfill
@@ -23,7 +25,7 @@ on:
         default: ""
         required: false
       max_windows:
-        description: "Max week windows this run; empty = all pending"
+        description: "Max windows this run; empty = all pending"
         default: ""
         required: false
 
