@@ -3,98 +3,318 @@
   "id": "news_rss_articles",
   "stream": "news",
   "dataset": "rss_articles",
-  "source": "RSS feeds: Business Recorder <https://www.brecorder.com/feeds/latest-news>; The Express Tribune <https://tribune.com.pk/feed/business>; Dawn <https://www.dawn.com/feeds/business/>; Business Recorder <https://www.brecorder.com/feeds/markets/stocks>; The Financial Daily <https://thefinancialdaily.com/feed/>; Pakistan & Gulf Economist <https://www.pakistangulfeconomist.com/feed/>; ProPakistani <https://propakistani.pk/feed/>",
+  "source": "RSS feeds: Business Recorder <https://www.brecorder.com/feeds/latest-news>; The Express Tribune <https://tribune.com.pk/feed/business>; Dawn <https://www.dawn.com/feeds/business/>; Business Recorder <https://www.brecorder.com/feeds/markets/stocks>; The Financial Daily <https://thefinancialdaily.com/feed/>; Pakistan & Gulf Economist <https://www.pakistangulfeconomist.com/feed/>; ProPakistani <https://propakistani.pk/feed/>; news sitemaps: Business Recorder <https://www.brecorder.com/feeds/sitemap>",
   "fetch_mode": "append_only_snapshot",
-  "fetched_at": "2026-11-08T14:32:24Z",
+  "fetched_at": "2026-11-09T11:38:42Z",
   "script": "backend/jobs/news_rss.py",
-  "git_commit": "dc197ecf0dc1f88eea54c3f56c67b4941fca8a1e",
+  "git_commit": "eb57751337756df9cc3a1cb1d11e1e3e1403b9cd",
   "git_dirty": false,
-  "row_count": 143,
-  "file_count": 2,
+  "row_count": 299,
+  "file_count": 6,
   "date_range": {
     "min": "2026-09-01T16:51:48+00:00",
-    "max": "2026-11-08T14:20:45+00:00"
+    "max": "2026-11-09T11:33:08+00:00"
   },
   "files": [
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_brecorder_latest.xml.gz",
-      "bytes": 37341,
-      "sha256": "8c8fb25b615c869265299f52a04a062635232daf7c409804b7b2866c8bd0a133"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_latest.xml.gz",
+      "bytes": 34699,
+      "sha256": "113a6b7c066618abd9281cdc8d5d89c8a7835d1071104ef971f9eb1aebbaa878"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_tribune_business.xml.gz",
-      "bytes": 28949,
-      "sha256": "da4a9c338d2e77685a342584997f4870c40f49c979c002391914852940b490d5"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_tribune_business.xml.gz",
+      "bytes": 33637,
+      "sha256": "86ad3b6c6aaa378a0ec907cc72f36e187180fcdf5775a406bc4e4d1ce8258dcb"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_dawn_business.xml.gz",
-      "bytes": 68924,
-      "sha256": "e1bdb43db3df3ef3503f40f38e05b82e87a548b166f85da2ca28d6fc1de9d892"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_dawn_business.xml.gz",
+      "bytes": 57127,
+      "sha256": "64e386047e737f5ae2a6bf7240137775801e9a22578d090e107e7595522acd5b"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_brecorder_stocks.xml.gz",
-      "bytes": 35908,
-      "sha256": "1f631ab8af2090970fd80a5149d89fa8b6a3dff0d6965b3a29f91c181c7a2b52"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_stocks.xml.gz",
+      "bytes": 36680,
+      "sha256": "ff2bec30763fbcf3440e020c026492989038c1188bdcfe45d6f02daf21e4e0ea"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_financialdaily.xml.gz",
-      "bytes": 6209,
-      "sha256": "fb2cd7323702f09c6827a3fa781959503756517cd98b99ba713c241f9ce683b3"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_financialdaily.xml.gz",
+      "bytes": 6194,
+      "sha256": "5a8b018c845f8ba83fd2ebb9e1df523d24a74031ac8c2d53e68e55ce6ad071ab"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_pakgulfeconomist.xml.gz",
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_pakgulfeconomist.xml.gz",
       "bytes": 4509,
       "sha256": "a0ae4dc86de0965efd370762aa9fe8e1a01dbff0a32164e02843d6dc94256f51"
     },
     {
-      "path": "news/rss/raw/fetch_date=2026-11-08/20261108T143210Z_propakistani.xml.gz",
-      "bytes": 9078,
-      "sha256": "1a2659b68ed7c9f1955b94965f3fbf323a657144763b892991fcb3187a51b14b"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_propakistani.xml.gz",
+      "bytes": 13368,
+      "sha256": "94ab795522789f5312747512233b5153410f84bc3b125dc06bfb125725806cfd"
     },
     {
-      "path": "news/rss/articles/fetch_date=2026-11-08/part-20261108T143210Z.parquet",
-      "bytes": 21343,
-      "sha256": "a96fa4e593c19bde2f821c783291d4bf2c7d7656cda7849b666dfcd185e43d9a"
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap.xml.gz",
+      "bytes": 6840,
+      "sha256": "0c5c5a6463dd2d04accaee618c2fd56317668a3e9d7746d8cfedbc282cb47a58"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_4c66b0133d48bbb4.html.gz",
+      "bytes": 44847,
+      "sha256": "e46b4db3c6371194c358a962314b5ff2550d5ea1e93d695bc0ad7942b2212bd4"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_9526b4afbe60953a.html.gz",
+      "bytes": 49750,
+      "sha256": "54b3bf49bfaee6e2f63d8ac46b33abaaf6a8aca18fef0e263bc6f8b1a07ca895"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_9217a224068c177f.html.gz",
+      "bytes": 47806,
+      "sha256": "fa69744ad657ab9e8e9d19b963c89f2ae7687ad157204b05b5cba19bfc58be34"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_c22259b234355683.html.gz",
+      "bytes": 41960,
+      "sha256": "37fd070fdd46e7b13d3e71664fc58b4ebe683d5e0411cd9809aab38b8a33c009"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_346ea31f8902aa43.html.gz",
+      "bytes": 46176,
+      "sha256": "2bee532ec18c2c3619d127c51e05fb93bf6e4a26d3d17beab567f42bb33e6ecc"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_5eb83e6201bf4c48.html.gz",
+      "bytes": 46763,
+      "sha256": "c614d3074960bd8520fa67a4fd08561466dbcc54cbdeaa8d0c88194abea9b2b0"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_87ae95f433266fa4.html.gz",
+      "bytes": 43418,
+      "sha256": "650852b555516ffaf12fa43c483460c6ded65a77f72b23a8cb47e4a1000a29a9"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_219c7d3b11b1e59b.html.gz",
+      "bytes": 44492,
+      "sha256": "f82e9b0aeaca1b5f0ad76ea8b03ae9fa5e99921d46fac460207d99798f45edc2"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_7d3caf690a741402.html.gz",
+      "bytes": 43784,
+      "sha256": "f08ad8a0a176e509c9fb565c5c63612cd70009275af9945649079cee0a926879"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_ec26d8d84c3893bb.html.gz",
+      "bytes": 41909,
+      "sha256": "4cb8b6a61108a26197afc4c186c3d4edd26261b98cf27586e6c6491b3bb04e1d"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_95db7dd41ade29dc.html.gz",
+      "bytes": 43250,
+      "sha256": "30eb33baa1a8b4c22c5072cfbf49dd8c34e9f22ecc73f3b8d8cf9662a9590099"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_cc57c5f1b4ce1aaa.html.gz",
+      "bytes": 42406,
+      "sha256": "6d2050e71ff07874262e243d8011a7c3c9b85d16ce718d2be39dddd5c1ea5114"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_2563fdf057a1d099.html.gz",
+      "bytes": 44581,
+      "sha256": "6003228a634bfa63db558ac22886eda0a0efc618bc57e60a762f34f31977d159"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_2229e578f292f7c8.html.gz",
+      "bytes": 41578,
+      "sha256": "ef8135d258a0dd11294518c99690714aacdd658d36b72cfb153e152b7492fdc0"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_26574e044a9371ca.html.gz",
+      "bytes": 41724,
+      "sha256": "b1c668f4a4300f0992a4d2c94a999fbc79d9b27870915537e19fb476cf7558ef"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_e900776a03d87047.html.gz",
+      "bytes": 43028,
+      "sha256": "2a89bd8163143a60ddea4381ef99575b324694d4aa4fe98a78203b2311170c38"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_80534cc315a81d66.html.gz",
+      "bytes": 42878,
+      "sha256": "1908ad04b80cbe3538b0074668b58f6f36b61ff2cae96b5760788647a5ba85bc"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_63012d127883cdce.html.gz",
+      "bytes": 43094,
+      "sha256": "d7024325a4ab265eddda9043e7c13d199ad13925dd603af9a9e163f66bf1ddc0"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_3c6b1ea01c6d16fb.html.gz",
+      "bytes": 41257,
+      "sha256": "94b6535e30455b71e2839987f62b12bf6708afb48281cecbb82a1ded78c3d48e"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_d7f3f3c06a508864.html.gz",
+      "bytes": 43795,
+      "sha256": "1402dfb5dbd005221493bed33bc640b7062bd9293fa0afe32278acbc9b8d66e4"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_b98113c49db21c7c.html.gz",
+      "bytes": 44199,
+      "sha256": "be32f19134f48d26cb01d3d5ae74e9414d5f9e495d34411d38dae77d6d90deed"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_e6137cb02daa2ff2.html.gz",
+      "bytes": 43683,
+      "sha256": "6f44bfb390ccd5a86b9009bedcb8dc912e15ff4c59684d82407b2e27beb5095d"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_7948c82c1a033017.html.gz",
+      "bytes": 45110,
+      "sha256": "37602b0fa89df4f8f698c0ebc82517a8fe43d3cf4c50ff74f320569a74fd1845"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_7ee5d2eed779c80e.html.gz",
+      "bytes": 43697,
+      "sha256": "092060e4614a8bf244559d7f49f0956c723b018e77b26b4a8d2f5492f8fa2c3f"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_c8539e7f019db206.html.gz",
+      "bytes": 43260,
+      "sha256": "78219fe2b44d5358a4d020b40aaaeb79cc0656ace291ac9671761c1260263403"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_354c637466a79db3.html.gz",
+      "bytes": 41810,
+      "sha256": "0bfa9be2e2d7532ea27d07ec0616c7851cc619cba1ed22e4bad478a6be9fd569"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_db9089c3bc2ba241.html.gz",
+      "bytes": 42431,
+      "sha256": "855980031a630a41ee7e858f4966f6b9993b4eb09d7b4969d34cf3187277375c"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_4085a31e892a4f34.html.gz",
+      "bytes": 42246,
+      "sha256": "294d20da0745a3d0a085a500fa81c08981355849ca473a682eb5b7c7a9d49fc4"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_5f256047ec6adbed.html.gz",
+      "bytes": 43586,
+      "sha256": "e6b235fbc69a8f9b0322cb5528da1d8b590ca7ed56102e0fb87b6ed34e4426af"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_35e451c5aa96aac8.html.gz",
+      "bytes": 42351,
+      "sha256": "7f047c49f2920ad4fa8b5e5a753e7ed0133fb8e99d3c9a29b67de6ccf153388d"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_60886b55e5bad6a9.html.gz",
+      "bytes": 42297,
+      "sha256": "e8f9b01519cadca4a3e1e266cb3f3948eb6506ab0fc8df38dff4f12d24568f6b"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_5b960025db3090a8.html.gz",
+      "bytes": 41990,
+      "sha256": "87ac7a0e1bed45f5082e8033edc062dc145f5c44a185deec3a436bfdeb40854c"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_79449567dc4ce11b.html.gz",
+      "bytes": 44209,
+      "sha256": "ece3fea41a472748f98b20b2b53a71ee8b68e2ddefbacf1b3358f79b8425e793"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_cb25103452459492.html.gz",
+      "bytes": 41704,
+      "sha256": "0adab0be95f1093c56c18dc997ecdb2fe8316050a46eb9bcbacc88725c3b0615"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_59d4e5b8e386f37b.html.gz",
+      "bytes": 43065,
+      "sha256": "08ad1a7db9bf0160dd6f58c9b0e7e90ca24c68e22648ba6a464d70b59e799f5c"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_c4d9dfb1bb81640d.html.gz",
+      "bytes": 41793,
+      "sha256": "044aa973b4d65dd89bfb26d8533b409ddb10f23ccd95707235b5bbdf21567005"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_372c9c72d12e69f4.html.gz",
+      "bytes": 42366,
+      "sha256": "a193cc06a0d48f8b9294a2df9bd68336f2372a793326e818b674716015c459c0"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_ca18c4270152ed20.html.gz",
+      "bytes": 41555,
+      "sha256": "6eae56f8a672b6684c9a7e44828fa70134487a68cd4f03a1201ebc526fa69718"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_e7c37900892d8baf.html.gz",
+      "bytes": 42850,
+      "sha256": "dd484d002971d3e49de92bdb57dec1046036ab71c9e5611005ef0bee6c87daa4"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_7335314f82429513.html.gz",
+      "bytes": 42767,
+      "sha256": "ca61118338c20ddc374acc4937609621e848c45b5a5ecaa218c029078a8d11a5"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_0480f5e0278cbc6f.html.gz",
+      "bytes": 43582,
+      "sha256": "0358e7a5b37c7f2dce72a3b3a46c3f309d31742d31010e8e6af9a9178f6f6c7b"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_414d15c7d89b16f5.html.gz",
+      "bytes": 44849,
+      "sha256": "3927b8013c45ffd121b1ed9cfd42807285d0bf146ed975a0ef092950b3f2a8a1"
+    },
+    {
+      "path": "news/rss/raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_sitemap_cab06aed8285a0a8.html.gz",
+      "bytes": 42598,
+      "sha256": "6354b68cbfebf600e4b84c110c58521652daa10bb1dd479e29d93e88e4694cf0"
+    },
+    {
+      "path": "news/rss/articles/fetch_date=2026-11-09/part-20261109T113620Z.parquet",
+      "bytes": 143904,
+      "sha256": "b9f26a8d918d437713bbc49fcc0723389b9fe971b247f5391a5e4f67e464c8cc"
     },
     {
       "path": "news/rss/index/article_ids.parquet",
-      "bytes": 7582,
-      "sha256": "eee50b1cca2549c83a450c3e719c7a175cd3718d206fa9b338ee157c0b8afcc0"
+      "bytes": 11256,
+      "sha256": "aa4390a48a7d772034f3a862aec10b3a0b15b91c80bac8c94429c25b9c1c926f"
     },
     {
-      "path": "news/rss/runs/fetch_date=2026-11-08/run-20261108T143210Z.json",
-      "bytes": 4149,
-      "sha256": "862c6002fc3d663238f60352badfbf3662a7b7a034d37c04badbdf551221927e"
+      "path": "news/rss/runs/fetch_date=2026-11-09/run-20261109T113620Z.json",
+      "bytes": 4439,
+      "sha256": "e4723c46c68a6dbc2aced2501a5f13ba3d1d7b564a76b0d5284dea8381a39339"
     }
   ],
   "hf_repo": "fyp-psx-advisor/fyp-data",
   "hf_repo_type": "dataset",
   "hf_path": "news/rss/",
-  "hf_revision": "3dcd8b98619eb94fd1f4a391f8f9fb09af33b1d5",
-  "notes": "RSS feeds expose only their latest items and cannot be re-fetched historically, so this is an append-only snapshot: the HF copy under news/rss/ is the archive of record and must be backed up and snapshotted at code freeze. Coverage before the first run (2026-11-08) is only what each feed still showed then. row_count = articles in the archive; file_count = article parquet partitions; files = this run's outputs. Dedupe is by canonical URL (slug dropped where configured); the first sighting of an article is kept and later edits are not captured, except in the raw feed snapshots. full_text is plain text from content:encoded when the feed includes it. language is the feed-declared code, or 'ur' when the title is mostly Arabic script. tickers_mentioned is empty until tagging is built.",
+  "hf_revision": "e0f62fe35985c36b85ef86db26dc0c69ae957a5b",
+  "notes": "RSS feeds expose only their latest items and cannot be re-fetched historically, so this is an append-only snapshot: the HF copy under news/rss/ is the archive of record and must be backed up and snapshotted at code freeze. Coverage before the first run (2026-11-08) is only what each feed still showed then. row_count = articles in the archive; file_count = article parquet partitions; files = this run's outputs. Dedupe is by canonical URL (slug dropped where configured); the first sighting of an article is kept and later edits are not captured, except in the raw feed snapshots. full_text is plain text from content:encoded when the feed includes it. Business Recorder's RSS shows only 30 items and publishes in bursts, so its news sitemap (100 latest) is also read each run and missing articles are fetched from their pages (feed_role='sitemap', full_text_source='article_page'). language is the feed-declared code, or 'ur' when the title is mostly Arabic script. tickers_mentioned is empty until tagging is built.",
   "warnings": [],
   "extra": {
     "last_run": {
-      "run_id": "20261108T143210Z",
-      "fetched_at": "2026-11-08T14:32:10Z",
+      "run_id": "20261109T113620Z",
+      "fetched_at": "2026-11-09T11:36:20Z",
       "git": {
-        "commit": "dc197ecf0dc1f88eea54c3f56c67b4941fca8a1e",
+        "commit": "eb57751337756df9cc3a1cb1d11e1e3e1403b9cd",
         "dirty": false
       },
       "config_version": 1,
-      "config_sha256": "1008c57e5e899cf0fba3d36673137372b075c363da58c20e7c020bfd6356cc9c",
+      "config_sha256": "6153bb3f44ed966e53df6a982347dc68f7295e5a99240b0fdda0da8746f7748a",
       "feeds_ok": 7,
       "feeds_failed": 0,
       "items_kept": 140,
-      "new_articles": 3,
-      "duplicates": 137,
+      "new_articles": 85,
+      "duplicates": 98,
       "articles_written": true,
       "feeds": {
         "brecorder_latest": {
           "url": "https://www.brecorder.com/feeds/latest-news",
           "role": "primary",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_brecorder_latest.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_latest.xml.gz",
           "items": 30,
           "kept": 30,
           "filtered_out": 0,
@@ -102,16 +322,17 @@
           "no_date": 0,
           "with_full_text": 30,
           "parse_warning": null,
-          "newest_published_at": "2026-11-08T14:18:06Z",
-          "oldest_published_at": "2026-11-07T21:33:13Z",
+          "newest_published_at": "2026-11-09T11:33:08Z",
+          "oldest_published_at": "2026-11-09T05:27:16Z",
           "http_status": 200,
-          "bytes": 191669
+          "bytes": 169029,
+          "new": 27
         },
         "tribune_business": {
           "url": "https://tribune.com.pk/feed/business",
           "role": "primary",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_tribune_business.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_tribune_business.xml.gz",
           "items": 25,
           "kept": 25,
           "filtered_out": 0,
@@ -119,16 +340,16 @@
           "no_date": 0,
           "with_full_text": 25,
           "parse_warning": null,
-          "newest_published_at": "2026-11-07T17:32:15Z",
+          "newest_published_at": "2026-11-08T15:56:53Z",
           "oldest_published_at": "2026-09-01T16:51:48Z",
           "http_status": 200,
-          "bytes": 90039
+          "bytes": 101718
         },
         "dawn_business": {
           "url": "https://www.dawn.com/feeds/business/",
           "role": "primary",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_dawn_business.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_dawn_business.xml.gz",
           "items": 30,
           "kept": 30,
           "filtered_out": 0,
@@ -136,16 +357,17 @@
           "no_date": 0,
           "with_full_text": 30,
           "parse_warning": null,
-          "newest_published_at": "2026-11-08T04:21:59Z",
-          "oldest_published_at": "2026-11-05T07:17:45Z",
+          "newest_published_at": "2026-11-09T11:18:34Z",
+          "oldest_published_at": "2026-11-06T03:39:34Z",
           "http_status": 200,
-          "bytes": 353253
+          "bytes": 301480,
+          "new": 1
         },
         "brecorder_stocks": {
           "url": "https://www.brecorder.com/feeds/markets/stocks",
           "role": "filter",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_brecorder_stocks.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_brecorder_stocks.xml.gz",
           "items": 30,
           "kept": 3,
           "filtered_out": 27,
@@ -153,16 +375,16 @@
           "no_date": 0,
           "with_full_text": 3,
           "parse_warning": null,
-          "newest_published_at": "2026-11-07T06:25:47Z",
-          "oldest_published_at": "2026-11-05T11:08:58Z",
+          "newest_published_at": "2026-11-09T10:25:54Z",
+          "oldest_published_at": "2026-11-06T00:47:13Z",
           "http_status": 200,
-          "bytes": 188075
+          "bytes": 191470
         },
         "financialdaily": {
           "url": "https://thefinancialdaily.com/feed/",
           "role": "test",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_financialdaily.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_financialdaily.xml.gz",
           "items": 30,
           "kept": 30,
           "filtered_out": 0,
@@ -170,16 +392,17 @@
           "no_date": 0,
           "with_full_text": 0,
           "parse_warning": null,
-          "newest_published_at": "2026-11-08T14:02:00Z",
-          "oldest_published_at": "2026-11-02T11:21:15Z",
+          "newest_published_at": "2026-11-09T11:32:29Z",
+          "oldest_published_at": "2026-11-04T10:24:30Z",
           "http_status": 200,
-          "bytes": 23992
+          "bytes": 22861,
+          "new": 5
         },
         "pakgulfeconomist": {
           "url": "https://www.pakistangulfeconomist.com/feed/",
           "role": "test",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_pakgulfeconomist.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_pakgulfeconomist.xml.gz",
           "items": 12,
           "kept": 12,
           "filtered_out": 0,
@@ -196,7 +419,7 @@
           "url": "https://propakistani.pk/feed/",
           "role": "test",
           "ok": true,
-          "raw_file": "raw/fetch_date=2026-11-08/20261108T143210Z_propakistani.xml.gz",
+          "raw_file": "raw/fetch_date=2026-11-09/20261109T113620Z_propakistani.xml.gz",
           "items": 10,
           "kept": 10,
           "filtered_out": 0,
@@ -204,11 +427,22 @@
           "no_date": 0,
           "with_full_text": 10,
           "parse_warning": null,
-          "newest_published_at": "2026-11-08T14:20:45Z",
-          "oldest_published_at": "2026-11-08T09:21:22Z",
+          "newest_published_at": "2026-11-09T11:22:22Z",
+          "oldest_published_at": "2026-11-09T03:03:32Z",
           "http_status": 200,
-          "bytes": 39734,
-          "new": 3
+          "bytes": 50711,
+          "new": 9
+        }
+      },
+      "sitemaps": {
+        "brecorder_sitemap": {
+          "url": "https://www.brecorder.com/feeds/sitemap",
+          "role": "sitemap",
+          "ok": true,
+          "items": 100,
+          "new_candidates": 43,
+          "fetched": 43,
+          "failed": 0
         }
       }
     }
