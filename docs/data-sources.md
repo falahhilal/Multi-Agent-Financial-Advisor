@@ -150,3 +150,60 @@ Known gaps and limits:
   the effective date but not consistently (the 2020 extras may be announcement
   dates). Do not treat `observation_date` as purely the effective or the
   announcement date until checked against MPC statements.
+
+### macro_tbill_auctions
+
+| | |
+|---|---|
+| Purpose | Market T-bill yields so `CASH` earns a realistic return and the fixed-rule baseline is credible; short-rate context for the Macro Agent. |
+| Loader | `backend/jobs/macro_tbill_auctions.py` (EasyData helpers shared with `macro_policy_rate` in `backend/jobs/easydata.py`). Run manually after auctions and before each experiment freeze. |
+| Source | SBP EasyData API, dataset "Structure of Interest Rate: T-Bills Auction Result" (`TS_GP_BAM_SIRTBIL_AH`). Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | `TS_GP_BAM_SIRTBIL_AH.TB0010` / `TB0020` / `TB0030`: Treasury Bills' Cut-off Yield 3-Months / 6-Months / 12-Months; `TB0040` / `TB0050` / `TB0060`: Treasury Bills' Weighted Average Yield 3-Months / 6-Months / 12-Months. Names are checked against `/meta` on every run after removing a leading ". " (EasyData's "Series Display Name" has it, "Series name" does not); a mismatch aborts before any data is fetched. |
+| Fetch mode | `append_only_snapshot`, with revision warnings between runs (same reasoning as `macro_policy_rate`). |
+| Location | HF `macro/tbill_auctions/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/tbill_auctions.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with check details and gap report), `manifest.json` |
+| Format | Parquet, long format, one row per series per auction date: `series_key`, `series_name` (". " removed), `tenor_months` (3, 6, 12), `yield_type` (`cutoff`, `weighted_average`), `observation_date` (auction date), `value` (percent; null where SBP reports "Missing value"), `is_missing`, `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = auction date 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "auction_date_end_of_day_pkt"`. Evidence (Mahrukh, 2026-11-16): EasyData dates 30-Sep-2026 and 14-Oct-2026 are SBP auction dates (settlement is the next day); EasyData values match SBP's published cut-offs after rounding (11.9944 → 11.99, 11.9999 → 12); SBP results are public the same afternoon. **Checked on 2026 auctions only.** |
+| Coverage | From the EasyData dataset web page on 2026-11-16: Available Since 24-Jun-2004, Available Upto 14-Oct-2026, Last Refresh Date 16-Oct-2026, frequency As-Needed. Manual CSV download (2026-11-14): 3,516 rows, 586 dates per series, no duplicates. |
+| Citation | State Bank of Pakistan, (2026), As-Needed data on <series name> from Structure of Interest Rate: T-Bills Auction Result, Source EasyData |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, duplicate dates,
+unparseable dates, non-numeric values, values ≤ 0 or ≥ 100, dates after the
+run date, fewer than two rows per series, or an empty value whose status is not
+"Missing value". It **warns** on: first observation different from Available
+Since, an unexpected dataset name, several units, yields outside [1, 35],
+weighted average above cut-off by more than 0.01, cut-off/weighted-average
+pairs with one side empty, a value present with status "Missing value", the
+latest auction more than 45 days old, and revisions since the previous run.
+
+Known gaps and limits:
+
+- 507 rows (in the 2026-11-14 CSV) have status "Missing value" and no value,
+  spread through 2004-2024, mostly in the 6- and 12-month series. They are kept
+  with `value` null and `is_missing` true; counts and dates are in each run
+  log.
+- Four rows have a value but status "Missing value": TB0030 and TB0060 on
+  2021-12-01 and 2021-12-15. The value is kept (`is_missing` false) and the
+  rows are listed in a warning.
+- Some values lack a leading zero (e.g. ".1215"); they parse as numbers. TB0050
+  on 2007-12-05 is .1215, which is implausible for a yield in percent and is
+  flagged by the [1, 35] range warning, not corrected.
+- Precision varies: older rows have up to 4 decimals, 2026 rows 2 or fewer
+  (SBP's published cut-offs are rounded, e.g. 11.9944 → 11.99). The run log
+  records the maximum decimals per series.
+- Expected warnings in the real data: weighted average above cut-off (e.g.
+  6-month on 2009-10-07) and pairs with one side empty (e.g. 2024-10-02).
+- Gaps of more than 21 days between auction dates (reported in `extra.gaps`,
+  not warned): 2009-06-17 to 2009-07-15, 2010-06-16 to 2010-07-14, 2024-01-10
+  to 2024-02-06, 2026-03-16 to 2026-04-15, 2026-09-02 to 2026-09-30.
+- SBP held an auction on 2026-09-16 (settlement 2026-09-17) that is missing
+  from EasyData.
+- SBP also auctions 1-month bills; this dataset does not include them.
+- The `published_at` rule was checked on 2026 auctions only. Older dates are
+  assumed to be auction dates too, but this has not been verified.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
