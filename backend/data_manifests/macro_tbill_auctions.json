@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "id": "macro_tbill_auctions",
+  "stream": "macro",
+  "dataset": "tbill_auctions",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Structure of Interest Rate: T-Bills Auction Result' (TS_GP_BAM_SIRTBIL_AH), series TS_GP_BAM_SIRTBIL_AH.TB0010, TS_GP_BAM_SIRTBIL_AH.TB0020, TS_GP_BAM_SIRTBIL_AH.TB0030, TS_GP_BAM_SIRTBIL_AH.TB0040, TS_GP_BAM_SIRTBIL_AH.TB0050, TS_GP_BAM_SIRTBIL_AH.TB0060",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-16T14:13:23Z",
+  "script": "backend/jobs/macro_tbill_auctions.py",
+  "git_commit": "6798747b6e7ebf2491210bd415d8b5fa5838bffd",
+  "git_dirty": false,
+  "row_count": 3516,
+  "file_count": 15,
+  "date_range": {
+    "min": "2004-06-24",
+    "max": "2026-10-14"
+  },
+  "files": [
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0010_meta.json",
+      "bytes": 439,
+      "sha256": "7f5e82df0698dbee361aa66cc8881237579239785ce8e95bdb0e9958eb423474"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0010_data.json",
+      "bytes": 104304,
+      "sha256": "5dbe362ec33c372d6e981e6c6c00fb4ebbd7e1ff1abd111cf28a5c1e9bcc96e1"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0020_meta.json",
+      "bytes": 439,
+      "sha256": "43da07b2d9c133a5ae3c5d847549adb5b9b7a228795e67194f9da984945f7a09"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0020_data.json",
+      "bytes": 104365,
+      "sha256": "c4d615c2175a967b88336ce350ce81ac4a9e4424cbfd8befab065f99e0c9216a"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0030_meta.json",
+      "bytes": 440,
+      "sha256": "09ade956a156294a696016fff833032f717c4774c61df004b71ac6142cb95ae8"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0030_data.json",
+      "bytes": 104996,
+      "sha256": "45c54a0e1cf4310c6a26cf7db4d56b39974048fa84f414d572dd01b912fa59bb"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0040_meta.json",
+      "bytes": 444,
+      "sha256": "2b4bd147fc43a7e503e40e426e53ee8ff592e3fd730b17ad2ff68cab013017b1"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0040_data.json",
+      "bytes": 109686,
+      "sha256": "540678fd8da6df2fc0664346b0ce538d3b660ee02b54ddaba7b2a09548eabe79"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0050_meta.json",
+      "bytes": 444,
+      "sha256": "7b00a786a59aca748b625947560ee408cab609e0f6956587b746a0b63d98e2ad"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0050_data.json",
+      "bytes": 109746,
+      "sha256": "7780a0537cc95dac6578ef572fb324fe73682de8281a22c04fe7d0a27c17d746"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0060_meta.json",
+      "bytes": 446,
+      "sha256": "57bba442f0f4db67330c927be06a6d08c061f9d371695e1185b15fa9c880456f"
+    },
+    {
+      "path": "macro/tbill_auctions/raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0060_data.json",
+      "bytes": 110400,
+      "sha256": "bfa4461101df2fad743bec6f20b17e8454f8d294784dd93a080d54b5f0a4b1cb"
+    },
+    {
+      "path": "macro/tbill_auctions/interim/fetch_date=2026-11-16/observations-20261116T141211Z.parquet",
+      "bytes": 18163,
+      "sha256": "df82517597d09e27be39d2dae7cbf64b0229490f32f856e501771f7d9207c2e1"
+    },
+    {
+      "path": "macro/tbill_auctions/processed/tbill_auctions.parquet",
+      "bytes": 26973,
+      "sha256": "15975c403c3494cf71eaef729f519d052cebb4ba3e9ee8a213ea1a2b66b55e9c"
+    },
+    {
+      "path": "macro/tbill_auctions/runs/fetch_date=2026-11-16/run-20261116T141211Z.json",
+      "bytes": 23614,
+      "sha256": "290233a607b7187b63f8059a058e72424222259b33016ba57b7d75a0db89237b"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/tbill_auctions/",
+  "hf_revision": "60142073e235a77cd093cff5d9f40d3f167a64e7",
+  "notes": "SBP EasyData API, T-bill auction results, one row per series per auction date (long format; tenor_months and yield_type identify the series). Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept as the record of what we saw (append_only_snapshot); revisions against the previous run are logged as warnings. Rows SBP marks 'Missing value' are kept with value null and is_missing true. Series names have a leading '. ' removed in processed; interim keeps them as returned. published_at = auction date 23:59:59 Asia/Karachi in UTC (basis auction_date_end_of_day_pkt), checked on 2026 auctions only. Gaps of more than 21 days between auctions are listed in extra.gaps. 1-month bills are not in this dataset.",
+  "warnings": [
+    "TS_GP_BAM_SIRTBIL_AH.TB0030: 2 row(s) have a value but status 'Missing value' (value kept): 2021-12-01, 2021-12-15",
+    "TS_GP_BAM_SIRTBIL_AH.TB0050: 1 value(s) outside [1.0, 35.0]: 2007-12-05 (.1215)",
+    "TS_GP_BAM_SIRTBIL_AH.TB0060: 2 row(s) have a value but status 'Missing value' (value kept): 2021-12-01, 2021-12-15",
+    "3-month: weighted average above cut-off by more than 0.01 on 2 date(s): 2008-01-02 (WA 9.1213 > cut-off 9.0942), 2013-05-29 (WA 9.615 > cut-off 9.3661)",
+    "3-month: cut-off and weighted average not both present on 1 date(s): 2024-10-02",
+    "6-month: weighted average above cut-off by more than 0.01 on 1 date(s): 2009-10-07 (WA 15.5738 > cut-off 12.597)",
+    "6-month: cut-off and weighted average not both present on 3 date(s): 2007-01-17, 2007-09-13, 2024-10-02",
+    "12-month: weighted average above cut-off by more than 0.01 on 2 date(s): 2011-09-21 (WA 13.2888 > cut-off 13.2124), 2026-02-04 (WA 10.55 > cut-off 10.4)",
+    "12-month: cut-off and weighted average not both present on 1 date(s): 2007-01-17"
+  ],
+  "extra": {
+    "series": {
+      "TS_GP_BAM_SIRTBIL_AH.TB0010": {
+        "name": "Treasury Bills' Cut-off Yield 3-Months",
+        "meta_name_as_returned": "Treasury Bills' Cut-off Yield 3-Months",
+        "tenor_months": 3,
+        "yield_type": "cutoff",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 104304,
+        "rows": 586,
+        "missing_rows": 42,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-10-02",
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0010_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0010_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Cut-off Yield 3-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      },
+      "TS_GP_BAM_SIRTBIL_AH.TB0020": {
+        "name": "Treasury Bills' Cut-off Yield 6-Months",
+        "meta_name_as_returned": "Treasury Bills' Cut-off Yield 6-Months",
+        "tenor_months": 6,
+        "yield_type": "cutoff",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 104365,
+        "rows": 586,
+        "missing_rows": 82,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-10-02",
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0020_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0020_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Cut-off Yield 6-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      },
+      "TS_GP_BAM_SIRTBIL_AH.TB0030": {
+        "name": "Treasury Bills' Cut-off Yield 12-Months",
+        "meta_name_as_returned": "Treasury Bills' Cut-off Yield 12-Months",
+        "tenor_months": 12,
+        "yield_type": "cutoff",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 104996,
+        "rows": 586,
+        "missing_rows": 130,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-09-18",
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0030_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0030_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Cut-off Yield 12-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      },
+      "TS_GP_BAM_SIRTBIL_AH.TB0040": {
+        "name": "Treasury Bills' Weighted Average Yield 3-Months",
+        "meta_name_as_returned": "Treasury Bills' Weighted Average Yield 3-Months",
+        "tenor_months": 3,
+        "yield_type": "weighted_average",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 109686,
+        "rows": 586,
+        "missing_rows": 41,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-09-18",
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0040_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0040_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Weighted Average Yield 3-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      },
+      "TS_GP_BAM_SIRTBIL_AH.TB0050": {
+        "name": "Treasury Bills' Weighted Average Yield 6-Months",
+        "meta_name_as_returned": "Treasury Bills' Weighted Average Yield 6-Months",
+        "tenor_months": 6,
+        "yield_type": "weighted_average",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 109746,
+        "rows": 586,
+        "missing_rows": 79,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-09-18",
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0050_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0050_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Weighted Average Yield 6-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      },
+      "TS_GP_BAM_SIRTBIL_AH.TB0060": {
+        "name": "Treasury Bills' Weighted Average Yield 12-Months",
+        "meta_name_as_returned": "Treasury Bills' Weighted Average Yield 12-Months",
+        "tenor_months": 12,
+        "yield_type": "weighted_average",
+        "meta_start_date": "2004-06-24",
+        "portal_last_refresh_date": "2026-10-16",
+        "meta_dataset_name": "Structure of Interest Rate: T-Bills Auction Result",
+        "http_status": 200,
+        "bytes": 110400,
+        "rows": 586,
+        "missing_rows": 129,
+        "first_missing": "2004-06-24",
+        "last_missing": "2024-09-18",
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "first_observation": "2004-06-24",
+        "last_observation": "2026-10-14",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0060_meta.json",
+          "data": "raw/fetch_date=2026-11-16/20261116T141211Z_TS_GP_BAM_SIRTBIL_AH.TB0060_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on Treasury Bills' Weighted Average Yield 12-Months from Structure of Interest Rate: T-Bills Auction Result, Source EasyData"
+      }
+    },
+    "gaps": [
+      {
+        "from": "2009-06-17",
+        "to": "2009-07-15",
+        "days": 28
+      },
+      {
+        "from": "2010-06-16",
+        "to": "2010-07-14",
+        "days": 28
+      },
+      {
+        "from": "2024-01-10",
+        "to": "2024-02-06",
+        "days": 27
+      },
+      {
+        "from": "2026-03-16",
+        "to": "2026-04-15",
+        "days": 30
+      },
+      {
+        "from": "2026-09-02",
+        "to": "2026-09-30",
+        "days": 28
+      }
+    ],
+    "latest_auction": "2026-10-14",
+    "published_at_basis": "auction_date_end_of_day_pkt",
+    "last_run": {
+      "run_id": "20261116T141211Z",
+      "fetched_at": "2026-11-16T14:12:11Z",
+      "end_date": "2026-11-16",
+      "git": {
+        "commit": "6798747b6e7ebf2491210bd415d8b5fa5838bffd",
+        "dirty": false
+      },
+      "rows": 3516,
+      "revisions": {
+        "previous": null
+      },
+      "published_at_basis": "auction_date_end_of_day_pkt"
+    }
+  }
+}
