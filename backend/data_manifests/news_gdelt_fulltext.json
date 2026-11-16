@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "news_gdelt_fulltext",
+  "stream": "news",
+  "dataset": "gdelt_fulltext",
+  "source": "Article pages on dawn.com, tribune.com.pk and brecorder.com for the links in news_gdelt_index",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-16T16:07:54Z",
+  "script": "backend/jobs/news_gdelt_text.py",
+  "git_commit": "90156adb5af45e48b2aab78938a0e262e78656ed",
+  "git_dirty": false,
+  "row_count": 4981,
+  "file_count": 4842,
+  "date_range": {
+    "min": "2016-01-11T02:25:30+00:00",
+    "max": "2026-10-15T12:49:40+00:00"
+  },
+  "files": [
+    {
+      "path": "news/backfill/gdelt_text/articles.parquet",
+      "bytes": 6083561,
+      "sha256": "976dcc0df6074d16814d9726c079ee01ab9fea73245ea4e89bccf81b65c89425"
+    },
+    {
+      "path": "news/backfill/gdelt_text/coverage_by_month.csv",
+      "bytes": 7687,
+      "sha256": "a7cd93d4b27b154aa668a0d77c9957af6ca64569f160a417f662614da6d27047"
+    },
+    {
+      "path": "news/backfill/gdelt_text/runs/run-20261116T142247Z.json",
+      "bytes": 682,
+      "sha256": "a8d8054d6abffd1e89d9025a35d9d65e49c5673f730e6cd326e90a1dab1fe25b"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "news/backfill/gdelt_text/",
+  "hf_revision": "fdce6540f82aa77d4555682290a0589102cc3112",
+  "notes": "Full text for the links in news_gdelt_index, fetched from the publishers' own sites (recovery_source='live'). One row per GDELT link, with a status: ok, no_text (page loaded, no text found), gone (404/410: a candidate for the Wayback Machine), failed (retried next run) or skipped_not_article. published_at is the page's own date; The Express Tribune stamps the last update, so first_public_at = min(published_at, seendate) is the point-in-time key and published_after_seen flags rows where the page date was later than GDELT's sighting. Coverage is bounded by GDELT's index: Business Recorder is absent from it for most of 2018-2022 and after 2025-11. Site terms restrict reproduction (see docs/data-sources.md): private, non-commercial research use only.",
+  "warnings": [
+    "incomplete: 3965 links not yet tried, 0 failed; re-run to continue",
+    "7 links are gone (404/410): Wayback candidates",
+    "10 pages loaded but no text was found"
+  ],
+  "extra": {
+    "last_run": {
+      "run_id": "20261116T142247Z",
+      "started_at": "2026-11-16T14:22:47Z",
+      "git": {
+        "commit": "90156adb5af45e48b2aab78938a0e262e78656ed",
+        "dirty": false
+      },
+      "planned": 8814,
+      "fetched": 4849,
+      "remaining": 3965,
+      "stopped": "time budget reached",
+      "status_totals": {
+        "skipped_not_article": 132,
+        "ok": 4832,
+        "no_text": 10,
+        "gone": 7
+      },
+      "by_domain": {
+        "brecorder.com": {
+          "skipped_not_article": 78,
+          "ok": 1266,
+          "gone": 5
+        },
+        "dawn.com": {
+          "skipped_not_article": 43,
+          "ok": 1787,
+          "gone": 2
+        },
+        "tribune.com.pk": {
+          "skipped_not_article": 11,
+          "ok": 1779,
+          "no_text": 10
+        }
+      }
+    }
+  }
+}
