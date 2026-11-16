@@ -95,6 +95,7 @@ BACKOFF = 20.0
 MAX_MINUTES = 200.0  # stop and save before the 240-minute Actions timeout
 PARTIAL_DAYS = 3  # weeks ending this recently are re-queried next run
 CHECKPOINT_EVERY = 20  # windows between intermediate uploads
+MIN_WINDOWS_FOR_FAILURE = 5  # exit non-zero only if at least this many all failed
 
 NOTES = (
     "GDELT DOC 2.0 article lists (title, URL, seendate) for PSX/KSE-100 terms "
@@ -515,7 +516,9 @@ def run(
         new_articles,
         dict(statuses),
     )
-    return 1 if queried and failed_this_run == queried else 0
+    # Red only for a systemic block. A couple of pending windows that both
+    # hit a 429 is normal: they stay 'failed' and are retried next run.
+    return 1 if queried >= MIN_WINDOWS_FOR_FAILURE and failed_this_run == queried else 0
 
 
 def pull_manifest() -> int:

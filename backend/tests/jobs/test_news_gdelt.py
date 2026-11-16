@@ -153,11 +153,29 @@ def test_all_failed_exits_nonzero(
     code = news_gdelt.run(
         upload=False,
         start=start,
-        end=start + timedelta(days=14),
+        end=start + 5 * news_gdelt.WINDOW,
         max_windows=None,
         fetch=lambda a, b: (None, "HTTP 429"),
     )
-    assert code == 1
+    assert code == 1  # 5 windows, all failed: a systemic block
+
+
+def test_few_failed_windows_do_not_fail_the_run(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_gdelt, "LOCAL_ROOT", tmp_path / "gdelt")
+    monkeypatch.setattr(common, "MANIFEST_DIR", tmp_path / "manifests")
+    start = datetime(2017, 1, 1, tzinfo=UTC)
+    code = news_gdelt.run(
+        upload=False,
+        start=start,
+        end=start + 2 * news_gdelt.WINDOW,
+        max_windows=None,
+        fetch=lambda a, b: (None, "HTTP 429"),
+    )
+    assert code == 0  # both stay 'failed' and are retried next run
+    w = pq.read_table(tmp_path / "gdelt" / "windows.parquet").to_pylist()
+    assert [x["status"] for x in w] == ["failed", "failed"]
 
 
 def test_time_budget_stops_and_saves(

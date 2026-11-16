@@ -99,6 +99,75 @@ Recorder's terms are applied (see news_rss_articles). robots.txt allows
 `/trends/` and `/news/` (disallows `/search`, print views, some author pages).
 Requests at one per 3 s. Same full-text decision as news_rss_articles.
 
+### news_gdelt_index
+
+| | |
+|---|---|
+| Purpose | Index of historical PSX/KSE-100 articles (2017 onward) on Dawn, Tribune and Business Recorder: which articles existed and when GDELT saw them. Input to the text-recovery step (`news_wayback_backfill`, not built yet). No article text. |
+| Loader | `backend/jobs/news_gdelt.py`; nightly at 21:41 UTC and on demand via `.github/workflows/news_gdelt_backfill.yml` |
+| Fetch mode | `reproducible`: the API can be re-queried, but GDELT's index can change and it rate-limits heavily |
+| Location | HF `news/backfill/gdelt/`: `articles.parquet`, `windows.parquet` (status of every 30-day query window), `coverage_by_month.csv`, `raw/` (API responses), `runs/`, `manifest.json` |
+| Format | Parquet, one row per article: `article_id` (same scheme as news_rss), `url`, `canonical_url`, `title`, `seendate` (UTC; when GDELT saw it, **not** publish time), `domain`, `language`, `sourcecountry`, `socialimage`, `url_mobile`, `query_sha`, `window_start`, `first_fetched_at` |
+| Query | `("KSE-100" OR "KSE100" OR "Pakistan Stock Exchange")` restricted to `brecorder.com`, `dawn.com`, `tribune.com.pk`; `mode=artlist`, 30-day windows from 2017-01-01 |
+
+State on 2026-11-16: **8,946 articles**, seen 2017-01-01 to 2026-11-06;
+119 of 121 windows complete (still failing on rate limits: 2017-06-30 to
+07-30, and the current window). No window hit the 250-record cap.
+
+| Year | Business Recorder | Dawn | Tribune |
+|---|---|---|---|
+| 2017 | 341 | 636 | 623 |
+| 2018 | 0 | 591 | 545 |
+| 2019 | 0 | 462 | 510 |
+| 2020 | 4 | 440 | 411 |
+| 2021 | 0 | 451 | 463 |
+| 2022 | 0 | 461 | 304 |
+| 2023 | 235 | 340 | 128 |
+| 2024 | 398 | 270 | 258 |
+| 2025 | 371 | 187 | 282 |
+| 2026 | 0 | 30 | 205 |
+
+Coverage limits, to be stated wherever this is used:
+
+- **Business Recorder is missing from GDELT for 78 of 119 months**: nothing
+  for 2018 to early 2023 (4 articles in 2020) and nothing after 2025-11. This
+  is GDELT's coverage, not failed requests.
+- Dawn has 9 months with no articles; Tribune has none.
+- Coverage thins in 2026 (median 74 articles a month overall; 1 to 22 a month
+  from 2026-02 on). The RSS archive is the main source from 2026-11-08.
+- July 2017 is incomplete until its window succeeds.
+- Only articles matching the three phrases are listed: this is not all PSX
+  news, and "PSX" alone cannot be searched (GDELT rejects phrases under 4
+  characters).
+- GDELT counts a window's end date as a whole day, so items seen on a
+  window's last day also come back in the next window (deduplicated).
+
+**Terms and access** (read 2026-11-08, gdeltproject.org/about.html): "all
+datasets released by the GDELT Project are available for unlimited and
+unrestricted use for any academic, commercial, or governmental use of any
+kind without fee"; redistribution allowed; "any use or redistribution of the
+data must include a citation to the GDELT Project and a link to
+https://www.gdeltproject.org/". The API asks for at most one request every
+5 seconds; the job waits 10 s. Requests from shared IPs (cloud machines,
+GitHub's runners) are often refused with 429, so the backfill took a week of
+nightly retries.
+
+### news_finbert_sentiment (status: use under review, ADR-0005)
+
+| | |
+|---|---|
+| Purpose | Headline sentiment labels for the Sector Analyst, as in proposal FR-05. **ADR-0005 (Proposed) drops FinBERT**; until the team decides, this dataset is not used by anything. |
+| Loader | `backend/jobs/news_finbert.py` (run once, 2026-11-09; not scheduled) |
+| Fetch mode | `reproducible`: derived from the news datasets with a pinned model |
+| Location | HF `news/sentiment/finbert_0bc2ac10_t128/`: `scores.parquet`, `label_by_month.csv`, `spotcheck_sample.csv`, `runs/` |
+| Format | Parquet, one row per (`source_dataset`, `article_id`): `label`, `score_positive`, `score_negative`, `score_neutral`, `input_kind`, `n_input_tokens`, `truncated`, `model_name`, `model_revision`, `max_tokens`, `scored_at` |
+
+5,403 rows (RSS 299, Aaj 413, GDELT 4,691) scored with `ProsusAI/finbert`
+at revision `0bc2ac10` (model licence CC BY-NC-SA 4.0), title + start of
+body, 128 tokens. **Unvalidated:** the 60-row hand spot-check was not done.
+Known symptoms: almost no neutral labels for Aaj (2%); non-market stories
+labelled, often positive. Source datasets were read only.
+
 ### PSX Data Portal (dps.psx.com.pk): not collected
 
 Company announcements and filings (planned dataset `news_psx_announcements`)
