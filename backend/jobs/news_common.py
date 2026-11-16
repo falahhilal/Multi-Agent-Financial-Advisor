@@ -3,9 +3,9 @@
 * :func:`canonical_url` / :func:`article_id`: one id scheme across all news
   datasets, so the same article gets the same ``article_id`` everywhere.
 * :func:`html_to_text`, :func:`parse_published`, :func:`detect_language`.
-* :func:`parse_article`: article pages on the Business Recorder Group
-  platform (brecorder.com, english.aaj.tv): JSON-LD ``NewsArticle`` plus
-  ``div.story__content`` and ``div.story__tags``.
+* :func:`parse_article`: article pages on brecorder.com, english.aaj.tv and
+  dawn.com (JSON-LD ``NewsArticle`` plus ``div.story__content`` and
+  ``div.story__tags``) and tribune.com.pk (``span.story-text``).
 """
 
 from __future__ import annotations
@@ -154,7 +154,8 @@ def parse_article(html: bytes, url: str) -> dict[str, Any]:
     ]
     canon_tag = soup.find("link", rel="canonical")
     canonical = canonical_url(str(canon_tag["href"]) if canon_tag else url)
-    body = soup.select_one("div.story__content")
+    # Business Recorder Group / Dawn platform, then The Express Tribune.
+    body = soup.select_one("div.story__content") or soup.select_one("span.story-text")
     title = ld.get("headline") or _meta(soup, "og:title")
     lang = soup.html.get("lang") if soup.html else None
     return {
