@@ -97,8 +97,10 @@ ARTICLE_PATTERNS: dict[str, re.Pattern[str]] = {
 NOTES = (
     "Full text for the links in news_gdelt_index, fetched from the publishers' "
     "own sites (recovery_source='live'). One row per GDELT link, with a "
-    "status: ok, no_text (page loaded, no text found), gone (404/410: a "
-    "candidate for the Wayback Machine), failed (retried next run) or "
+    "status: ok, no_text (page loaded, no text found), gone (404/410, or a "
+    "'soft 404': the site answered 200 with its not-found page or redirected "
+    "to a non-article page; candidates for the Wayback Machine), failed "
+    "(retried next run) or "
     "skipped_not_article. published_at is the page's own date; The Express "
     "Tribune stamps the last update, so first_public_at = min(published_at, "
     "seendate) is the point-in-time key and published_after_seen flags rows "
@@ -186,6 +188,22 @@ def _base_row(
     }
 
 
+_NOT_FOUND_TITLE = re.compile(rb"<title>\s*(page not found|404)\b", re.I)
+
+
+#: Where an article request ends up on all three sites (slug optional).
+_ARTICLE_FINAL = re.compile(r"^https?://[^/]+/(news|story)/\d+(/|$)")
+
+
+def soft_gone(final_url: str, html: bytes) -> str | None:
+    """Why a 200 response is not the article (a 'soft 404'), or None."""
+    if not _ARTICLE_FINAL.match(final_url):
+        return "redirected to a non-article page"
+    if _NOT_FOUND_TITLE.search(html[:50_000]):
+        return "the page says it was not found"
+    return None
+
+
 def row_from_page(
     link: dict[str, Any],
     html: bytes,
@@ -196,9 +214,15 @@ def row_from_page(
     row = _base_row(link, fetched_at, attempts)
     f = parse_article(html, final_url)
     first, after = first_public(f["published_at"], link.get("seendate"))
+    status, error = ("ok" if f["full_text"] else "no_text"), None
+    if status == "no_text":  # never downgrade a page that has article text
+        reason = soft_gone(final_url, html)
+        if reason:
+            status, error = "gone", f"soft 404: {reason}"
     row.update(
         final_url=final_url,
-        status="ok" if f["full_text"] else "no_text",
+        status=status,
+        error=error,
         http_status=200,
         title=f["title"],
         published_at=f["published_at"],
@@ -312,6 +336,40 @@ def _read_existing(upload: bool) -> list[dict[str, Any]]:
     return pq.read_table(local, schema=SCHEMA).to_pylist() if local else []
 
 
+def _reparse_no_text(
+    rows: dict[str, dict[str, Any]], links: dict[str, dict[str, Any]], upload: bool
+) -> int:
+    """Re-read stored raw pages for 'no_text' rows (no request to the site).
+
+    Picks up parser fixes and soft-404 detection added after the page was
+    fetched. Returns how many rows changed status.
+    """
+    changed = 0
+    for aid, prev in list(rows.items()):
+        link = links.get(aid)
+        if prev["status"] != "no_text" or not prev["raw_file"] or link is None:
+            continue
+        raw: Path | None = LOCAL_ROOT / prev["raw_file"]
+        if raw is not None and not raw.is_file():
+            raw = hf_download(f"{HF_PREFIX}/{prev['raw_file']}") if upload else None
+        if raw is None:
+            continue
+        row = row_from_page(
+            link,
+            gzip.decompress(raw.read_bytes()),
+            prev["final_url"] or link["canonical_url"],
+            prev["fetched_at"],
+            prev["attempts"],
+        )
+        row["raw_file"] = prev["raw_file"]
+        if row["status"] != prev["status"]:
+            changed += 1
+        rows[aid] = row
+    if changed:
+        log.info("re-read stored pages: %d 'no_text' rows changed status", changed)
+    return changed
+
+
 def run(
     *,
     upload: bool,
@@ -326,6 +384,8 @@ def run(
         local = hf_download(GDELT_ARTICLES)
         links = pq.read_table(local).to_pylist() if local else []
     rows = {r["article_id"]: r for r in _read_existing(upload)}
+
+    reparsed = _reparse_no_text(rows, {x["article_id"]: x for x in links}, upload)
 
     queues: dict[str, list[dict[str, Any]]] = {}
     for link in sorted(links, key=lambda x: (x["domain"] or "", x["article_id"])):
@@ -409,6 +469,7 @@ def run(
         "fetched": fetched,
         "remaining": remaining,
         "stopped": stopped,
+        "reparsed_no_text": reparsed,
         "status_totals": dict(statuses),
         "by_domain": {
             d: dict(Counter(r["status"] for r in rows.values() if r["domain"] == d))
@@ -435,7 +496,8 @@ def run(
         )
     if statuses.get("gone"):
         warnings.append(
-            f"{statuses['gone']} links are gone (404/410): Wayback candidates"
+            f"{statuses['gone']} links are gone (404/410 or soft 404): "
+            "Wayback candidates"
         )
     if statuses.get("no_text"):
         warnings.append(f"{statuses['no_text']} pages loaded but no text was found")

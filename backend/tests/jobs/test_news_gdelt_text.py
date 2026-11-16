@@ -163,3 +163,45 @@ def test_breaker_stops_a_failing_site(
     ]
     gt.run(upload=False, limit=None, links=links)
     assert len(calls) == 3  # stopped after 3 failures in a row
+
+
+def test_soft_404_is_gone_and_old_rows_are_reclassified(
+    setup: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    not_found = b"<html><head><title>Page not found | The Express Tribune</title>"
+    home = b"<html><head><title>Latest News</title></head><body></body></html>"
+    url = "https://tribune.com.pk/story/9"
+    assert gt.soft_gone(url + "/1", not_found)
+    assert gt.soft_gone("https://tribune.com.pk/", home)
+    assert gt.soft_gone(url + "/some-slug", home) is None
+
+    links = [
+        _link("t8", "tribune.com.pk", "https://tribune.com.pk/story/8"),
+        _link("t9", "tribune.com.pk", url),
+    ]
+
+    def fake_get(u: str, **kw: Any) -> common.HttpResponse:
+        if u.endswith("/8"):  # redirected to the home page
+            return common.HttpResponse("https://tribune.com.pk/", 200, {}, home)
+        return common.HttpResponse(u + "/1", 200, {}, not_found)
+
+    monkeypatch.setattr(gt, "http_get", fake_get)
+    # Rows as an earlier version stored them: a 200 with no text was 'no_text'.
+    monkeypatch.setattr(gt, "soft_gone", lambda *a: None)
+    gt.run(upload=False, limit=None, links=links)
+    path = setup / "text" / "articles.parquet"
+    assert {r["status"] for r in pq.read_table(path).to_pylist()} == {"no_text"}
+
+    monkeypatch.undo()
+    monkeypatch.setattr(gt, "LOCAL_ROOT", setup / "text")
+    monkeypatch.setattr(common, "MANIFEST_DIR", setup / "manifests")
+
+    def no_network(u: str, **kw: Any) -> common.HttpResponse:
+        raise AssertionError("re-reading stored pages must not fetch")
+
+    monkeypatch.setattr(gt, "http_get", no_network)
+    gt.run(upload=False, limit=None, links=links)
+    rows = {r["article_id"]: r for r in pq.read_table(path).to_pylist()}
+    assert {k: r["status"] for k, r in rows.items()} == {"t8": "gone", "t9": "gone"}
+    assert rows["t8"]["error"].startswith("soft 404") and rows["t8"]["attempts"] == 1
+    assert rows["t9"]["http_status"] == 200 and rows["t9"]["raw_file"]
