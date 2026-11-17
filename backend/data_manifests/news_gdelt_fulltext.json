@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "id": "news_gdelt_fulltext",
+  "stream": "news",
+  "dataset": "gdelt_fulltext",
+  "source": "Article pages on dawn.com, tribune.com.pk and brecorder.com for the links in news_gdelt_index",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-16T17:58:16Z",
+  "script": "backend/jobs/news_gdelt_text.py",
+  "git_commit": "e909faca52cedb6dd1abb6be181518b72edb15a0",
+  "git_dirty": false,
+  "row_count": 8946,
+  "file_count": 8807,
+  "date_range": {
+    "min": "2016-01-11T02:25:30+00:00",
+    "max": "2026-11-06T09:30:00+00:00"
+  },
+  "files": [
+    {
+      "path": "news/backfill/gdelt_text/articles.parquet",
+      "bytes": 11141735,
+      "sha256": "7b885e5ec7f3a13782e5b45bf520546dc60d35d26c60d4e0c7731a5984ec4bb8"
+    },
+    {
+      "path": "news/backfill/gdelt_text/coverage_by_month.csv",
+      "bytes": 7829,
+      "sha256": "855355f64e7359bb51bb4864b425aa6000b53b7090b762a917b1add60d7f2c5b"
+    },
+    {
+      "path": "news/backfill/gdelt_text/runs/run-20261116T175318Z.json",
+      "bytes": 701,
+      "sha256": "7251db2ba72d0d4a46cbec0a04b69989d1433f8630905e8f2eaa46b6a1a60b58"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "news/backfill/gdelt_text/",
+  "hf_revision": "327ac80b31b0c91708be7e0cb99173623d8890a7",
+  "notes": "Full text for the links in news_gdelt_index, fetched from the publishers' own sites (recovery_source='live'). One row per GDELT link, with a status: ok, no_text (page loaded, no text found), gone (404/410, or a 'soft 404': the site answered 200 with its not-found page or redirected to a non-article page; candidates for the Wayback Machine), failed (retried next run) or skipped_not_article. published_at is the page's own date; The Express Tribune stamps the last update, so first_public_at = min(published_at, seendate) is the point-in-time key and published_after_seen flags rows where the page date was later than GDELT's sighting. Coverage is bounded by GDELT's index: Business Recorder is absent from it for most of 2018-2022 and after 2025-11. Site terms restrict reproduction (see docs/data-sources.md): private, non-commercial research use only.",
+  "warnings": [
+    "28 links are gone (404/410 or soft 404): Wayback candidates",
+    "5 pages loaded but no text was found"
+  ],
+  "extra": {
+    "last_run": {
+      "run_id": "20261116T175318Z",
+      "started_at": "2026-11-16T17:53:18Z",
+      "git": {
+        "commit": "e909faca52cedb6dd1abb6be181518b72edb15a0",
+        "dirty": false
+      },
+      "planned": 94,
+      "fetched": 94,
+      "remaining": 0,
+      "stopped": null,
+      "reparsed_no_text": 21,
+      "status_totals": {
+        "ok": 8781,
+        "skipped_not_article": 132,
+        "gone": 28,
+        "no_text": 5
+      },
+      "by_domain": {
+        "brecorder.com": {
+          "ok": 1266,
+          "skipped_not_article": 78,
+          "gone": 5
+        },
+        "dawn.com": {
+          "ok": 3823,
+          "skipped_not_article": 43,
+          "gone": 2
+        },
+        "tribune.com.pk": {
+          "ok": 3692,
+          "gone": 21,
+          "skipped_not_article": 11,
+          "no_text": 5
+        }
+      }
+    }
+  }
+}

@@ -103,7 +103,7 @@ Requests at one per 3 s. Same full-text decision as news_rss_articles.
 
 | | |
 |---|---|
-| Purpose | Index of historical PSX/KSE-100 articles (2017 onward) on Dawn, Tribune and Business Recorder: which articles existed and when GDELT saw them. Input to the text-recovery step (`news_wayback_backfill`, not built yet). No article text. |
+| Purpose | Index of historical PSX/KSE-100 articles (2017 onward) on Dawn, Tribune and Business Recorder: which articles existed and when GDELT saw them. Input to `news_gdelt_fulltext`, which fetches the article text. No article text here. |
 | Loader | `backend/jobs/news_gdelt.py`; nightly at 21:41 UTC and on demand via `.github/workflows/news_gdelt_backfill.yml` |
 | Fetch mode | `reproducible`: the API can be re-queried, but GDELT's index can change and it rate-limits heavily |
 | Location | HF `news/backfill/gdelt/`: `articles.parquet`, `windows.parquet` (status of every 30-day query window), `coverage_by_month.csv`, `raw/` (API responses), `runs/`, `manifest.json` |
@@ -151,6 +151,61 @@ https://www.gdeltproject.org/". The API asks for at most one request every
 5 seconds; the job waits 10 s. Requests from shared IPs (cloud machines,
 GitHub's runners) are often refused with 429, so the backfill took a week of
 nightly retries.
+
+### news_gdelt_fulltext
+
+| | |
+|---|---|
+| Purpose | Article text for the links in `news_gdelt_index`: the historical (2017 onward) retrieval corpus for the Sector Analyst and the Macro Agent, covering the backtest windows the RSS archive cannot reach. |
+| Loader | `backend/jobs/news_gdelt_text.py` (run on demand; re-runs fetch only links not yet settled and re-read stored pages for `no_text` rows) |
+| Fetch mode | `reproducible`: pages can be fetched again, but publishers edit and remove them |
+| Location | HF `news/backfill/gdelt_text/`: `articles.parquet`, `coverage_by_month.csv`, `raw/<domain>/<article_id>.html.gz` (unmodified pages), `runs/` |
+| Format | Parquet, one row per GDELT link: `article_id` (same as `news_gdelt_index`), `domain`, `url`, `final_url`, `status`, `http_status`, `error`, `gdelt_title`, `title`, `seendate`, `published_at` (UTC, from the page), `published_at_raw`, `published_tz`, `modified_at`, `first_public_at`, `published_after_seen`, `authors`, `summary`, `full_text`, `language`, `tags`, `recovery_source` (`live`), `fetched_at`, `raw_file`, `attempts` |
+| Point-in-time key | `first_public_at` = the earlier of the page's `published_at` and GDELT's `seendate` (Tribune stamps the last update as `datePublished`) |
+
+Collected 2026-11-16 from the publishers' own sites (three runs, about
+3.5 hours, one request every 3 s per site, 0 failed requests left).
+
+| Status | Business Recorder | Dawn | Tribune | Total |
+|---|---|---|---|---|
+| ok (text recovered) | 1,266 | 3,823 | 3,692 | **8,781** |
+| gone (404, or "page not found" / redirect to home page) | 5 | 2 | 21 | 28 |
+| no_text (page loaded, text not parsed) | 0 | 0 | 5 | 5 |
+| skipped (not an article: author, section, daily stock pages) | 78 | 43 | 11 | 132 |
+
+8,781 of 8,814 article links (99.6%) have text. Text by year
+(recovered / links): 2017 BR 259/264, Dawn 633/633, Tribune 619/621; no
+later year misses more than 13 links on one site (Tribune 2018: 530/543). Median
+73 articles a month across the three sites; 2026-10 and 2026-11 have fewer
+than 10. `first_public_at` runs from 2016-01-11 (7 older articles GDELT saw
+in 2017) to 2026-11-06. Median text length 2,100 to 3,400 characters by
+site; the shortest is 316.
+
+Known issues, to be handled by whoever reads this dataset:
+
+- **Coverage is GDELT's**: no Business Recorder text for 78 of 119 months
+  (2018 to early 2023, after 2025-11), because GDELT does not list them.
+- **Duplicates**: 7 pairs of rows have identical text. Three are 2017 BR
+  links with two slug variants of one article, one is a Dawn link that
+  redirects to another (1333244 → 1333101), three are adjacent Dawn/Tribune
+  ids the publisher posted twice. Deduplicate on `full_text` or `final_url`
+  before indexing.
+- Article ids for 2017 BR links come from the old `/YYYY/MM/DD/<id>` URL,
+  so they do not match the `/news/<id>` ids the RSS archive uses. No
+  overlap in dates, so nothing joins on them today.
+- 372 Tribune rows (and 5 Dawn) have a page date later than GDELT's
+  sighting; `published_after_seen` marks them and `first_public_at` uses
+  the sighting.
+- 48 Tribune rows have no `language` (page has no `lang` attribute); all
+  are English.
+- The 5 `no_text` rows are Tribune long-form pages with a different layout;
+  the raw pages are kept. The 28 `gone` rows are candidates for the Wayback
+  Machine, which this cloud machine cannot reach.
+
+**Terms and access**: same sites and terms as `news_rss_articles` (Dawn,
+Tribune, Business Recorder); robots.txt allows the article paths for our
+User-Agent. Same full-text decision: private, non-commercial academic
+research, never redistributed.
 
 ### news_finbert_sentiment (status: use under review, ADR-0005)
 
