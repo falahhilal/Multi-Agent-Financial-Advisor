@@ -41,8 +41,9 @@ Enforcement:
 - **Facilitator messages to Macro or Sector in Rounds 2 and 3 must be
   constraint-free.** Quoting a constraint back at a market agent breaks this
   rule even though no object moved. Pass rebuttal targets only.
-- `tests/isolation/` asserts all of the above. Not optional, never skipped,
-  never xfail.
+- Add and maintain `tests/isolation/` for these boundaries when the agent
+  implementation is introduced. The invariant tests are mandatory and must
+  never be skipped or xfailed.
 
 Why: the proposal's claim is that market analysis is unbiased by risk
 appetite (FR-03). If the profile leaks, RQ3 is unanswerable.
@@ -51,8 +52,8 @@ appetite (FR-03). If the profile leaks, RQ3 is unanswerable.
 
 When the planned claim-enforcement layer is implemented, every claim in
 agent output is extracted, matched against that run's retrieved passages, and
-recorded in the claim registry with its verdict. A
-claim with no matching passage is **blocked** — it does not reach the user —
+recorded in the claim registry with its verdict. A claim with no matching
+passage is **blocked** — it does not reach the user —
 and the block is **logged** with agent, round, claim text, timestamp and
 model version.
 
@@ -77,8 +78,9 @@ correlations, expected returns, ticker selection — all produced by
 `app/quant/`. The LLM writes prose *about* numbers the module returned, and
 may not state a figure the module did not return.
 
-`app/quant/` must not import any LLM client, LangChain, or any agent module.
-`tests/determinism/` walks the import graph and fails if it does. (NFR-08.)
+When `app/quant/` is implemented, it must not import any LLM client,
+LangChain, or any agent module. Add and maintain an import-graph test under
+the determinism tests to enforce this. (NFR-08.)
 
 ### 4. The ablation measures architecture, not plumbing
 
@@ -95,10 +97,11 @@ model version, embedding model, universe version, and config name.
 
 ### 5. Agents exchange validated schemas, not prose
 
-Every inter-agent message is a Pydantic model from `app/schemas/`. No agent
-parses another agent's free text. Schema changes are breaking changes:
-update `docs/agent-contracts.md`, the contract tests, and the generated
-frontend types in the same commit.
+Every inter-agent message must be a Pydantic model from `app/schemas/`; no
+agent may parse another agent's free text. Once these components are
+implemented, treat schema changes as breaking: update `docs/agent-contracts.md`
+(or establish that planned contract document), contract tests, and generated
+frontend types together.
 
 ### 6. No lookahead in anything historical
 
