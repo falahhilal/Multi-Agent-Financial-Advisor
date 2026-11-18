@@ -271,8 +271,11 @@ backend/universe/          committed. Universe file and changelog
    though the data is not.
 4. **Read the terms first.** Record licence, storage limits and
    automated-access rules in `docs/data-sources.md` before the first fetch.
-   If a source forbids storing article text, store headline, link and date
-   only. Never collect from a source whose terms forbid automated access.
+   PSX Data Portal scripted access, including `psxdata` prices and KSE-100
+   levels, is paused pending written permission; do not run those loaders
+   until permission is recorded in the data-source documentation. If a source
+   forbids storing article text, store headline, link and date only. Never
+   collect from a source whose terms forbid automated access.
 5. **One rerunnable loader per source,** with rate limiting and retries.
    `psxdata`, `yfinance` and similar are loaders, not runtime dependencies.
 6. **Gaps are logged, not hidden.** Missing days, failed fetches and
@@ -312,13 +315,16 @@ Proposed, so its proposed removal is not yet effective.
 **Observability** — LangSmith traces every LLM call, tool use and agent
 step, with model version and cost. (NFR-02, NFR-03.)
 
-**Data** — psxdata and yfinance `.KA` are one-time loaders into our own
-PostgreSQL/parquet store, not live request-path dependencies. SBP PDFs via
-pdfplumber, World Bank via wbgapi, FRED, NewsAPI. All ingestion runs in
-`jobs/` on a schedule; the request path only retrieves. Start archiving news
-headlines now — the free NewsAPI tier has roughly a month of history, which
-is not enough for the backtest windows. The archive job must run on a machine
-that stays on, not a laptop that sleeps.
+**Data** — data-source libraries are loaders into our PostgreSQL/parquet
+store, not live request-path dependencies. Scripted PSX Data Portal access,
+including `psxdata` prices and KSE-100 levels, remains paused pending written
+permission (see `docs/data-sources.md`); do not run these loaders until it is
+recorded. SBP PDFs via pdfplumber, World Bank via wbgapi, FRED, NewsAPI are
+planned sources subject to their terms. All ingestion runs in `jobs/` on a
+schedule; the request path only retrieves. Start archiving news headlines
+now — the free NewsAPI tier has roughly a month of history, which is not
+enough for the backtest windows. The archive job must run on a machine that
+stays on, not a laptop that sleeps.
 
 **Models** — production: a strong model for the Portfolio Constructor,
 cost-tiered models for Macro and Sector. Ablation: one fixed backbone across
