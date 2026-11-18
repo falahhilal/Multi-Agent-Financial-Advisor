@@ -215,8 +215,9 @@ the second needs concentration and turnover logic.
 **(h) The isolation rule has a leak path.** The Facilitator holds the
 constraints *and* talks to Macro and Sector during Rounds 2 and 3. If its
 prompts quote or paraphrase the constraints, isolation is broken in substance
-even though the profile object never moved. Hence Rule 1 in both instruction files explicitly forbids sending profile
-constraints to market agents; add tests for this boundary with orchestration.
+even though the profile object never moved. Hence Rule 1 in both instruction
+files explicitly forbids sending profile constraints to market agents; tests
+for that boundary should be added with orchestration.
 
 **(i) "Any claim" vs "any quantitative claim."** The shared Rule 2 in `CLAUDE.md` and `AGENTS.md`
 covers *any* claim; FR-06 says *quantitative*; §5 defines a claim as "any
