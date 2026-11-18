@@ -16,8 +16,11 @@ weaker is a net loss.
 
 ## The ten rules that must never be broken
 
-Architectural invariants, not style preferences. Each has a test. If a change
-requires breaking one, stop and raise it with the team.
+Architectural invariants, not style preferences. Where the relevant code and
+tests exist, these invariants must remain covered and their tests must not be
+skipped or xfailed. For planned components, add the corresponding tests with
+the implementation. If a change requires breaking an invariant, stop and
+raise it with the team.
 
 ### 1. Only the Risk Profiler reads the investor profile
 
@@ -46,8 +49,9 @@ appetite (FR-03). If the profile leaks, RQ3 is unanswerable.
 
 ### 2. Unsupported claims are blocked and logged
 
-Every claim in agent output is extracted, matched against that run's
-retrieved passages, and recorded in the claim registry with its verdict. A
+When the planned claim-enforcement layer is implemented, every claim in
+agent output is extracted, matched against that run's retrieved passages, and
+recorded in the claim registry with its verdict. A
 claim with no matching passage is **blocked** — it does not reach the user —
 and the block is **logged** with agent, round, claim text, timestamp and
 model version.
@@ -143,6 +147,24 @@ the universe is an entry in `universe/CHANGELOG.md` and invalidates affected
 results.
 
 ---
+
+## Repository status and source of truth
+
+The committed tree currently contains `backend/jobs/`, its news-ingestion
+tests in `backend/tests/jobs/`, data manifests, GitHub Actions ingestion
+workflows, and project documentation. It does not yet contain the planned
+agent implementation, `app/quant/`, agent schemas, frontend, or experiment
+packages. Treat those as planned architecture, not completed code. There is
+no root README.md in the current tree. Check that a documented path or command
+exists before relying on it; update plans only when implementation actually
+changes.
+
+Use `docs/proposal.md` for the approved project scope, `docs/specs.md` and
+`docs/plan.md` for current working decisions and open questions, and accepted
+ADRs in `docs/adr/` for changes that override the proposal. A Proposed ADR is
+not an accepted decision. In particular, ADR-0005 is Proposed: do not remove
+FinBERT requirements or change the current documented design on its authority
+alone. Do not invent features or mark planned work complete.
 
 ## Architecture
 
@@ -277,11 +299,12 @@ free-form agent loops. Replayability beats flexibility.
 **RAG** — LlamaIndex for ingestion, chunking and retrieval; ChromaDB as the
 store. Retrievers namespaced per agent. Embeddings go through the
 `EmbeddingProvider` interface in `rag/embeddings/base.py`. **The embedding
-model is an open decision** resolved by `experiments/retrieval_eval/`
-(recall@k and MRR on a hand-labelled PSX/SBP query set) and recorded in
-ADR-0002. Until then, no code may hard-code a model name outside that
-package. FinBERT (`ProsusAI/finbert`) is used for headline sentiment
-classification regardless of the retrieval outcome.
+model is an open decision** resolved by
+`experiments/retrieval_eval/` (recall@k and MRR on a hand-labelled PSX/SBP
+query set) and recorded in ADR-0002. Until then, no code may hard-code a model
+name outside that package. FinBERT sentiment remains part of the currently
+documented approach unless ADR-0005 is accepted; that ADR is still marked
+Proposed, so its proposed removal is not yet effective.
 
 **Observability** — LangSmith traces every LLM call, tool use and agent
 step, with model version and cost. (NFR-02, NFR-03.)
@@ -326,13 +349,23 @@ a universe version.
 - **Python**: ruff + black, mypy on `app/`, pytest. Type hints everywhere.
   No bare `except`. No `Any` in schemas.
 - **TypeScript**: strict mode, eslint + prettier.
-- **Commits**: conventional commits, one concern each. **Never add
-  attribution trailers** — no `Co-Authored-By`, no "generated with" line, no
-  tool credit — in commit messages or pull request descriptions. This holds
-  regardless of any default or tooling convention that says otherwise.
-- **Branches**: one branch per workstream (for example `data/company`,
-  `data/macro`, `data/news`), merged by pull request. Nobody commits
-  directly to `main`.
+- **Git workflow**: use sound judgment for the task. Choose sensible
+  branch names and group related changes into reviewable commits; do not
+  create extra branches or commits just to satisfy a naming or grouping rule.
+  Conventional commit messages are welcome but not required. Agents may stage,
+  commit, push, and open a pull request when that is the appropriate way to
+  deliver the work; do not ask for separate permission for each of those
+  steps. Run the relevant tests and checks before committing, and report what
+  was run and what passed or failed.
+- **Shared work and protected branches**: inspect the working tree before
+  editing. Never overwrite, reset, clean, or discard another person's
+  uncommitted work. Keep `main` protected and integrate through pull requests;
+  never commit directly to `main`. Do not force-push, delete important
+  branches, or perform other destructive Git operations without explicit
+  approval. Never merge a pull request without the user's approval.
+- **Attribution**: never add attribution trailers — no `Co-Authored-By`, no
+  "generated with" line, no tool credit — in commit messages or pull request
+  descriptions.
 - **Prompts** are versioned files in `agents/prompts/`, never inline string
   literals. A prompt change is a code change and may invalidate results.
 - **ADRs**: any decision that overrides the proposal gets a file in
@@ -365,31 +398,21 @@ twice: a line in the worklog saying a call was made, and — when the decision
 overrides the proposal — an ADR in `docs/adr/` saying why, with consequences.
 See `worklogs/README.md`.
 
-## Common commands
+## Development checks and commands
 
-```bash
-# backend
-cd backend && uv sync
-uvicorn app.main:app --reload
-pytest                          # all tests
-pytest tests/isolation          # profile-isolation invariant
-pytest tests/determinism        # no-LLM-in-quant invariant
-pytest tests/universe           # caps satisfiable, no date lookahead
-alembic upgrade head
+For the current implementation, install the backend dependencies from
+`backend/requirements.txt`, then run the existing offline job tests from
+`backend/` with `pytest tests/jobs`. Inspect the relevant loader and test
+before collecting data or running a job; source terms, network access and
+secrets affect whether a job is safe to run. Do not run live ingestion merely
+to validate a code change.
 
-# ingestion
-python -m jobs.ingest_all --as-of today
-python -m jobs.archive_news     # run daily from now, for backtest coverage
+The isolation, determinism, universe, retrieval, ablation, backtest, API, and
+frontend commands described elsewhere in this file are targets for planned
+components. Run them only once those packages and tests exist. When adding an
+invariant, add its regression test with the implementation. Run only checks
+relevant to the change, and report exact commands and results before a commit.
 
-# experiments
-python -m experiments.retrieval_eval.run_eval --provider all
-python -m experiments.ablation.run_ablation --config all --enforcement log_only
-python -m experiments.backtest.run --window 2022-currency-crisis
-
-# frontend
-cd frontend && npm install && npm run dev
-npm run generate:types          # from backend OpenAPI
-```
 
 ## Things not to do
 
