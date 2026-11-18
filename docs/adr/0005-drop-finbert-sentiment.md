@@ -70,9 +70,9 @@ Do not use FinBERT sentiment labels anywhere in the system.
 
 ## What changes if accepted
 
-1. `CLAUDE.md`: remove "FinBERT news" from the Sector Analyst inputs (agents
-   table), and the sentence "FinBERT (`ProsusAI/finbert`) is used for headline
-   sentiment classification regardless of the retrieval outcome."
+1. `CLAUDE.md` and `AGENTS.md`: remove "FinBERT news" from the Sector
+   Analyst inputs (agents tables), and the sentence requiring FinBERT for
+   headline sentiment classification.
 2. `docs/specs.md` and `docs/plan.md`: remove FinBERT sentiment from the
    Sector Analyst inputs, Stream C item 7, the Step 1 "done when" condition,
    and the proposed `sentiment/finbert.py` module.

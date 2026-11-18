@@ -13,9 +13,14 @@ Two views live in this file:
 - **Part B, detailed view:** every step broken into tasks, with a definition
   of done.
 
-`proposal.md` stays the submitted record. Where this plan or `specs.md`
-overrides it, an ADR records why. `CLAUDE.md` holds the hard rules and wins
-over this file if they disagree.
+`proposal.md` stays the submitted scope. Accepted ADRs record approved
+deviations. `specs.md` and this plan record working decisions and open
+questions. `CLAUDE.md` governs Claude Code-specific instructions; root
+`AGENTS.md` is Codex's primary instruction file. Shared requirements in both
+must stay aligned, and neither tool-specific file overrides these project
+sources. If the proposal, an accepted ADR, the specification, or this plan
+conflict without a clear resolution, raise the issue rather than treating
+`CLAUDE.md` or `AGENTS.md` as the authority.
 
 ---
 

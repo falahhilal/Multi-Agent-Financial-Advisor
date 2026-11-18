@@ -8,10 +8,15 @@ Order of work and definitions of done: `docs/plan.md`.
 Decisions that override the proposal are in `docs/adr/`. Read these before
 changing architecture.
 
-This file applies automatically to work in this repository. Read it before
-editing. `CLAUDE.md` is the parallel instruction file for Claude Code; keep
-shared project requirements and Git rules aligned between the two. Do not
-copy Claude-specific settings or assume they configure Codex.
+Codex uses this root `AGENTS.md` as its primary repository instruction
+file. Claude Code uses `CLAUDE.md` for Claude-specific instructions. Shared
+project requirements in both files must stay aligned. The project documents
+govern shared decisions: the proposal defines approved scope, accepted ADRs
+record approved deviations, and `docs/specs.md` plus `docs/plan.md` record
+working decisions and open questions. Neither tool-specific file overrides
+those project sources or the other tool's tool-specific instructions. If the
+project documents leave a conflict unresolved, raise it rather than choosing
+an instruction file as the authority.
 
 This is a **research** project before it is a product. The deliverable that
 matters most is a controlled ablation measuring hallucination rate and
@@ -38,8 +43,8 @@ stop. The Debate Facilitator and the Portfolio Constructor see the derived
 profile, never the questionnaire answers, never the capital amount.
 
 Enforcement:
-- `InvestorProfile` must be constructed only in the onboarding path and the
-  Risk Profiler. No other module may import it.
+- When implemented, construct `InvestorProfile` only in the onboarding
+  path and the Risk Profiler. No other module may import it.
 - Agents receive narrowed views from `orchestration/state.py`.
   `MarketAgentView` has no profile field and no constraints field.
 - The profile is never embedded, never written to the vector store, never
@@ -364,6 +369,9 @@ a universe version.
 - **Python**: ruff + black, mypy on `app/`, pytest. Type hints everywhere.
   No bare `except`. No `Any` in schemas.
 - **TypeScript**: strict mode, eslint + prettier.
+- **Claude Code settings**: `.claude/settings.json` applies only to Claude
+  Code. It does not configure or grant permissions to Codex; use Codex's own
+  permissions and `AGENTS.md` for Codex work.
 - **Git workflow**: use sound judgment for the task. Choose sensible
   branch names and group related changes into reviewable commits; do not
   create extra branches or commits just to satisfy a naming or grouping rule.
@@ -389,13 +397,13 @@ a universe version.
 
 ## Worklogs
 
-Every working session ends with a file in `worklogs/`, named
+Every working session ends with a file in `worklogs/` named
 `YYYY-MM-DD-person-short-slug.md` (for example
-`2026-11-08-falah-company-prices.md`), copied from `worklogs/TEMPLATE.md`:
-decisions taken, work done, problems found, what is still open, what the next
-session should do. Write it at the end of the session — the value is the date
-on it. Putting the first name in the filename means three people working on
-the same day never collide in git. Older worklogs keep their original names.
+`2026-11-08-falah-company-prices.md`). Use the date the session started and
+the first name of the primary author in the filename; list everyone who
+worked in the `Who:` line. Use a distinct short slug if the same person has
+multiple sessions on one day. Copy `worklogs/TEMPLATE.md` and write the
+worklog at the end of the session. Older worklogs keep their original names.
 
 **Every worklog names people.** A `Who:` line listing whoever worked the
 session is mandatory — a worklog with no name on it is incomplete. Beyond
