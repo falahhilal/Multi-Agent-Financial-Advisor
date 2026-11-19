@@ -1,0 +1,130 @@
+version: psx_v1
+companies:
+  - ticker: HBL
+    name: Habib Bank Limited
+    sector: Commercial Banks
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: UBL
+    name: United Bank Limited
+    sector: Commercial Banks
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: MEBL
+    name: Meezan Bank Limited
+    sector: Commercial Banks
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: OGDC
+    name: Oil & Gas Development Company Limited
+    sector: Oil & Gas Exploration
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: PPL
+    name: Pakistan Petroleum Limited
+    sector: Oil & Gas Exploration
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: MARI
+    name: Mari Petroleum Company Limited
+    sector: Oil & Gas Exploration
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: LUCK
+    name: Lucky Cement Limited
+    sector: Cement
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: DGKC
+    name: D.G. Khan Cement Company Limited
+    sector: Cement
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: MLCF
+    name: Maple Leaf Cement Factory Limited
+    sector: Cement
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: FFC
+    name: Fauji Fertilizer Company Limited
+    sector: Fertilizer
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: EFERT
+    name: Engro Fertilizers Limited
+    sector: Fertilizer
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: ENGRO
+    name: Engro Corporation Limited
+    sector: Fertilizer
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: SYS
+    name: Systems Limited
+    sector: Technology & Communication
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: TRG
+    name: TRG Pakistan Limited
+    sector: Technology & Communication
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: NETSOL
+    name: NetSol Technologies Limited
+    sector: Technology & Communication
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: ILP
+    name: Interloop Limited
+    sector: Textile
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: NML
+    name: Nishat Mills Limited
+    sector: Textile
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+  - ticker: GATM
+    name: Gul Ahmed Textile Mills Limited
+    sector: Textile
+    board_lot: null
+    listed_from: null
+    listed_to: null
+    data_available: null
+cash:
+  ticker: CASH

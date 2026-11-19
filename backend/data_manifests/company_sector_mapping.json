@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "company_sector_mapping",
+  "stream": "company",
+  "dataset": "sector_mapping",
+  "source": "Project-supplied canonical sector labels in backend/universe/psx_v1.yaml",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-19T16:59:04Z",
+  "script": "backend/jobs/company_sector_mapping.py",
+  "git_commit": "738e7bff2fd80b035f03e30d0caed11965c037c2",
+  "git_dirty": true,
+  "row_count": 18,
+  "file_count": 1,
+  "date_range": null,
+  "files": [
+    {
+      "path": "processed/company/sector_mapping.csv",
+      "bytes": 1517,
+      "sha256": "8b2717019356bf738c61f942c78093e59710a80d8c6887d09503e86ec63f76f6"
+    }
+  ],
+  "hf_repo": null,
+  "hf_repo_type": null,
+  "hf_path": null,
+  "hf_revision": null,
+  "notes": "Deterministic reference export only. Generated from the committed universe; no external data was collected and the file has not been uploaded to Hugging Face.",
+  "warnings": [
+    "uncommitted changes in working tree: git_commit may not reproduce this run"
+  ],
+  "extra": {
+    "universe_version": "psx_v1",
+    "ticker_coverage": [
+      "DGKC",
+      "EFERT",
+      "ENGRO",
+      "FFC",
+      "GATM",
+      "HBL",
+      "ILP",
+      "LUCK",
+      "MARI",
+      "MEBL",
+      "MLCF",
+      "NETSOL",
+      "NML",
+      "OGDC",
+      "PPL",
+      "SYS",
+      "TRG",
+      "UBL"
+    ],
+    "storage_status": "local_generated_not_uploaded"
+  }
+}

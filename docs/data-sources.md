@@ -11,6 +11,47 @@ Entries are grouped by stream. Each stream owner edits only their section.
 
 ---
 
+## Company data stream (owner: Falah) — collection not authorized yet
+
+The canonical 18-ticker sector mapping is supplied in
+`backend/universe/psx_v1.yaml`. Its deterministic CSV export is generated from
+that file; sector names must not be inferred or replaced.
+
+**Market-data collection status: paused.** Scripted PSX Data Portal access,
+including `psxdata`, remains paused pending written permission. PSX advertises
+EOD and historical OHLCV products and corporate announcements through PUCARS;
+the project's permission requirement also applies to automated retrieval,
+retention, team access, and HF storage. The PSX Data Services page lists
+licensed vendor routes, but no vendor license has been reviewed or approved
+for this project ([PSX Data Services](https://www.psx.com.pk/psx/product-and-services/data-services-vending)).
+
+EODHD's public documentation lists a Karachi (`KAR`) exchange and EOD, split,
+dividend, and fundamentals APIs. This is a candidate for coverage review only:
+coverage for every project ticker is unverified, its data-quality warranty is
+limited, and its standard personal-use terms do not permit sharing data with
+the project team or redistributing it to the private HF dataset. Its academic
+offering requires written confirmation covering this project's team access,
+storage, retention, and research outputs before any use. Yahoo Finance via
+`yfinance` is not approved as a fallback: it is an unofficial personal-use
+wrapper and does not establish complete PSX coverage or project storage rights.
+See [EODHD's KAR listing](https://eodhd.com/exchange/KAR), [personal-use
+limits](https://eodhd.com/help/personal-use), and [academic research
+offer](https://eodhd.com/lp/universities); see the [yfinance terms
+guidance](https://github.com/ranaroussi/yfinance/blob/main/README.md).
+
+Fundamentals should prefer issuer-published reports only after access and
+retention terms are checked per issuer. Machine-readable historical coverage
+for the 18 tickers has not been established. PSX PUCARS/portal automation is
+not an approved substitute.
+
+No company price, corporate-action, or fundamentals data has been fetched.
+The offline schemas and quality rules live in `backend/jobs/company_data.md`;
+quality checks requiring a trading calendar, source event history, expected
+metrics, or stale-age policy remain unevaluated. Do not run an ingestion job
+or upload company market data until the source and its rights are documented.
+
+---
+
 ## News & text stream (owner: Maryam)
 
 ### news_rss_articles
