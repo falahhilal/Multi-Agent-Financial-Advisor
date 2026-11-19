@@ -2,7 +2,7 @@
 
 One entry per dataset: purpose, format, consuming agent, where it lives, how
 it is fetched, and the source's terms (checked **before** collecting; see
-CLAUDE.md, Data collection rule 4). A dataset is not "collected" until it has
+Rule 4 in `CLAUDE.md` and `AGENTS.md`). A dataset is not "collected" until it has
 an entry here. Data lives in the private HF dataset `fyp-psx-advisor/fyp-data`
 (`news/`, `company/`, `macro/`, one folder per stream); manifests are in
 `backend/data_manifests/<stream>_<dataset>.json`.

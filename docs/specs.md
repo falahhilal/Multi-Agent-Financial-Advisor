@@ -4,9 +4,14 @@ Working specification derived from `proposal.md` during the planning pass of
 11–12 Oct 2026. This file records what the system is, what the proposal left
 unresolved, which decisions have been taken since, and what is still open.
 
-`../CLAUDE.md` holds the hard rules and is the document code must obey.
-This file holds the reasoning behind them. When the two disagree,
-`CLAUDE.md` wins and this file should be corrected.
+`../CLAUDE.md` governs Claude Code-specific instructions; the root
+`../AGENTS.md` is Codex's primary instruction file. Their shared requirements
+must stay aligned, and neither tool-specific file overrides the other or
+settles a project-level disagreement. The proposal defines scope, accepted
+ADRs record approved deviations, and this specification and `plan.md` record
+working decisions and open questions. If these project sources conflict or
+leave a question unresolved, raise it for resolution rather than inferring an
+answer from `CLAUDE.md` or `AGENTS.md`.
 
 - **Project**: FYP, FAST National University Karachi, session FALL 2026
 - **Team**: Falah Hilal (lead, 23K-3031), Mahrukh Shariq (23K-3023), Maryam Asif (23K-0505)
@@ -210,15 +215,16 @@ the second needs concentration and turnover logic.
 **(h) The isolation rule has a leak path.** The Facilitator holds the
 constraints *and* talks to Macro and Sector during Rounds 2 and 3. If its
 prompts quote or paraphrase the constraints, isolation is broken in substance
-even though the profile object never moved. Hence the explicit sub-rule and
-test in `CLAUDE.md` Rule 1.
+even though the profile object never moved. Hence Rule 1 in both instruction
+files explicitly forbids sending profile constraints to market agents; tests
+for that boundary should be added with orchestration.
 
-**(i) "Any claim" vs "any quantitative claim."** The requested CLAUDE.md rule
+**(i) "Any claim" vs "any quantitative claim."** The shared Rule 2 in `CLAUDE.md` and `AGENTS.md`
 covers *any* claim; FR-06 says *quantitative*; §5 defines a claim as "any
 numerical or factual statement." Enforcing hard-block on arbitrary factual
 prose requires atomic claim decomposition (reference [7] is exactly about
 this) and produces false positives that block valid output. Resolved in
-`CLAUDE.md` Rule 2: hard-block numeric and directly-attributable claims,
+Rule 2 in `CLAUDE.md` and `AGENTS.md`: hard-block numeric and directly-attributable claims,
 log-and-flag qualitative ones, and state the distinction in the thesis.
 
 **(j) No defined instruments for the two subjective measures.** "Explanation
@@ -344,6 +350,7 @@ not by discipline.
 ```
 FYP/
 ├── CLAUDE.md
+├── AGENTS.md
 ├── README.md
 ├── docker-compose.yml              # postgres, chroma, backend, frontend
 ├── .github/workflows/ci.yml        # lint, typecheck, pytest, invariant tests
