@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "id": "news_nation_archive",
+  "stream": "news",
+  "dataset": "nation_archive",
+  "source": "The Nation daily sitemaps <https://www.nation.com.pk/sitemap_YYYY-MM-DD.xml> and article pages",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-20T17:26:45Z",
+  "script": "backend/jobs/news_nation_archive.py",
+  "git_commit": "e1d4a9fe8d624926592103163e1c9d1cf8ca5504",
+  "git_dirty": false,
+  "row_count": 0,
+  "file_count": 322594,
+  "date_range": null,
+  "files": [
+    {
+      "path": "news/backfill/nation/days.parquet",
+      "bytes": 21692,
+      "sha256": "63b9cac63098a636bcc3dd9a2f916017eed145954dd68c420cd34f8cac3d8cd6"
+    },
+    {
+      "path": "news/backfill/nation/links.parquet",
+      "bytes": 19682814,
+      "sha256": "9ddaf019015961e0e90bee392fed79871e945e12fbf9fbdd9576c0290276f764"
+    },
+    {
+      "path": "news/backfill/nation/runs/run-20261120T154005Z-index.json",
+      "bytes": 572,
+      "sha256": "2567d7dc2b82d266dec1abbda4a95634a258038d2076fba0c5af8ef32594a6b4"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "news/backfill/nation/",
+  "hf_revision": "db57f55227ad953757d5d70c3fa46ae8e6ece362",
+  "notes": "The Nation's daily sitemaps (one per day, 2017 onward) and the market articles picked from them by URL slug (SLUG_RE, rule in slug_rule), fetched from nation.com.pk. links.parquet lists every article link in the sitemaps (all sections); articles.parquet one row per picked link with a status: ok, no_text, gone (404/410) or failed (retried). is_market marks pages naming the PSX/KSE/a stock exchange; the slug filter misses market stories whose URL has none of its words. first_public_at = min(page published_at, end of the URL's day in PKT) is the point-in-time key. Terms: academic, non-commercial use allowed; private dataset, not redistributed.",
+  "warnings": [
+    "index: stopped early (time budget reached); re-run to continue",
+    "index: 1434 days not yet read"
+  ],
+  "extra": {
+    "last_run": {
+      "step": "index",
+      "days_listed_in_range": 3491,
+      "calendar_days_in_range": 3610,
+      "days_not_in_sitemap_index": 119,
+      "days_read_this_run": 2057,
+      "days_remaining": 1434,
+      "day_status": {
+        "ok": 2057
+      },
+      "days_in_range_ok": 2057,
+      "links": 322594,
+      "stopped": "time budget reached",
+      "revision": "da69f44594b280b93d9594e783d00f17907fddd4",
+      "run_id": "20261120T154005Z",
+      "started_at": "2026-11-20T15:40:05Z",
+      "start": "2017-01-01",
+      "end": "2026-11-19",
+      "git": {
+        "commit": "e1d4a9fe8d624926592103163e1c9d1cf8ca5504",
+        "dirty": false
+      }
+    },
+    "slug_re": "(?:^|-)(psx|kse|kse100|stocks?|shares?|bourse|equit(?:y|ies)|bull(?:ish|s)?|bear(?:ish|s)?|index|points?|investors?|trading|traded|market|markets)(?:-|$)",
+    "market_re": "\\b(PSX|KSE[- ]?(100|30|All)?|Pakistan Stock Exchange|Karachi Stock Exchange|stock exchange|stock market|bourse)\\b",
+    "row_count_is": "articles.parquet rows (picked links)",
+    "file_count_is": "links.parquet rows (all article links in sitemaps)"
+  }
+}
