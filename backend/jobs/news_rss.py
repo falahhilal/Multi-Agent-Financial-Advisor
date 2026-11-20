@@ -100,7 +100,10 @@ NOTES = (
     "when the feed includes it. Business Recorder's RSS shows only 30 items and "
     "publishes in bursts, so its news sitemap (100 latest) is also read each run "
     "and missing articles are fetched from their pages (feed_role='sitemap', "
-    "full_text_source='article_page'). "
+    "full_text_source='article_page'). Feeds with fetch_pages (The Nation) "
+    "carry only a summary, so each new item's article page is fetched for its "
+    "full text (full_text_source='article_page'; title, date and summary stay "
+    "the feed's). "
     "language is the feed-declared code, or 'ur' "
     "when the title is mostly Arabic script. tickers_mentioned is empty until "
     "tagging is built."
@@ -159,6 +162,12 @@ class Feed:
     filter_re: re.Pattern[str] | None
     canonical_id_re: re.Pattern[str] | None
     store_full_text: bool
+    #: Fetch each new item's article page for its full text (feeds that carry
+    #: only a summary). Capped per run; failures and the rest wait for the
+    #: next run, so the feed's window must be longer than a few runs.
+    fetch_pages: bool = False
+    max_page_fetch: int = 40
+    page_min_interval: float = 3.0
 
 
 @dataclass(frozen=True)
@@ -206,6 +215,9 @@ def load_config(path: Path = CONFIG_PATH) -> Config:
         if not f["url"].startswith("https://"):
             raise ValueError(f"feed {f['name']}: url must be https")
         pattern = f.get("canonical_id_pattern")
+        fetch_pages = bool(f.get("fetch_pages", False))
+        if fetch_pages and not f.get("store_full_text", True):
+            raise ValueError(f"feed {f['name']}: fetch_pages needs store_full_text")
         feeds.append(
             Feed(
                 name=f["name"],
@@ -218,6 +230,9 @@ def load_config(path: Path = CONFIG_PATH) -> Config:
                 ),
                 canonical_id_re=re.compile(pattern) if pattern else None,
                 store_full_text=bool(f.get("store_full_text", True)),
+                fetch_pages=fetch_pages,
+                max_page_fetch=int(f.get("max_page_fetch_per_run", 40)),
+                page_min_interval=float(f.get("page_min_interval_seconds", 3.0)),
             )
         )
     sitemaps = []
@@ -459,6 +474,61 @@ def process_sitemap(
     return records, stats, files, warnings
 
 
+def fetch_feed_pages(
+    feed: Feed,
+    recs: list[dict[str, Any]],
+    *,
+    run_id: str,
+    fetch_date: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any], list[Path], list[str]]:
+    """Add full text from the article page to new items of a ``fetch_pages`` feed.
+
+    Returns (records to write, stats, files written, warnings). Items over the
+    per-run cap, and items whose page could not be fetched, are not returned:
+    they are still in the feed next run and are tried again then. The feed's
+    own title, date and summary are kept (first sighting); the page adds
+    ``full_text`` and, if the feed has none, the author.
+    """
+    stats = {"page_fetched": 0, "page_failed": 0, "page_deferred": 0, "page_no_text": 0}
+    files: list[Path] = []
+    warnings: list[str] = []
+    done: list[dict[str, Any]] = []
+    raw_dir = LOCAL_ROOT / "raw" / f"fetch_date={fetch_date}"
+    if len(recs) > feed.max_page_fetch:
+        stats["page_deferred"] = len(recs) - feed.max_page_fetch
+        warnings.append(
+            f"{feed.name}: {stats['page_deferred']} new items left for the next run "
+            f"(max_page_fetch_per_run={feed.max_page_fetch})"
+        )
+    for rec in recs[: feed.max_page_fetch]:
+        try:
+            page = http_get(rec["canonical_url"], min_interval=feed.page_min_interval)
+        except (HttpError, RobotsDisallowedError) as exc:
+            stats["page_failed"] += 1
+            warnings.append(f"{feed.name}: article {rec['canonical_url']}: {exc}")
+            continue
+        files.append(
+            _write_new(
+                raw_dir / f"{run_id}_{feed.name}_{rec['article_id']}.html.gz",
+                gzip.compress(page.content, mtime=0),
+            )
+        )
+        f = parse_article(page.content, page.url)
+        stats["page_fetched"] += 1
+        if not f["full_text"]:
+            stats["page_no_text"] += 1
+            warnings.append(f"{feed.name}: no text found on {rec['canonical_url']}")
+        done.append(
+            {
+                **rec,
+                "full_text": f["full_text"],
+                "full_text_source": "article_page" if f["full_text"] else None,
+                "author": rec["author"] or ", ".join(f["authors"]) or None,
+            }
+        )
+    return done, stats, files, warnings
+
+
 # --------------------------------------------------------------------------
 # Index (dedupe state)
 # --------------------------------------------------------------------------
@@ -639,14 +709,34 @@ def run(config: Config, *, upload: bool, only: set[str] | None = None) -> int:
         )
         log.error("index load failed: %s", exc)
     seen = set(index.column("article_id").to_pylist())
+    by_name = {f.name: f for f in feeds}
     new_records: list[dict[str, Any]] = []
+    need_page: dict[str, list[dict[str, Any]]] = {}
     dupes = 0
     for rec in records:
         if rec["article_id"] in seen:
             dupes += 1
             continue
         seen.add(rec["article_id"])
-        new_records.append(rec)
+        if by_name[rec["feed_name"]].fetch_pages:
+            need_page.setdefault(rec["feed_name"], []).append(rec)
+        else:
+            new_records.append(rec)
+    if index_ok:  # pages only for items known to be new
+        for name, recs in need_page.items():
+            done, st, files, warns = fetch_feed_pages(
+                by_name[name], recs, run_id=run_id, fetch_date=fetch_date
+            )
+            new_records.extend(done)
+            run_files.extend(files)
+            warnings.extend(warns)
+            feed_stats[name].update(st)
+            done_ids = {r["article_id"] for r in done}
+            seen.difference_update(
+                r["article_id"] for r in recs if r["article_id"] not in done_ids
+            )
+            log.info("%s: article pages %s", name, st)
+    for rec in new_records:
         feed_stats[rec["feed_name"]]["new"] = (
             feed_stats[rec["feed_name"]].get("new", 0) + 1
         )

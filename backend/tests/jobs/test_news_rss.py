@@ -121,7 +121,7 @@ def test_headline_only_mode_drops_text() -> None:
 def test_config_loads() -> None:
     cfg = news_rss.load_config()
     assert {f.role for f in cfg.feeds} == {"primary", "filter", "test"}
-    assert len(cfg.feeds) == 7
+    assert len(cfg.feeds) == 8
 
 
 def test_run_local_is_idempotent(
@@ -271,3 +271,112 @@ def test_sitemap_cap_defers_rest(
         fetch_date="d",
     )
     assert len(recs) == 1 and stats["capped"] == 2 and "next run" in warns[0]
+
+
+def test_config_has_nation_with_page_fetch() -> None:
+    cfg = news_rss.load_config()
+    nation = {f.name: f for f in cfg.feeds}["nation_business"]
+    assert nation.fetch_pages and nation.store_full_text and nation.max_page_fetch > 0
+    assert not any(f.fetch_pages for f in cfg.feeds if f.name != "nation_business")
+
+
+def _nation_page(n: int) -> bytes:
+    return (
+        b'<html lang="en-us"><head><script type="application/ld+json">'
+        b'{"@type": "NewsArticle", "headline": "Page %d",'
+        b' "datePublished": "2026-11-20T01:37:00+05:00",'
+        b' "author": {"name": "NEWS WIRE"}}</script></head><body>'
+        b'<div class="news-detail-content-class"><p>Body %d.</p>'
+        b'<div id="div-gpt-ad-1"><script>ad()</script></div>'
+        b'<div class="oembed_ltr"><a>Other story headline</a></div>'
+        b"<p>More %d.</p>"
+        b'<div class="jeg_post_tags"><span>Tags:</span><div><a>PSX</a></div></div>'
+        b"</div></body></html>" % (n, n, n)
+    )
+
+
+def test_fetch_pages_feed_retries_failed_pages_next_run(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_rss, "LOCAL_ROOT", tmp_path / "rss")
+    monkeypatch.setattr(common, "MANIFEST_DIR", tmp_path / "manifests")
+    requested: list[str] = []
+    fail_102 = {"on": True}
+
+    def fake_get(url: str, **kw: Any) -> common.HttpResponse:
+        requested.append(url)
+        if url.endswith("/feed"):
+            return common.HttpResponse(url, 200, {}, FEED_XML)
+        n = int(url.rsplit("/", 1)[1])
+        if n == 102 and fail_102["on"]:
+            raise common.HttpError(url, 503, "HTTP 503")
+        return common.HttpResponse(url, 200, {}, _nation_page(n))
+
+    monkeypatch.setattr(news_rss, "http_get", fake_get)
+    cfg = news_rss.Config(
+        1, "x", 0.0, 7, (_feed(fetch_pages=True, page_min_interval=0.0),)
+    )
+    assert news_rss.run(cfg, upload=False) == 0
+    rows = [
+        r
+        for p in (tmp_path / "rss" / "articles").rglob("*.parquet")
+        for r in pq.read_table(p).to_pylist()
+    ]
+    assert len(rows) == 1  # 102's page failed: not written, retried next run
+    r = rows[0]
+    assert "Body 101." in r["full_text"] and "More 101." in r["full_text"]
+    assert "Other story" not in r["full_text"] and "ad()" not in r["full_text"]
+    assert "Tags" not in r["full_text"]
+    assert r["full_text_source"] == "article_page" and r["feed_role"] == "primary"
+    assert r["author"] == "NEWS WIRE"
+    raw = list((tmp_path / "rss" / "raw").rglob("*_synthetic_*.html.gz"))
+    assert len(raw) == 1
+
+    import time
+
+    time.sleep(1.1)
+    requested.clear()
+    fail_102["on"] = False
+    news_rss.run(cfg, upload=False)
+    pages = [u for u in requested if "/news/" in u]
+    assert pages == ["https://www.example.com/news/102"]  # 101 not fetched again
+    rows = [
+        r
+        for p in (tmp_path / "rss" / "articles").rglob("*.parquet")
+        for r in pq.read_table(p).to_pylist()
+    ]
+    assert sorted(r["canonical_url"] for r in rows) == [
+        "https://www.example.com/news/101",
+        "https://www.example.com/news/102",
+    ]
+
+
+def test_fetch_pages_cap_defers_rest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(news_rss, "LOCAL_ROOT", tmp_path / "rss")
+    monkeypatch.setattr(
+        news_rss,
+        "http_get",
+        lambda url, **kw: common.HttpResponse(url, 200, {}, _nation_page(1)),
+    )
+    feed = _feed(fetch_pages=True, max_page_fetch=1, page_min_interval=0.0)
+    recs, _ = news_rss.parse_feed(FEED_XML, feed, datetime.now(timezone.utc), "R")
+    done, stats, files, warns = news_rss.fetch_feed_pages(
+        feed, recs, run_id="R", fetch_date="d"
+    )
+    assert len(done) == 1 and len(files) == 1
+    assert stats["page_deferred"] == len(recs) - 1
+    assert "next run" in warns[0]
+
+
+def test_parse_article_nation_page() -> None:
+    from jobs.news_common import parse_article
+
+    f = parse_article(_nation_page(7), "https://www.nation.com.pk/20-Nov-2026/x")
+    assert (
+        f["full_text"] and "Body 7." in f["full_text"] and "More 7." in f["full_text"]
+    )
+    assert "Tags" not in f["full_text"] and "Other story" not in f["full_text"]
+    assert f["tags"] == ["PSX"] and f["authors"] == ["NEWS WIRE"]
+    assert f["published_tz"] == "+05:00"

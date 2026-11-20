@@ -10,6 +10,10 @@
 #   (Checked 2026-11-08: Dawn and BR guids are exactly /news/<id>.)
 # store_full_text: false keeps only title, link and dates: no summary, no full
 #   text, and no raw feed snapshot (raw feeds contain the text). Use if terms forbid storage.
+# fetch_pages: true fetches each new item's article page for its full text
+#   (feeds that carry only a summary), at most max_page_fetch_per_run per run,
+#   page_min_interval_seconds apart. Failed and deferred items are retried next
+#   run, so use it only on feeds whose window is days, not hours.
 #
 # Not used (do not add back without re-checking):
 #   brecorder.com/feeds/pakistan/markets, brecorder.com/feeds/business-finance/pakistan
@@ -61,6 +65,20 @@ feeds:
     canonical_id_pattern: '^(https://www\.brecorder\.com/news/\d+)'
     store_full_text: true
     notes: Mostly foreign markets (3/30 Pakistan items on 2026-11-08).
+
+  - name: nation_business
+    source: The Nation
+    url: https://www.nation.com.pk/rss/business
+    role: primary
+    store_full_text: true
+    fetch_pages: true
+    max_page_fetch_per_run: 40
+    page_min_interval_seconds: 3.0
+    notes: >-
+      Added 2026-11-20 (Maryam). 100 items, ~6.5 days; summary only, so pages
+      are fetched. Carries the daily PSX close report. URLs have no numeric id
+      (/DD-Mon-YYYY/slug), so no canonical_id_pattern. Terms allow personal,
+      academic, non-commercial use.
 
   - name: financialdaily
     source: The Financial Daily
