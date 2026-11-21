@@ -14,8 +14,10 @@ Two steps, each resumable, one request every ``MIN_INTERVAL`` seconds:
     ``--end`` not yet read. Each response is saved unmodified
     (``raw/sitemaps/sitemap_<day>.xml.gz``). Every listed link goes into
     ``links.parquet`` (all sections: sport, politics, ...). Per-day status is
-    in ``days.parquet``; days missing from the index are counted, not
-    guessed.
+    in ``days.parquet``. The index leaves out the 20th of every month (and
+    a few other days) although those daily sitemaps exist (checked
+    2026-11-21), so every calendar day in range is read; ``in_index`` marks
+    which were listed, and an unlisted day that answers 404 is ``gone``.
 
 ``text``
     Picks links whose URL slug matches ``SLUG_RE`` (market words: psx, kse,
@@ -111,7 +113,8 @@ NOTES = (
     "The Nation's daily sitemaps (one per day, 2017 onward) and the market "
     "articles picked from them by URL slug (SLUG_RE, rule in slug_rule), "
     "fetched from nation.com.pk. links.parquet lists every article link in "
-    "the sitemaps (all sections); articles.parquet one row per picked link "
+    "the sitemaps (all sections), including days the sitemap index omits "
+    "(in_index in days.parquet); articles.parquet one row per picked link "
     "with a status: ok, no_text, gone (404/410) or failed (retried). "
     "is_market marks pages naming the PSX/KSE/a stock exchange; the slug "
     "filter misses market stories whose URL has none of its words. "
@@ -131,6 +134,7 @@ DAYS_SCHEMA = pa.schema(
         ("fetched_at", _TS),
         ("raw_file", pa.string()),
         ("attempts", pa.int32()),
+        ("in_index", pa.bool_()),  # listed in /sitemap.xml at the last index run
     ]
 )
 LINKS_SCHEMA = pa.schema(
@@ -373,11 +377,25 @@ def run_index(
         if start.isoformat() <= d <= end.isoformat()
     ]
     calendar = (end - start).days + 1
-    todo = [d for d in listed if days.get(d, {}).get("status") not in ("ok", "gone")]
+    listed_set = set(listed)
+    unlisted = [
+        d
+        for d in (
+            (start + timedelta(days=i)).isoformat() for i in range(calendar - 1, -1, -1)
+        )
+        if d not in listed_set
+    ]
+    for d, day_row in days.items():
+        day_row["in_index"] = d in listed_set
+    todo = [
+        d
+        for d in listed + unlisted
+        if days.get(d, {}).get("status") not in ("ok", "gone")
+    ]
     log.info(
-        "index: %d days listed in range (%d calendar days), %d to read",
+        "index: %d days listed in range, %d calendar days not listed, %d to read",
         len(listed),
-        calendar,
+        len(unlisted),
         len(todo),
     )
     fails = 0
@@ -416,6 +434,7 @@ def run_index(
             "fetched_at": datetime.now(timezone.utc).replace(microsecond=0),
             "raw_file": None,
             "attempts": (prev["attempts"] if prev else 0) + 1,
+            "in_index": day in listed_set,
         }
         try:
             r = fetch(f"{BASE}/sitemap_{day}.xml")
@@ -456,7 +475,10 @@ def run_index(
         "step": "index",
         "days_listed_in_range": len(listed),
         "calendar_days_in_range": calendar,
-        "days_not_in_sitemap_index": calendar - len(listed),
+        "days_not_in_sitemap_index": len(unlisted),
+        "unlisted_days_ok": sum(
+            1 for d in unlisted if days.get(d, {}).get("status") == "ok"
+        ),
         "days_read_this_run": budget.done,
         "days_remaining": sum(
             1 for d in todo if days.get(d, {}).get("status") not in ("ok", "gone")
