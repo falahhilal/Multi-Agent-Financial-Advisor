@@ -14,10 +14,12 @@ Two steps, each resumable, one request every ``MIN_INTERVAL`` seconds:
     ``--end`` not yet read. Each response is saved unmodified
     (``raw/sitemaps/sitemap_<day>.xml.gz``). Every listed link goes into
     ``links.parquet`` (all sections: sport, politics, ...). Per-day status is
-    in ``days.parquet``. The index leaves out the 20th of every month (and
-    a few other days) although those daily sitemaps exist (checked
-    2026-11-21), so every calendar day in range is read; ``in_index`` marks
-    which were listed, and an unlisted day that answers 404 is ``gone``.
+    in ``days.parquet``. The index leaves out, in every month, the day
+    whose number is today's date (the 20th when read on 2026-11-20, the 21st
+    on 2026-11-21), and 2022-02-17, although those daily sitemaps exist. So
+    every calendar day in range is read; ``in_index`` records whether the
+    last index run's copy listed the day (it changes from run to run), and
+    an unlisted day that answers 404 is ``gone``.
 
 ``text``
     Picks links whose URL slug matches ``SLUG_RE`` (market words: psx, kse,

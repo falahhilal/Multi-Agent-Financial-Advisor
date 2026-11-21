@@ -5,11 +5,11 @@
   "dataset": "nation_archive",
   "source": "The Nation daily sitemaps <https://www.nation.com.pk/sitemap_YYYY-MM-DD.xml> and article pages",
   "fetch_mode": "reproducible",
-  "fetched_at": "2026-11-21T01:55:13Z",
+  "fetched_at": "2026-11-21T02:09:43Z",
   "script": "backend/jobs/news_nation_archive.py",
-  "git_commit": "50b8e055d177bc1d9c005796cb7983596d3b8f3f",
+  "git_commit": "2837b89cb22f9f05499c9931adc94fe8ab24f351",
   "git_dirty": false,
-  "row_count": 7970,
+  "row_count": 8252,
   "file_count": 543422,
   "date_range": {
     "min": "2016-12-31T20:59:41+00:00",
@@ -28,48 +28,47 @@
     },
     {
       "path": "news/backfill/nation/articles.parquet",
-      "bytes": 7761971,
-      "sha256": "32ecba6b276c972868d8f7c15bf83201a481e5d9d8984de2277568bf0d86e3a2"
+      "bytes": 8013913,
+      "sha256": "886b1a3d58c4dc01b51ef7cd5e658c1186d95b3d963c63dfd1630afe7761534e"
     },
     {
       "path": "news/backfill/nation/coverage_by_month.csv",
-      "bytes": 2651,
-      "sha256": "00d87e779a2e23a12edd9116123023c83976c193cbde9674a01185166cc50541"
+      "bytes": 2656,
+      "sha256": "5735600e5cb08f99a260f1d96bf81ec95bc578fe574a1a4d2741772e6420dcb3"
     },
     {
-      "path": "news/backfill/nation/runs/run-20261121T014900Z-index.json",
-      "bytes": 578,
-      "sha256": "5712a2c6da533be683c823b35a1c2192a3adfe50f6395f285c20aa3ba9c7356f"
+      "path": "news/backfill/nation/runs/run-20261121T015522Z-text.json",
+      "bytes": 516,
+      "sha256": "488a426c1ae27150a839cba978ac16dfb4c08a32bd8e9b98a70c415c84abda26"
     }
   ],
   "hf_repo": "fyp-psx-advisor/fyp-data",
   "hf_repo_type": "dataset",
   "hf_path": "news/backfill/nation/",
-  "hf_revision": "323a1a51a8e661c5dc46b952a96c2a7098aa360c",
-  "notes": "The Nation's daily sitemaps (one per day, 2017 onward) and the market articles picked from them by URL slug (SLUG_RE, rule in slug_rule), fetched from nation.com.pk. links.parquet lists every article link in the sitemaps (all sections), including days the sitemap index omits (in_index in days.parquet); articles.parquet one row per picked link with a status: ok, no_text, gone (404/410) or failed (retried). is_market marks pages naming the PSX/KSE/a stock exchange; the slug filter misses market stories whose URL has none of its words. first_public_at = min(page published_at, end of the URL's day in PKT) is the point-in-time key. Terms: academic, non-commercial use allowed; private dataset, not redistributed.",
+  "hf_revision": "7c69c88d049d32d696aeae547ec5ed4a11ff6d88",
+  "notes": "The Nation's daily sitemaps (one per day, 2017 onward) and the market articles picked from them by URL slug (SLUG_RE, rule in slug_rule), fetched from nation.com.pk. links.parquet lists every article link in the sitemaps (all sections), including days the sitemap index omits (in_index in days.parquet); articles.parquet one row per picked link with a status: ok, no_text, gone (404/410), redirected (landed on a different article; text kept but not this URL's) or failed (retried). is_market marks pages naming the PSX/KSE/a stock exchange; the slug filter misses market stories whose URL has none of its words. first_public_at = min(page published_at, end of the URL's day in PKT) is the point-in-time key. Terms: academic, non-commercial use allowed; private dataset, not redistributed.",
   "warnings": [],
   "extra": {
     "last_run": {
-      "step": "index",
-      "days_listed_in_range": 3491,
-      "calendar_days_in_range": 3610,
-      "days_not_in_sitemap_index": 119,
-      "unlisted_days_ok": 119,
-      "days_read_this_run": 119,
-      "days_remaining": 0,
-      "day_status": {
-        "ok": 3610
+      "step": "text",
+      "slug_rule": "slug-v1",
+      "picked": 8252,
+      "fetched_this_run": 282,
+      "remaining": 0,
+      "status_totals": {
+        "ok": 8250,
+        "redirected": 2
       },
-      "days_in_range_ok": 3610,
-      "links": 543422,
+      "is_market": 2693,
+      "published_after_url_day": 11,
       "stopped": null,
-      "revision": "d1fe77ff873f216b81d7a5d48a442cac6b537565",
-      "run_id": "20261121T014900Z",
-      "started_at": "2026-11-21T01:49:00Z",
+      "revision": "c3318edceeeac147c2746fcc8fcddb75e719898a",
+      "run_id": "20261121T015522Z",
+      "started_at": "2026-11-21T01:55:22Z",
       "start": "2017-01-01",
       "end": "2026-11-19",
       "git": {
-        "commit": "50b8e055d177bc1d9c005796cb7983596d3b8f3f",
+        "commit": "2837b89cb22f9f05499c9931adc94fe8ab24f351",
         "dirty": false
       }
     },
