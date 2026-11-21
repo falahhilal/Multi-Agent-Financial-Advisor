@@ -5,15 +5,15 @@
   "dataset": "nation_archive",
   "source": "The Nation daily sitemaps <https://www.nation.com.pk/sitemap_YYYY-MM-DD.xml> and article pages",
   "fetch_mode": "reproducible",
-  "fetched_at": "2026-11-20T23:11:34Z",
+  "fetched_at": "2026-11-21T00:57:07Z",
   "script": "backend/jobs/news_nation_archive.py",
-  "git_commit": "c404131e0aee93e9233f4f76bf4a3921a275bff3",
+  "git_commit": "1d21d666faac7e0c4ced4206eb19ef73960a35be",
   "git_dirty": false,
-  "row_count": 4952,
+  "row_count": 7037,
   "file_count": 525407,
   "date_range": {
     "min": "2016-12-31T20:59:41+00:00",
-    "max": "2023-03-26T20:48:12+00:00"
+    "max": "2025-11-13T12:54:57+00:00"
   },
   "files": [
     {
@@ -28,50 +28,50 @@
     },
     {
       "path": "news/backfill/nation/articles.parquet",
-      "bytes": 4996039,
-      "sha256": "0245f69cab96f2e1815bcd468c75b0b0484b4ac1568ab37847109eb6c22e75e3"
+      "bytes": 6854117,
+      "sha256": "a48959bc49bf9112d6ea7ef5f87ff2875eb43ad6ac8ddb4a22bc30f591f21522"
     },
     {
       "path": "news/backfill/nation/coverage_by_month.csv",
-      "bytes": 2515,
-      "sha256": "8c410161fe9fe07ceacf23269c9985f07734255e370b8c578e630debe1892c00"
+      "bytes": 2610,
+      "sha256": "3688850d728b3e6dc08aa44679609177a1acfbe5ea9b84d61566bb45a15e5840"
     },
     {
-      "path": "news/backfill/nation/runs/run-20261120T212619Z-text.json",
+      "path": "news/backfill/nation/runs/run-20261120T231157Z-text.json",
       "bytes": 532,
-      "sha256": "dccca12399bb8080a8a2680183fa123ab564f0b7d70de8a93862b47bdd9157a7"
+      "sha256": "5db87d194237f78cea7b0fcb4a7c32a3b3d264ac6b4a54b1b3d059f606ab4d01"
     }
   ],
   "hf_repo": "fyp-psx-advisor/fyp-data",
   "hf_repo_type": "dataset",
   "hf_path": "news/backfill/nation/",
-  "hf_revision": "46059fb35b21e07c28c03fa7dd13e5ae3135c62c",
+  "hf_revision": "8748f705d70f18588ef64320183321c2afa104e6",
   "notes": "The Nation's daily sitemaps (one per day, 2017 onward) and the market articles picked from them by URL slug (SLUG_RE, rule in slug_rule), fetched from nation.com.pk. links.parquet lists every article link in the sitemaps (all sections); articles.parquet one row per picked link with a status: ok, no_text, gone (404/410) or failed (retried). is_market marks pages naming the PSX/KSE/a stock exchange; the slug filter misses market stories whose URL has none of its words. first_public_at = min(page published_at, end of the URL's day in PKT) is the point-in-time key. Terms: academic, non-commercial use allowed; private dataset, not redistributed.",
   "warnings": [
     "text: stopped early (time budget reached); re-run to continue",
-    "text: 3019 picked links not yet fetched"
+    "text: 934 picked links not yet fetched"
   ],
   "extra": {
     "last_run": {
       "step": "text",
       "slug_rule": "slug-v1",
       "picked": 7970,
-      "fetched_this_run": 1967,
-      "remaining": 3019,
+      "fetched_this_run": 2086,
+      "remaining": 934,
       "status_totals": {
-        "ok": 4951,
+        "ok": 7036,
         "failed": 1
       },
-      "is_market": 1590,
-      "published_after_url_day": 4,
+      "is_market": 2303,
+      "published_after_url_day": 11,
       "stopped": "time budget reached",
-      "revision": "4155f08e71f2d24a435348ac7c4e7ed914ef2a1b",
-      "run_id": "20261120T212619Z",
-      "started_at": "2026-11-20T21:26:19Z",
+      "revision": "c8128d642cab8568ea279a7b67f940f2853d7e1d",
+      "run_id": "20261120T231157Z",
+      "started_at": "2026-11-20T23:11:57Z",
       "start": "2017-01-01",
       "end": "2026-11-20",
       "git": {
-        "commit": "c404131e0aee93e9233f4f76bf4a3921a275bff3",
+        "commit": "1d21d666faac7e0c4ced4206eb19ef73960a35be",
         "dirty": false
       }
     },
