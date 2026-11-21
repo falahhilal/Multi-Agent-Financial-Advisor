@@ -208,3 +208,76 @@ Known gaps and limits:
   assumed to be auction dates too, but this has not been verified.
 - SBP may revise history silently; we only detect revisions between our own
   runs. An expired key stops refreshes until it is renewed.
+
+### macro_inflation
+
+| | |
+|---|---|
+| Purpose | Monthly inflation (headline CPI, core, WPI, SPI) for the Macro Agent's real-rate and price-pressure signals, and for real-return context in the backtest. |
+| Loader | `backend/jobs/macro_inflation.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually after each monthly refresh (around the 5th) and before each experiment freeze. One run makes 120 requests (60 `/meta` + 60 `/data`; limits are 250/hour and 2,000/day per key): wait at least one hour between runs, and do not run other EasyData loaders in the same hour. |
+| Source | SBP EasyData API, dataset "Inflation Snapshot (New Base: 2015-16)" (`TS_GP_PT_CPI_M`). Original data source: Pakistan Bureau of Statistics. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 60 series, `TS_GP_PT_CPI_M.P00011516` to `P00601516`: 15 measures (National CPI, Urban CPI, Rural CPI, Urban Food CPI, Rural Food CPI, Urban Non-Food CPI, Rural Non-Food CPI, WPI, WPI Food, WPI Non-Food, SPI, Urban/Rural NFNE Core Inflation, Urban/Rural Trimmed Core Inflation) x 4 bases: Year-on-Year (`P0001`-`P0015`), 12-Months Moving average (`P0016`-`P0030`), Period average Since July (`P0031`-`P0045`), Month-on-Month (`P0046`-`P0060`). API names follow "<measure>; an Inflation Measure (<base> basis)", e.g. "National CPI; an Inflation Measure (Year-on-Year basis)"; the manual CSV's "Series name" column shows ", " instead of "; ". Confirmed 2026-11-21 for `/meta` (all 60 series passed the name check on the first `--no-upload` run) and for `/data` (the saved raw responses of that run). The loader expects the API's "; " form exactly. `index_group`, `region`, `component` and `measure_base` come from a fixed table in the loader, not from parsing names. Names are checked against `/meta` every run after removing leading dots and spaces (the manual CSV's "Series Display Name" indents with ". " or "............. "); a mismatch aborts before any data is fetched. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/inflation/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/inflation.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per month: `series_key`, `series_name` (leading dots and spaces removed), `index_group` (`cpi`, `core_nfne`, `core_trimmed`, `wpi`, `spi`), `region` (`national`, `urban`, `rural`; WPI and SPI are `national`), `component` (`general`, `food`, `non_food`; core and SPI are `general`), `measure_base` (`yoy`, `mma12`, `period_avg_since_july`, `mom`), `base_year` (`2015-16`), `observation_date` (month end), `value` (percent; null where empty), `is_missing`, `is_back_calculated` (`observation_date` before 2019-08-01), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = the 10th of the month after `observation_date`, 23:59:59 Asia/Karachi, stored in UTC, but never earlier than 2019-09-10 23:59:59 Asia/Karachi; `published_at_basis = "conservative_10th_next_month_rebase_2019_09"`. Evidence (Mahrukh, 2026-11-20): the SBP Advance Release Calendar 2026 (ARC.xls, archive.sbp.org.pk) lists the Inflation Monitor no later than the 3rd-6th of the following month, holidays moving to the next working day; EasyData updates key indicators the next working day after the PBS release and others after the Inflation Monitor; Oct-2026 data was refreshed 05-Nov-2026. The 2015-16 base was first published in September 2019 (August 2019 data); earlier months were back-calculated. National YoY 2019-07 = 8.38 and 2019-08 = 10.49 in the 2026-11-20 CSV match the figures reported at the September 2019 rebase. |
+| Coverage | From the EasyData dataset web page on 2026-11-20: Jul-2016 to Oct-2026, monthly, Last Refresh Date 05-Nov-2026. Manual Long Format CSV (2026-11-20): 7,440 rows (60 series x 124 months), month-end dates 2016-07-31 to 2026-10-31, no duplicates, no skipped months. |
+| Citation | State Bank of Pakistan, (2026), Monthly data from Inflation Snapshot (New Base: 2015-16), for 31-Jul-2016 to 31-Oct-2026, Source EasyData, Inflation Snapshot (New Base: 2015-16), 05-Nov-2026. Original data source: Pakistan Bureau of Statistics. (The loader writes the citation with the run's actual date range and refresh date to the run log and manifest.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, duplicate dates,
+unparseable or non-month-end dates, non-numeric values, values ≤ -100 or
+≥ 1000, dates after the run date, fewer than two rows per series, or an empty
+value whose status is not "Missing value". It **warns** on: an empty value
+after a series' first value, leading empty values beyond the expected months,
+a value present with status "Missing value", values outside [-50, 100],
+skipped months, first observation different from Available Since, series
+ending on different months, the latest month more than 45 days old, an
+unexpected dataset name, several units, value revisions since the previous
+run, and status-only changes since the previous run.
+
+Known gaps and limits:
+
+- Leading empty values are expected (status "Missing value"; the status
+  comment explains the trimmed and 12MMA computation) and are kept with `value`
+  null and `is_missing` true, without warning: every 12MMA series 2016-07 to
+  2017-05; trimmed core YoY and period average 2016-07 to 2017-06; trimmed core
+  12MMA 2016-07 to 2018-05; trimmed core MoM 2016-07. Counts are in each run
+  log.
+- 30 rows on 2026-04-30 (in the 2026-11-20 CSV) have status "Missing value"
+  (comment "0") but a value; the value is kept (`is_missing` false) and the
+  rows are listed in a warning. The other 30 April-2026 rows are "Normal" with
+  comment "0". A later fix of these statuses is reported as a status-only
+  change.
+- Values range from about -7.4 (MoM) to 52.4 (Rural Food YoY, May 2023, a real
+  value). Precision varies: most values have 1-2 decimals, about 540 have 7-9
+  (e.g. 13.37790337); some lack a leading zero (".5", "-.3"). Values are stored
+  as returned; the run log records the maximum decimals per series.
+- Months before 2019-08 were back-calculated at the 2019 rebase, not published
+  at the time (`is_back_calculated`); their `published_at` is floored at the
+  rebase release.
+- The `published_at` rule is conservative (10th of the next month) and was not
+  checked month by month against actual release dates. A release delayed past
+  the 10th would make the rule leak.
+- Older bases (2007-08 and earlier) are not collected, so this dataset has no
+  inflation before Jul-2016; backtest windows before then have no CPI series.
+- EasyData `/data` returns invalid JSON for 21 series (seen 2026-11-21): the
+  status comment on the leading empty rows, "The observation status is missing
+  "MIS" due to trimmed inflation ...", has its quotes around `MIS` unescaped.
+  Affected: trimmed core YoY (P0014, P0015), every 12MMA series (P0016-P0030),
+  trimmed core period average (P0044, P0045) and trimmed core MoM (P0059,
+  P0060). The manual CSV is not affected. The loader repairs only the exact
+  bytes `missing "MIS" due` (escaping the quotes), only when the body does not
+  parse, and only in memory for parsing; raw files keep the response exactly
+  as returned. Repairs are counted per series in the run log (`json_repairs`);
+  a repair on a series with no expected leading empties, or a count different
+  from its leading empty rows, warns. Any other invalid JSON still fails the
+  run.
+- The loader requests 60 fixed keys and cannot detect series added to the
+  dataset later.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
