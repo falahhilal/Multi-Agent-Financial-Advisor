@@ -26,7 +26,8 @@ Two steps, each resumable, one request every ``MIN_INTERVAL`` seconds:
     ``jobs.news_common.parse_article``. ``is_market`` marks pages whose title
     or text names the PSX, the KSE indices or a stock exchange/market, so
     off-topic slug matches can be dropped by readers. ``SLUG_RULE`` records
-    which filter chose a row.
+    which filter chose a row. A page that redirects to a different article
+    path is ``redirected``, not ``ok``: its text belongs to another story.
 
 Dates: ``published_at`` is the page's own date. The URL carries the day the
 article was filed under (``/DD-Mon-YYYY/slug``, the print-edition day), so
@@ -59,6 +60,7 @@ from collections.abc import Callable
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -115,7 +117,8 @@ NOTES = (
     "fetched from nation.com.pk. links.parquet lists every article link in "
     "the sitemaps (all sections), including days the sitemap index omits "
     "(in_index in days.parquet); articles.parquet one row per picked link "
-    "with a status: ok, no_text, gone (404/410) or failed (retried). "
+    "with a status: ok, no_text, gone (404/410), redirected (landed on a "
+    "different article; text kept but not this URL's) or failed (retried). "
     "is_market marks pages naming the PSX/KSE/a stock exchange; the slug "
     "filter misses market stories whose URL has none of its words. "
     "first_public_at = min(page published_at, end of the URL's day in PKT) is "
@@ -176,7 +179,7 @@ ARTICLES_SCHEMA = pa.schema(
         ("attempts", pa.int32()),
     ]
 )
-ARTICLE_FINAL = frozenset({"ok", "no_text", "gone"})
+ARTICLE_FINAL = frozenset({"ok", "no_text", "gone", "redirected"})
 
 Fetch = Callable[[str], HttpResponse]
 
@@ -492,31 +495,48 @@ def run_index(
     }
 
 
+def redirected(url: str, final_url: str | None) -> bool:
+    """True if the page landed on a different article (The Nation sends some
+    removed stories to an unrelated one): the text is not this URL's."""
+    if not final_url:
+        return False
+    return urlsplit(url).path.rstrip("/") != urlsplit(final_url).path.rstrip("/")
+
+
+def mark_redirect(row: dict[str, Any]) -> dict[str, Any]:
+    if row["status"] == "ok" and redirected(row["url"], row["final_url"]):
+        row["status"] = "redirected"
+        row["error"] = f"redirected to {row['final_url']}"[:300]
+    return row
+
+
 def row_from_page(
     link: dict[str, Any], resp: HttpResponse, fetched_at: datetime, attempts: int
 ) -> dict[str, Any]:
     f = parse_article(resp.content, resp.url)
     first, after = first_public(f["published_at"], link["url_day"])
     text = f["full_text"]
-    return {
-        **_base(link, fetched_at, attempts),
-        "final_url": resp.url,
-        "status": "ok" if text else "no_text",
-        "http_status": resp.status,
-        "title": f["title"],
-        "published_at": f["published_at"],
-        "published_at_raw": f["published_at_raw"],
-        "published_tz": f["published_tz"],
-        "modified_at": f["modified_at"],
-        "first_public_at": first,
-        "published_after_url_day": after,
-        "is_market": bool(MARKET_RE.search(f"{f['title'] or ''}\n{text or ''}")),
-        "authors": f["authors"],
-        "summary": f["summary"],
-        "full_text": text,
-        "language": f["language"],
-        "tags": f["tags"],
-    }
+    return mark_redirect(
+        {
+            **_base(link, fetched_at, attempts),
+            "final_url": resp.url,
+            "status": "ok" if text else "no_text",
+            "http_status": resp.status,
+            "title": f["title"],
+            "published_at": f["published_at"],
+            "published_at_raw": f["published_at_raw"],
+            "published_tz": f["published_tz"],
+            "modified_at": f["modified_at"],
+            "first_public_at": first,
+            "published_after_url_day": after,
+            "is_market": bool(MARKET_RE.search(f"{f['title'] or ''}\n{text or ''}")),
+            "authors": f["authors"],
+            "summary": f["summary"],
+            "full_text": text,
+            "language": f["language"],
+            "tags": f["tags"],
+        }
+    )
 
 
 def _base(link: dict[str, Any], fetched_at: datetime, attempts: int) -> dict[str, Any]:
@@ -562,8 +582,9 @@ def run_text(
 ) -> dict[str, Any]:
     if links is None:
         links = _read("links.parquet", LINKS_SCHEMA, upload)
-    arts = {
-        r["article_id"]: r for r in _read("articles.parquet", ARTICLES_SCHEMA, upload)
+    arts = {  # mark_redirect: rows stored before the redirect rule, no refetch
+        r["article_id"]: mark_redirect(r)
+        for r in _read("articles.parquet", ARTICLES_SCHEMA, upload)
     }
     picked: dict[str, dict[str, Any]] = {}
     for link in links:
