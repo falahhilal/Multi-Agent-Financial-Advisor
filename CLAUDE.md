@@ -400,13 +400,17 @@ a universe version.
 
 ## Worklogs
 
-Every working session ends with a file in `worklogs/` named
+Every person has one worklog per date, named
 `YYYY-MM-DD-person-short-slug.md` (for example
 `2026-11-08-falah-company-prices.md`). Use the date the session started and
-the first name of the primary author in the filename; list everyone who
-worked in the `Who:` line. Use a distinct short slug if the same person has
-multiple sessions on one day. Copy `worklogs/TEMPLATE.md` and write the
-worklog at the end of the session. Older worklogs keep their original names.
+the first name of the primary author in the filename; list the people who
+worked in the `Who:` line. When the same person has more work on that date,
+append it to their existing worklog instead of creating another one. Never
+modify, rename, merge, or delete another person's worklog. Copy
+`worklogs/TEMPLATE.md` for a new date and update the existing same-date file
+for follow-up work.
+
+Never mention AI coding tools in a worklog in any capacity.
 
 At the start of a session, check the branch and working tree, then read the
 latest relevant worklog. Review its completed work and pending tasks and
@@ -423,8 +427,9 @@ in May than "Debate protocol hardened (Mahrukh)".
 During data collection, each worklog also lists the datasets touched: source,
 date range, row or file count, and any gaps found.
 
-Never edit an old worklog except to fix a typo; if something recorded turns
-out to be wrong, say so in the current one and link back. Decisions appear
+Do not alter prior worklog content other than appending same-date work or
+fixing a typo; if something recorded turns out to be wrong, say so in that
+person's current-date worklog and link back. Decisions appear
 twice: a line in the worklog saying a call was made, and — when the decision
 overrides the proposal — an ADR in `docs/adr/` saying why, with consequences.
 See `worklogs/README.md`.
