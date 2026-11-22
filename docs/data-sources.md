@@ -11,6 +11,27 @@ Entries are grouped by stream. Each stream owner edits only their section.
 
 ---
 
+## Company data stream (owner: Falah) — prices, actions and annual statements collected; Stream A incomplete
+
+The canonical 18-ticker sector mapping is supplied in
+`backend/universe/psx_v1.yaml`. Its deterministic CSV export is generated from
+that file; sector names must not be inferred or replaced.
+
+**Permission and current status.** The team confirms written permission for the intended PSX/pyPSX historical-price, corporate-action and company-fundamentals collection and sharing to its private Hugging Face dataset. This records only that permission as described by the team; it does not assert unrelated licensing or redistribution rights. On 2026-11-22, the 18 active-company price datasets, 386 corporate-action rows and 13,379 annual statement rows were published under `company/` in the existing private dataset. Prices remain partial after 62 of 53,012 source rows failed OHLC validation. Actions and fundamentals were successfully fetched from their SDK endpoints, but their source dates/fields do not support point-in-time use. Stream A remains incomplete.
+
+**Historical prices — pyPSX 2.8.3 (pandas 2.3.3).** The provider’s [history archive documentation](https://docs.pypsx.com/pypsx-history-archive/) and [history API reference](https://docs.pypsx.com/api-history-archive/) describe the historical endpoint. The [fundamentals and dividends documentation](https://docs.pypsx.com/pypsx-fundamentals-dividends/) describes separate action/fundamentals APIs; their existence does not establish the PIT publication dates needed here. The installed package metadata identifies pyPSX as proprietary ([PyPI release](https://pypi.org/project/pypsx/2.8.3/)). The verified calls were `pypsx.get_archive_status()` and `pypsx.get_historical(ticker, start="2015-01-01", end="2026-11-20", adjust_splits=False, dividends=True)`. The earlier archive status reported daily prices from 1998-06-30 through 2026-11-20 and 1,517 symbols. On 2026-11-22 all 18 active tickers returned a nonempty response. The run contained 53,012 source rows, of which 52,950 passed normalized OHLCV validation; 62 rows across 16 tickers were rejected because open/close values were inconsistent with low/high. No ticker request failed. Accepted dates were 2015-01-01 through 2026-11-20 for 17 tickers; SYS began 2015-02-06. These are source results, not proof of complete sessions or overall data quality. One raw SDK snapshot and one normalized Parquet file were retained per ticker. The HBL sample fields were `symbol`, `datetime`, `open`, `high`, `low`, `close`, `volume`, `adj_factor`, `tr_close`, and `dividend`; the inspected sample had `adj_factor` 1.0 and null `tr_close`/`dividend`. The adapter requested as-traded prices (`adjust_splits=False`); it preserves the provider adjustment factor and dividend separately, leaves `adjusted_close` null, and does not synthesize total-return prices. The SDK emitted a pandas chained-assignment `FutureWarning` after successful calls; it is a compatibility warning, not a failed request.
+
+**Corporate actions — pyPSX 2.8.3.** The installed SDK exposes `get_corporate_actions(symbol, start, end, include_quarantined=True)`. The 18-ticker 2015-01-01–2026-11-20 run returned 386 rows: 360 cash dividends, 2 bonus issues, 3 stock splits, 5 rights issues and 16 other events. These are endpoint results, not proof of event completeness. The inspected response includes ex-date and provider action/factor fields, but no announcement, publication or availability date. Quarantined/unapplied source events are retained. Ex-date is not treated as public availability; actions lacking availability dates are excluded from PIT access and adjustment validation remains unevaluated.
+
+**Fundamentals — pyPSX 2.8.3.** `get_fundamentals(symbol, statement=None, wide=False)` returned 13,379 annual item rows for the 18 tickers, with observed year coverage from 2015 through 2025 or 2026 depending on ticker. The source identifies statement type, item, year and value. It does not supply publication/availability dates, unit or currency in the inspected response, and no quarterly period semantics were established. These records are archived and normalized for reference only; they are excluded from point-in-time reads and must not be backfilled into historical backtests. The endpoint’s returned row count does not establish complete historical statements or the requested derived metrics’ quality.
+
+**Provider limits and open decisions.** pyPSX availability is not guaranteed. Its proprietary package metadata and the team’s permission statement do not establish unrelated licensing or redistribution rights. No approved PSX session calendar or ticker-specific suspension evidence is available in the current project. Adjusted-price validation, company-sector provenance and historical listing/delisting provenance remain unresolved. Do not infer missing sessions from weekdays. ENGRO remains historical metadata; no exact delisting date was invented. Board lots and listing dates remain null unless verified.
+
+The price loader is `backend/jobs/company_ingest.py`; the auxiliary loader is `backend/jobs/company_aux_ingest.py`. Both are run from `backend/`, use per-ticker isolation and the shared HF helper under `company/`, and do not make pyPSX a runtime dependency. Raw SDK DataFrame snapshots preserve the returned table representation and attrs, not original HTTP wire bytes; normalized datasets are Parquet. The 2026-11-22 action upload has data revision `f36551e562b4c1db46553bc4d9b6ca96f67c23fd` and manifest revision `3f25136328dc3a0d3f595061a8613229cbb1c75d`; fundamentals revisions are `ae5d72543dbfbcef7f4adbd4bf81bb26eb921929` and `64ea2cddd199496f7d0de61aecf7f2133b91b8f9`. All 58 files in each dataset folder, including the manifest, were remotely checked for size; content checksums were verified. Canonical manifests are `backend/data_manifests/company_company_actions.json` and `backend/data_manifests/company_company_fundamentals.json`. Price upload details remain in `backend/jobs/company_data.md`.
+
+
+---
+
 ## News & text stream (owner: Maryam)
 
 ### news_rss_articles
@@ -233,14 +254,13 @@ body, 128 tokens. **Unvalidated:** the 60-row hand spot-check was not done.
 Known symptoms: almost no neutral labels for Aaj (2%); non-market stories
 labelled, often positive. Source datasets were read only.
 
-### PSX Data Portal (dps.psx.com.pk): not collected
+### PSX Data Portal announcements and filings: not collected
 
 Company announcements and filings (planned dataset `news_psx_announcements`)
-are **not collected**. PSX's Terms of Use (www.psx.com.pk/psx/terms-of-use,
-read 2026-11-08) prohibit "software, spiders, robots … or other devices or
-mechanisms to navigate, search or determine the PSX Website" without prior
-written permission; the Data Portal has no separate terms. Decision (Maryam,
-2026-11-08): skip until PSX grants written permission. The same clause
-affects anything else fetched from dps.psx.com.pk by script (psxdata prices,
-KSE-100 levels). Announcements reported by the press are covered by the
-news datasets above.
+are **not collected**. The team reports written permission for its intended
+PSX/pyPSX historical-price collection and private HF dataset sharing; this
+section does not treat that statement as permission for announcements,
+filings, KSE-100 levels, unrelated endpoints, or other licensing and
+redistribution rights. Verify the source-specific scope before collecting
+those datasets. Announcements reported by the press are covered by the news
+datasets above.

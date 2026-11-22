@@ -1,0 +1,617 @@
+{
+  "schema_version": 1,
+  "id": "company_company_actions",
+  "stream": "company",
+  "dataset": "company_actions",
+  "source": "pyPSX History archive get_corporate_actions",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-22T09:49:48Z",
+  "script": "backend/jobs/company_aux_ingest.py",
+  "git_commit": "70097be25c96008437a9d8871ef6c60491fada77",
+  "git_dirty": true,
+  "row_count": 386,
+  "file_count": 57,
+  "date_range": {
+    "min": "2015-03-10",
+    "max": "2026-11-11"
+  },
+  "files": [
+    {
+      "path": "raw/corporate_actions/HBL_917ee63bc001a6b29f4b5502a4a83c1a78e046ac630409876ec99bb84b6e07af.json",
+      "bytes": 19126,
+      "sha256": "917ee63bc001a6b29f4b5502a4a83c1a78e046ac630409876ec99bb84b6e07af"
+    },
+    {
+      "path": "raw/corporate_actions/UBL_577de232aa10925663fb6d08ac24568944959b18760a8ad2ca7306ff1f0a28de.json",
+      "bytes": 20087,
+      "sha256": "577de232aa10925663fb6d08ac24568944959b18760a8ad2ca7306ff1f0a28de"
+    },
+    {
+      "path": "raw/corporate_actions/MEBL_fb1900867c0266604d04208dce7cdd3381cb94313720e546e3b41f8fa792b3b8.json",
+      "bytes": 17861,
+      "sha256": "fb1900867c0266604d04208dce7cdd3381cb94313720e546e3b41f8fa792b3b8"
+    },
+    {
+      "path": "raw/corporate_actions/OGDC_e51f4eff6b0638b13b87a39fc2adc412234bf96f98c590a7712973dd807e9afe.json",
+      "bytes": 20631,
+      "sha256": "e51f4eff6b0638b13b87a39fc2adc412234bf96f98c590a7712973dd807e9afe"
+    },
+    {
+      "path": "raw/corporate_actions/PPL_da15e54d2e86620eb9dedf30260a424a90b8204daaa2b33ccda959709916aeaf.json",
+      "bytes": 13258,
+      "sha256": "da15e54d2e86620eb9dedf30260a424a90b8204daaa2b33ccda959709916aeaf"
+    },
+    {
+      "path": "raw/corporate_actions/MARI_a1450d2ad07275441f1be4396b35d62e8d7f77f235662c5fc529284312c98b0f.json",
+      "bytes": 11709,
+      "sha256": "a1450d2ad07275441f1be4396b35d62e8d7f77f235662c5fc529284312c98b0f"
+    },
+    {
+      "path": "raw/corporate_actions/LUCK_4795da6cd8f75a0c4ba3dd4490a29699ab24b96a3a9c48f8283c9fa045d808d8.json",
+      "bytes": 5384,
+      "sha256": "4795da6cd8f75a0c4ba3dd4490a29699ab24b96a3a9c48f8283c9fa045d808d8"
+    },
+    {
+      "path": "raw/corporate_actions/DGKC_2cb8ce8f41561f9ab1e9bfe55a09ec6d284fc3dd0bde260ab29a28481bd73af2.json",
+      "bytes": 4523,
+      "sha256": "2cb8ce8f41561f9ab1e9bfe55a09ec6d284fc3dd0bde260ab29a28481bd73af2"
+    },
+    {
+      "path": "raw/corporate_actions/MLCF_c190a1a048feea51ac30281ece59f79c6be4e2ad092bcce70cb782390f9df008.json",
+      "bytes": 5493,
+      "sha256": "c190a1a048feea51ac30281ece59f79c6be4e2ad092bcce70cb782390f9df008"
+    },
+    {
+      "path": "raw/corporate_actions/FFC_4950c5dfbb1d774648d0b7f814de1369545c8bde7e57dd2254552cfed8753e90.json",
+      "bytes": 20820,
+      "sha256": "4950c5dfbb1d774648d0b7f814de1369545c8bde7e57dd2254552cfed8753e90"
+    },
+    {
+      "path": "raw/corporate_actions/EFERT_e6f356c5928cfbcc93a5dc564a9b7748001d8348638eceda7de9d587d87ab43a.json",
+      "bytes": 18239,
+      "sha256": "e6f356c5928cfbcc93a5dc564a9b7748001d8348638eceda7de9d587d87ab43a"
+    },
+    {
+      "path": "raw/corporate_actions/FATIMA_5dfaf3d5c163d859fd0134daa9fedadea05c1006bf908f2d1b71f63de49bfc99.json",
+      "bytes": 7266,
+      "sha256": "5dfaf3d5c163d859fd0134daa9fedadea05c1006bf908f2d1b71f63de49bfc99"
+    },
+    {
+      "path": "raw/corporate_actions/SYS_00b96b4fafe1bd0338ae266bb5e724645df16d7361221d6cae06d9633c8248b2.json",
+      "bytes": 6469,
+      "sha256": "00b96b4fafe1bd0338ae266bb5e724645df16d7361221d6cae06d9633c8248b2"
+    },
+    {
+      "path": "raw/corporate_actions/TRG_b3c1e4bd325b9cea87bccd6935812535e5c988cf4b757c50cf757387a0be7f9a.json",
+      "bytes": 1831,
+      "sha256": "b3c1e4bd325b9cea87bccd6935812535e5c988cf4b757c50cf757387a0be7f9a"
+    },
+    {
+      "path": "raw/corporate_actions/NETSOL_bf67b6f4b70c507236425d91ff0b0652a7de8c1cc483072faaa0bb8ed55af80a.json",
+      "bytes": 3251,
+      "sha256": "bf67b6f4b70c507236425d91ff0b0652a7de8c1cc483072faaa0bb8ed55af80a"
+    },
+    {
+      "path": "raw/corporate_actions/NCL_a46852e454ab236d1e2bbfb1e633d5597e155e80377e04475b4dac2762a14e06.json",
+      "bytes": 7273,
+      "sha256": "a46852e454ab236d1e2bbfb1e633d5597e155e80377e04475b4dac2762a14e06"
+    },
+    {
+      "path": "raw/corporate_actions/NML_e190e9c4ac7df70fa09ef2e92a166c8a43f83dc8e23859b4deffe328f6d3aa0e.json",
+      "bytes": 5940,
+      "sha256": "e190e9c4ac7df70fa09ef2e92a166c8a43f83dc8e23859b4deffe328f6d3aa0e"
+    },
+    {
+      "path": "raw/corporate_actions/GATM_5a6e104e1e0b4f88a47adbef128ea2b2eb2cc04e327f6bc82da048bde477a89d.json",
+      "bytes": 4143,
+      "sha256": "5a6e104e1e0b4f88a47adbef128ea2b2eb2cc04e327f6bc82da048bde477a89d"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=HBL/events.parquet",
+      "bytes": 20543,
+      "sha256": "47cea4c3e8379607441a982a4fdb7dc67d20ff830a9203d5eb2a7438c0d9ef4c"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=UBL/events.parquet",
+      "bytes": 21088,
+      "sha256": "ecbcebb715dd36ea0f611c46322ddda5eb50689cbd3be9aeada69c86b499bcae"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=MEBL/events.parquet",
+      "bytes": 20871,
+      "sha256": "1da69fff9219e577e5e43d0fe4b403c6f41cc6d7c103b2ea68fc48349c03c19e"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=OGDC/events.parquet",
+      "bytes": 21014,
+      "sha256": "8eae8c39fdd4cc22b09296d08d686aea540ab2d0f4f2eb61e9679a345c5b70d7"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=PPL/events.parquet",
+      "bytes": 20053,
+      "sha256": "17366177066f697ab6eb86df896cf778a06d3575afec64374c3fba4ad4dfc95d"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=MARI/events.parquet",
+      "bytes": 20201,
+      "sha256": "76e311d311633be356d432828fcba2803cd1c780f520710f98a09e207e9fc55c"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=LUCK/events.parquet",
+      "bytes": 18400,
+      "sha256": "0b351fd528d518eab09db5c24bda725900a31049c27dfd4a591d78ee413e84a3"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=DGKC/events.parquet",
+      "bytes": 18091,
+      "sha256": "9a121840a721d2699c36a28dfc6673660a8fdca8ce77a6c4a74710961d0f76de"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=MLCF/events.parquet",
+      "bytes": 18625,
+      "sha256": "37eb0adc31507ff2f56f658405c756803d2d9c3c31ac18bc31a7f1e71fcd0928"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=FFC/events.parquet",
+      "bytes": 21491,
+      "sha256": "8779bc52370bbe928afc62b870fd8eeaba231ce9e72d8f1abca37c0c3a617ad3"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=EFERT/events.parquet",
+      "bytes": 20603,
+      "sha256": "fa6cad4facb3a413879830eaafa78a5f8e218db616bb94322f377ff33ac12cca"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=FATIMA/events.parquet",
+      "bytes": 18628,
+      "sha256": "74e2b8337ec0f17edd34bd23b53a80f5ebfff2733f839490399e3fa2ea20e8c9"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=SYS/events.parquet",
+      "bytes": 19083,
+      "sha256": "16ded1bc14a62b1df3423a201276e18e29b9f03f76fca82d0d3f75b2d8c3e5af"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=TRG/events.parquet",
+      "bytes": 17895,
+      "sha256": "c604d971f7f415317c20f6777bd523d35cacd5e489091e1a59de57db3116d3e4"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=NETSOL/events.parquet",
+      "bytes": 18119,
+      "sha256": "ed26dc2779158d7167479084f79feff382495d6b273ad598053dbe98064b2f95"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=NCL/events.parquet",
+      "bytes": 18807,
+      "sha256": "8459b09dfa92646616f6107b33595714de0121f7344d4948d724449d4be2ba62"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=NML/events.parquet",
+      "bytes": 18502,
+      "sha256": "7755041956030372ea24d14979921f41bcf04c20d2d934d99b6bb372558bdcb5"
+    },
+    {
+      "path": "corporate_actions/normalized/ticker=GATM/events.parquet",
+      "bytes": 18379,
+      "sha256": "f188cd4a28e50813925a4babb73e9309ecf1ea3884c8deae1db06aa9bea37c2c"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/dataset_quality.json",
+      "bytes": 925,
+      "sha256": "625d683c4ae85b87f9abe431658ee18a5934ff33fe94bcbe08a6a1583987b6c2"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/ticker_coverage.json",
+      "bytes": 731,
+      "sha256": "6d1c7d3bbf34212f15708199bc61db020b6e6865e74cfb8377cbf524ba553c4c"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/DGKC.json",
+      "bytes": 1951,
+      "sha256": "ec0a3c28671894e7471f293ae1d27fac8d8292290c6dcd15f3a4dc7d86c6680b"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/EFERT.json",
+      "bytes": 2881,
+      "sha256": "b591c63d924a860f3ccd8c8782a625ea211c5150513e2faa38ad221eaa1babec"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/FATIMA.json",
+      "bytes": 4741,
+      "sha256": "72e2613ac99e758236a53931d44d690e221dc397e527f8997396c9e6b0e658c5"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/FFC.json",
+      "bytes": 3334,
+      "sha256": "647aa68b97d0897a4be2c564ef2820521c2cdc799608fb40c3dac8cdc7a06a0d"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/GATM.json",
+      "bytes": 2412,
+      "sha256": "7713b6760a06407c6cd18053b7bd31950336229eee043c0cbe23de995b530dfa"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/HBL.json",
+      "bytes": 2869,
+      "sha256": "281377d00cf5dfc1d74431a3131632e4db9616f2f8000c02e2808496d72ffe57"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/LUCK.json",
+      "bytes": 1489,
+      "sha256": "7a7ae87b8b202375b1de567e5100d427fbcdbd8a9108208d3448343f784fcfab"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/MARI.json",
+      "bytes": 3341,
+      "sha256": "62dffa4123362571c2a2a173f26a1b93a10a1db184557607305ac2dd275582df"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/MEBL.json",
+      "bytes": 8224,
+      "sha256": "d9556a5ccf8d38d1201d3c9a026ba283ae7054260cf49fb8526701d4668359bb"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/MLCF.json",
+      "bytes": 1952,
+      "sha256": "8b82fadc13900307f678e8d0d019a34ac7ec29002981fbf815ca5ba1478f7bb7"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/NCL.json",
+      "bytes": 1487,
+      "sha256": "847ffbb806334c6042a9e3d71dbe47b88bdebb24752139ad7f56b3974c741e61"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/NETSOL.json",
+      "bytes": 2886,
+      "sha256": "49b71e370d5148c1ef9957ad93e87e58017ae7de65a7c11eab58fc57d7071af3"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/NML.json",
+      "bytes": 3794,
+      "sha256": "6101fceae137a36f56667d9ce1194f39ce4018dceaee45f5987d6912fc7770ba"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/OGDC.json",
+      "bytes": 1951,
+      "sha256": "b71f085130506b0bc10bb5cbc2ccf669848d69d19c50932b30acfa8259f6287f"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/PPL.json",
+      "bytes": 2409,
+      "sha256": "bdeb6dd035234585ea6dc0833c9f1b378f86f3f3dd1f42db44227ed4ff3eaeb5"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/SYS.json",
+      "bytes": 5087,
+      "sha256": "9a1237af1dea131aee96d4c8f68b0d3e2fd461db92915d289a3e45db052894be"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/TRG.json",
+      "bytes": 2871,
+      "sha256": "ac26afad5ad203e9ee59143668898f255879affea12945d626655ff3c10e01a0"
+    },
+    {
+      "path": "corporate_actions/quality_reports/20261122T093930Z-6eb1ce81/tickers/UBL.json",
+      "bytes": 3332,
+      "sha256": "5832b9f5673f46365e13d2873eef8b9aab79bf0f7011145523d253c95f435721"
+    },
+    {
+      "path": "corporate_actions/runs/20261122T093930Z-6eb1ce81.json",
+      "bytes": 11754,
+      "sha256": "01490894e45ea7fd0c71409f84c31dbf065e732a3b733d155bc1852f852cc4eb"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "company/corporate_actions/",
+  "hf_revision": "f36551e562b4c1db46553bc4d9b6ca96f67c23fd",
+  "notes": "Ex-date events; inspected source did not supply announcement/public-availability dates.",
+  "warnings": [
+    "uncommitted changes in working tree: git_commit may not reproduce this run"
+  ],
+  "extra": {
+    "schema_version": "company_actions_v1",
+    "collection_status": "complete",
+    "requested_start": "2015-01-01",
+    "requested_end": "2026-11-20",
+    "event_type_counts": {
+      "bonus_issue": 2,
+      "cash_dividend": 360,
+      "other": 16,
+      "rights_issue": 5,
+      "stock_split": 3
+    },
+    "per_ticker": {
+      "HBL": {
+        "request_status": "complete",
+        "source_row_count": 40,
+        "normalized_row_count": 40,
+        "raw_path": "raw/corporate_actions/HBL_917ee63bc001a6b29f4b5502a4a83c1a78e046ac630409876ec99bb84b6e07af.json",
+        "raw_sha256": "917ee63bc001a6b29f4b5502a4a83c1a78e046ac630409876ec99bb84b6e07af",
+        "actual_first_ex_date": "2015-03-16",
+        "actual_last_ex_date": "2026-11-02",
+        "event_type_counts": {
+          "cash_dividend": 40
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "UBL": {
+        "request_status": "complete",
+        "source_row_count": 42,
+        "normalized_row_count": 42,
+        "raw_path": "raw/corporate_actions/UBL_577de232aa10925663fb6d08ac24568944959b18760a8ad2ca7306ff1f0a28de.json",
+        "raw_sha256": "577de232aa10925663fb6d08ac24568944959b18760a8ad2ca7306ff1f0a28de",
+        "actual_first_ex_date": "2015-03-18",
+        "actual_last_ex_date": "2026-10-22",
+        "event_type_counts": {
+          "cash_dividend": 41,
+          "stock_split": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "MEBL": {
+        "request_status": "complete",
+        "source_row_count": 37,
+        "normalized_row_count": 37,
+        "raw_path": "raw/corporate_actions/MEBL_fb1900867c0266604d04208dce7cdd3381cb94313720e546e3b41f8fa792b3b8.json",
+        "raw_sha256": "fb1900867c0266604d04208dce7cdd3381cb94313720e546e3b41f8fa792b3b8",
+        "actual_first_ex_date": "2015-03-18",
+        "actual_last_ex_date": "2026-11-03",
+        "event_type_counts": {
+          "bonus_issue": 1,
+          "cash_dividend": 31,
+          "other": 5
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "OGDC": {
+        "request_status": "complete",
+        "source_row_count": 43,
+        "normalized_row_count": 43,
+        "raw_path": "raw/corporate_actions/OGDC_e51f4eff6b0638b13b87a39fc2adc412234bf96f98c590a7712973dd807e9afe.json",
+        "raw_sha256": "e51f4eff6b0638b13b87a39fc2adc412234bf96f98c590a7712973dd807e9afe",
+        "actual_first_ex_date": "2015-03-16",
+        "actual_last_ex_date": "2026-11-10",
+        "event_type_counts": {
+          "cash_dividend": 43
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "PPL": {
+        "request_status": "complete",
+        "source_row_count": 27,
+        "normalized_row_count": 27,
+        "raw_path": "raw/corporate_actions/PPL_da15e54d2e86620eb9dedf30260a424a90b8204daaa2b33ccda959709916aeaf.json",
+        "raw_sha256": "da15e54d2e86620eb9dedf30260a424a90b8204daaa2b33ccda959709916aeaf",
+        "actual_first_ex_date": "2015-03-13",
+        "actual_last_ex_date": "2026-11-11",
+        "event_type_counts": {
+          "cash_dividend": 25,
+          "other": 2
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "MARI": {
+        "request_status": "complete",
+        "source_row_count": 23,
+        "normalized_row_count": 23,
+        "raw_path": "raw/corporate_actions/MARI_a1450d2ad07275441f1be4396b35d62e8d7f77f235662c5fc529284312c98b0f.json",
+        "raw_sha256": "a1450d2ad07275441f1be4396b35d62e8d7f77f235662c5fc529284312c98b0f",
+        "actual_first_ex_date": "2015-05-14",
+        "actual_last_ex_date": "2026-09-21",
+        "event_type_counts": {
+          "cash_dividend": 20,
+          "other": 3
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "LUCK": {
+        "request_status": "complete",
+        "source_row_count": 10,
+        "normalized_row_count": 10,
+        "raw_path": "raw/corporate_actions/LUCK_4795da6cd8f75a0c4ba3dd4490a29699ab24b96a3a9c48f8283c9fa045d808d8.json",
+        "raw_sha256": "4795da6cd8f75a0c4ba3dd4490a29699ab24b96a3a9c48f8283c9fa045d808d8",
+        "actual_first_ex_date": "2015-10-16",
+        "actual_last_ex_date": "2026-09-17",
+        "event_type_counts": {
+          "cash_dividend": 9,
+          "stock_split": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "DGKC": {
+        "request_status": "complete",
+        "source_row_count": 8,
+        "normalized_row_count": 8,
+        "raw_path": "raw/corporate_actions/DGKC_2cb8ce8f41561f9ab1e9bfe55a09ec6d284fc3dd0bde260ab29a28481bd73af2.json",
+        "raw_sha256": "2cb8ce8f41561f9ab1e9bfe55a09ec6d284fc3dd0bde260ab29a28481bd73af2",
+        "actual_first_ex_date": "2015-10-21",
+        "actual_last_ex_date": "2026-10-19",
+        "event_type_counts": {
+          "cash_dividend": 8
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "MLCF": {
+        "request_status": "complete",
+        "source_row_count": 10,
+        "normalized_row_count": 10,
+        "raw_path": "raw/corporate_actions/MLCF_c190a1a048feea51ac30281ece59f79c6be4e2ad092bcce70cb782390f9df008.json",
+        "raw_sha256": "c190a1a048feea51ac30281ece59f79c6be4e2ad092bcce70cb782390f9df008",
+        "actual_first_ex_date": "2015-03-12",
+        "actual_last_ex_date": "2019-10-31",
+        "event_type_counts": {
+          "cash_dividend": 8,
+          "rights_issue": 2
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "FFC": {
+        "request_status": "complete",
+        "source_row_count": 43,
+        "normalized_row_count": 43,
+        "raw_path": "raw/corporate_actions/FFC_4950c5dfbb1d774648d0b7f814de1369545c8bde7e57dd2254552cfed8753e90.json",
+        "raw_sha256": "4950c5dfbb1d774648d0b7f814de1369545c8bde7e57dd2254552cfed8753e90",
+        "actual_first_ex_date": "2015-03-10",
+        "actual_last_ex_date": "2026-11-06",
+        "event_type_counts": {
+          "cash_dividend": 43
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "EFERT": {
+        "request_status": "complete",
+        "source_row_count": 38,
+        "normalized_row_count": 38,
+        "raw_path": "raw/corporate_actions/EFERT_e6f356c5928cfbcc93a5dc564a9b7748001d8348638eceda7de9d587d87ab43a.json",
+        "raw_sha256": "e6f356c5928cfbcc93a5dc564a9b7748001d8348638eceda7de9d587d87ab43a",
+        "actual_first_ex_date": "2015-04-14",
+        "actual_last_ex_date": "2026-10-30",
+        "event_type_counts": {
+          "cash_dividend": 38
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "FATIMA": {
+        "request_status": "complete",
+        "source_row_count": 14,
+        "normalized_row_count": 14,
+        "raw_path": "raw/corporate_actions/FATIMA_5dfaf3d5c163d859fd0134daa9fedadea05c1006bf908f2d1b71f63de49bfc99.json",
+        "raw_sha256": "5dfaf3d5c163d859fd0134daa9fedadea05c1006bf908f2d1b71f63de49bfc99",
+        "actual_first_ex_date": "2015-04-23",
+        "actual_last_ex_date": "2026-03-30",
+        "event_type_counts": {
+          "cash_dividend": 14
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "SYS": {
+        "request_status": "complete",
+        "source_row_count": 12,
+        "normalized_row_count": 12,
+        "raw_path": "raw/corporate_actions/SYS_00b96b4fafe1bd0338ae266bb5e724645df16d7361221d6cae06d9633c8248b2.json",
+        "raw_sha256": "00b96b4fafe1bd0338ae266bb5e724645df16d7361221d6cae06d9633c8248b2",
+        "actual_first_ex_date": "2015-04-17",
+        "actual_last_ex_date": "2026-04-30",
+        "event_type_counts": {
+          "cash_dividend": 7,
+          "other": 4,
+          "stock_split": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "TRG": {
+        "request_status": "complete",
+        "source_row_count": 2,
+        "normalized_row_count": 2,
+        "raw_path": "raw/corporate_actions/TRG_b3c1e4bd325b9cea87bccd6935812535e5c988cf4b757c50cf757387a0be7f9a.json",
+        "raw_sha256": "b3c1e4bd325b9cea87bccd6935812535e5c988cf4b757c50cf757387a0be7f9a",
+        "actual_first_ex_date": "2015-08-27",
+        "actual_last_ex_date": "2021-06-10",
+        "event_type_counts": {
+          "cash_dividend": 1,
+          "rights_issue": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "NETSOL": {
+        "request_status": "complete",
+        "source_row_count": 5,
+        "normalized_row_count": 5,
+        "raw_path": "raw/corporate_actions/NETSOL_bf67b6f4b70c507236425d91ff0b0652a7de8c1cc483072faaa0bb8ed55af80a.json",
+        "raw_sha256": "bf67b6f4b70c507236425d91ff0b0652a7de8c1cc483072faaa0bb8ed55af80a",
+        "actual_first_ex_date": "2017-10-16",
+        "actual_last_ex_date": "2026-10-21",
+        "event_type_counts": {
+          "cash_dividend": 5
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "NCL": {
+        "request_status": "complete",
+        "source_row_count": 14,
+        "normalized_row_count": 14,
+        "raw_path": "raw/corporate_actions/NCL_a46852e454ab236d1e2bbfb1e633d5597e155e80377e04475b4dac2762a14e06.json",
+        "raw_sha256": "a46852e454ab236d1e2bbfb1e633d5597e155e80377e04475b4dac2762a14e06",
+        "actual_first_ex_date": "2015-05-11",
+        "actual_last_ex_date": "2026-10-15",
+        "event_type_counts": {
+          "cash_dividend": 13,
+          "rights_issue": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "NML": {
+        "request_status": "complete",
+        "source_row_count": 11,
+        "normalized_row_count": 11,
+        "raw_path": "raw/corporate_actions/NML_e190e9c4ac7df70fa09ef2e92a166c8a43f83dc8e23859b4deffe328f6d3aa0e.json",
+        "raw_sha256": "e190e9c4ac7df70fa09ef2e92a166c8a43f83dc8e23859b4deffe328f6d3aa0e",
+        "actual_first_ex_date": "2015-11-23",
+        "actual_last_ex_date": "2026-10-20",
+        "event_type_counts": {
+          "cash_dividend": 11
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      },
+      "GATM": {
+        "request_status": "complete",
+        "source_row_count": 7,
+        "normalized_row_count": 7,
+        "raw_path": "raw/corporate_actions/GATM_5a6e104e1e0b4f88a47adbef128ea2b2eb2cc04e327f6bc82da048bde477a89d.json",
+        "raw_sha256": "5a6e104e1e0b4f88a47adbef128ea2b2eb2cc04e327f6bc82da048bde477a89d",
+        "actual_first_ex_date": "2015-10-21",
+        "actual_last_ex_date": "2023-06-20",
+        "event_type_counts": {
+          "bonus_issue": 1,
+          "cash_dividend": 3,
+          "other": 2,
+          "rights_issue": 1
+        },
+        "public_availability_rows": 0,
+        "errors": [],
+        "revised_keys": []
+      }
+    },
+    "not_evaluated": [
+      "event completeness requires an approved source and its historical coverage",
+      "point-in-time action access excludes events without published_at or available_date"
+    ],
+    "adjusted_price_series": "not created"
+  }
+}

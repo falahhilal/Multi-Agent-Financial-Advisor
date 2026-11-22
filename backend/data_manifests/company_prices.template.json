@@ -1,0 +1,18 @@
+{
+  "dataset_name": "company_prices",
+  "ticker": null,
+  "source": "pypsx",
+  "source_endpoint": "pypsx.get_historical",
+  "fetched_at": null,
+  "requested_start": null,
+  "requested_end": null,
+  "actual_first_date": null,
+  "actual_last_date": null,
+  "row_count": null,
+  "file_count": null,
+  "file_paths": [],
+  "checksums_sha256": {},
+  "schema_version": "company_prices_v1",
+  "collection_status": "not_started",
+  "error": null
+}
