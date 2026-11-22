@@ -531,3 +531,128 @@ Known gaps and limits:
   dataset later.
 - SBP may revise history silently; we only detect revisions between our own
   runs. An expired key stops refreshes until it is renewed.
+
+### macro_reserves
+
+| | |
+|---|---|
+| Purpose | Pakistan's gold and foreign exchange reserves (SBP, banks, totals) for the Macro Agent's external-position signals and reserve context in the backtest. |
+| Loader | `backend/jobs/macro_reserves.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually each month after the Balance of Payments release (around the 20th-25th) and before each experiment freeze. One run makes 38 requests (19 `/meta` + 19 `/data`), about 2 minutes; keep all EasyData runs within 250 requests per hour and 2,000 per day per key. The run log and the final log line give the row count per series. |
+| Source | SBP EasyData API, dataset "Gold and Foreign Exchange Reserves of Pakistan" (`TS_GP_EXT_PAKRES_M`), source SBP. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 19 series, unit Million USD, `TS_GP_EXT_PAKRES_M.<code>`: Z00010 Gold reserves; Z00011 Special Drawing rights holdings; Z00012 Cash Foreign Currency with SBP-BSC; Z00013 Nostro balances of SBP; Z00014 Net Asian clearing unit balances; Z00015 IMF reserve position; Z00016 Cash reserve requirement and special cash reserve requirement (CRR/SCRR); Z00017 FE-25 deposits of banks; Z00018 Trade Nostro of banks; Z00019 Place abroad(other than FE-25) of banks; Z00020 Total SBP Reserves; Z00021 Trade Finance from FCA; Z00022 FE-25 Placements of banks in Pakistan; Z00023 FE-25 utilization-Others; Z00030 Net Reserves with SBP; Z00040 Total Banks Reserves; Z00050 Net Reserves With Banks; Z00060 Total Liquid FX Reserves; Z00070 Total Reserve Assets. `series_code` comes from a fixed table in the loader. Expected names are the manual CSV's "Series name" (2026-11-22) and are checked exactly against `/meta` on every run, after removing leading dots and spaces; a mismatch aborts before any data is fetched. API names may differ from the CSV (for CPI the API used "; " where the CSV had ", "); the first `--no-upload` run shows any difference. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/reserves/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/reserves.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with row counts, identity checks and check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per date: `series_key`, `series_name` (leading dots and spaces removed), `series_code`, `observation_date` (month end; 30 June before 1972), `value` (million USD), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = the 25th of the month after `observation_date`, 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "bop_release_25th_next_month"`. Evidence (Mahrukh, 2026-11-22): SBP Advance Release Calendar 2026 (ARC.xls) releases liquid FX reserves weekly (Thursdays) and "Month end data is also released after dissemination of Balance of Payments"; Balance of Payments is released no later than the 16th-20th of the following month; Oct-2026 reserves were refreshed on EasyData 18-Nov-2026. **Consequence: backtests see each month-end value about 25 days after the month ends.** The weekly Thursday releases are not collected. The same rule is applied to the annual values before 1972. |
+| Coverage | From the EasyData dataset web page on 2026-11-22: Jun-1948 to Oct-2026, monthly, Last Refresh Date 18-Nov-2026. Manual CSV (2026-11-22): 7,112 rows, no empty values, no duplicates, all status "Normal" (some status comments "." or "......."). One value per year (30 June) from 1948 to 1970, partial 1971, monthly from 1972. Spans per series (first - last): Z00010, Z00013, Z00020 1948-06 - 2026-10; Z00011, Z00018, Z00040 1971-06 - 2026-10; Z00012, Z00021, Z00022, Z00023 2005-07 - 2026-10; Z00014, Z00015 2020-06 - 2026-10; Z00016 1999-06 - 2005-06 (ended); Z00017 1998-07 - 2026-10; Z00019 2007-03 - 2026-10; Z00030, Z00050 2010-07 - 2026-10; Z00060 2010-07 - 2024-09 (ended); Z00070 1948-06 - 2024-09 (ended). |
+| Citation | State Bank of Pakistan, (2026), Monthly data from Gold and Foreign Exchange Reserves of Pakistan, for 30-Jun-1948 to 31-Oct-2026, Source EasyData, Gold and Foreign Exchange Reserves of Pakistan, 18-Nov-2026. (The loader writes the citation with the run's actual date range to the run log and manifest; year and refresh date come from the Last Refresh Date, never the run date.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, a `/data` response
+that is not valid JSON (no repair), unparseable, duplicate or non-month-end
+dates, dates after the run date, fewer than two rows per series, or a value
+that is empty or non-numeric. Negative values never fail the run. It **warns**
+on: a span different from the fixed table (first observation different from
+the expected start; an ongoing series ending before the latest month; an ended
+series ending earlier than expected or reappearing after its end), a skipped
+month between two dates from 1972-01 on, a negative value in any series other
+than Z00014, Z00018 and Z00040 (the row is kept), an identity mismatch above 1
+million USD (below), the latest month more than 60 days old, first observation
+different from Available Since, an unexpected dataset name, a unit other than
+Million USD, a status other than "Normal", value revisions since the previous
+run, and status-only changes since the previous run. Status comments are kept
+as returned and never warned about.
+
+Identities, checked on every month where the total and all its parts exist
+(never used to fill values):
+
+- Z00060 = Z00030 + Z00050 (manual CSV: 171 months, 0 mismatches);
+- Z00070 = Z00010 + Z00020 + Z00040 (manual CSV: 640 months, 0 mismatches).
+
+Known gaps and limits:
+
+- **The two headline totals end at 2024-09.** Z00060 (Total Liquid FX
+  Reserves) and Z00070 (Total Reserve Assets) have no rows after 2024-09-30,
+  and the loader does not derive them. Consumers that need them later can
+  rebuild them with the two identities above; the run log records how many
+  months each identity checked.
+- Annual values only (30 June) from 1948 to 1970, and a partial 1971; months
+  are not checked for gaps before 1972. The step from the last 1971 value to
+  1972-01 is also not checked, so a real gap at the end of 1971 would not be
+  flagged.
+- Negative values are real in Z00018 (Trade Nostro of banks, 224 months) and
+  Z00040 (Total Banks Reserves, 10 months); Z00014 is a net balance and may be
+  negative.
+- Z00016 (CRR/SCRR) ended in 2005-06.
+- The `published_at` rule rests on the 2026 Advance Release Calendar and one
+  observed refresh date (18-Nov-2026). It was not checked against historical
+  release dates; a historical Balance of Payments release after the 25th would
+  make the rule leak.
+- EasyData returns the latest revised values, not first-release vintages, so
+  point-in-time use sees revised numbers.
+- The loader requests 19 fixed keys and cannot detect series added to the
+  dataset later.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
+
+### macro_money_supply
+
+| | |
+|---|---|
+| Purpose | Weekly broad money (M2), its components, government borrowing and private-sector credit for the Macro Agent's liquidity and credit signals. |
+| Loader | `backend/jobs/macro_money_supply.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually (weekly or monthly) and before each experiment freeze. One run makes 100 requests (50 `/meta` + 50 `/data`), about 5 minutes; keep all EasyData runs within 250 requests per hour and 2,000 per day per key (do not run it in the same hour as `macro_inflation`, which makes 120). The run log and the final log line give the row count per series. |
+| Source | SBP EasyData API, dataset "Weekly Broad Money M2" (`TS_GP_BAM_M2_W`), source SBP. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 50 series, `TS_GP_BAM_M2_W.M000010` to `M000500` in steps of 10. Unit "Million PKR" for M000010-M000470, "Percent" for M000480-M000500 (YoY growth of private-sector credit, total deposits and M2). Main series: M000010 Currency in Circulation; M000030 Total Deposits with Scheduled Banks; M000070 Broad Money (liability side); M000080 Net Foreign Assets of the Banking System; M000110 Net Domestic Assets of the Banking System; M000140 Net Government Sector Borrowings; M000340 Credit to Private Sector; M000420 Broad Money (Assets  side); M000500 Memorandum: Broad Money (M2) - YoY growth. The full list of 50 names is the fixed table in the loader. Expected names are the manual CSV's "Series name" (2026-11-22), **including its double spaces** (M000420, M000430, M000440, M000450, M000460, M000470), and are checked exactly against `/meta` on every run after removing only leading dots and spaces; a mismatch aborts before any data is fetched. Corrected from the first `--no-upload` run (2026-11-22): M000020 is "Deposits with SBP excluding banks; IMF and other Intl. Organizations" in the API; the manual CSV export shows "," where the API returns ";" (as for CPI). The run aborted at the metadata check, before any data was fetched, and the expected name was changed to the API form. `series_code` comes from the fixed table. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/money_supply/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/money_supply.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with row counts, identity checks and check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per date: `series_key`, `series_name` (leading dots and spaces removed, double spaces kept), `series_code`, `observation_date` (Friday), `value` (million PKR, or percent for M000480-M000500), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = `observation_date` (the Friday) + 14 days, 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "weekly_release_friday_plus_14d"`. Evidence (Mahrukh, 2026-11-22): SBP Advance Release Calendar 2026 releases weekly Broad Money (M2) no later than 10 days after the reporting period (as on the previous Friday), except revisions and public holidays; the 4 extra days are a margin for holidays. **Consequence: backtests see each weekly value 14 days after its Friday.** |
+| Coverage | From the EasyData dataset web page: 04-Jul-2014 to 06-Nov-2026, weekly (Fridays). Manual CSV (2026-11-22): 32,250 rows (50 series x 645 Fridays), no empty values, no duplicates, all status "Normal", every gap exactly 7 days. Last Refresh Date 16-Nov-2026 (from `/meta` on 2026-11-22; the EasyData list had shown 11-Nov-2026 on 2026-11-20, before the data reached 06-Nov-2026). |
+| Citation | State Bank of Pakistan, (2026), Weekly data from Weekly Broad Money M2, for 04-Jul-2014 to 06-Nov-2026, Source EasyData, Weekly Broad Money M2, 16-Nov-2026. (The loader writes the citation with the run's actual date range to the run log and manifest; year and refresh date come from the Last Refresh Date, never the run date.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, a `/data` response
+that is not valid JSON (no repair), unparseable or duplicate dates, dates
+after the run date, fewer than two rows per series, or a value that is empty
+or non-numeric. Negative values never fail the run (many series are negative
+by construction). It **warns** on: a date that is not a Friday, a gap other
+than 7 days between consecutive dates (a skipped week), series with different
+date sets or end dates, an identity mismatch above 5 million PKR (below), the
+latest date more than 30 days old, first observation different from Available
+Since, an unexpected dataset name, a unit other than the series' expected unit,
+a status other than "Normal", value revisions since the previous run, and
+status-only changes since the previous run. Status comments are kept as
+returned and never warned about.
+
+Identities, checked on every Friday where the total and all its parts exist
+(never used to fill values):
+
+- M000070 = M000420, Broad Money liability side = assets side (manual CSV:
+  one difference of 2.01 on 2020-02-21, rounding, below the tolerance);
+- M000070 = M000010 + M000020 + M000030 (manual CSV: 0 mismatches).
+
+Known gaps and limits:
+
+- **Revised values only.** EasyData returns the latest revised values, not
+  first-release vintages. M2 is revised (for example after SBP's annual
+  accounts in October), so point-in-time use sees revised numbers, not what
+  was public at the time. A thesis limitation.
+- Revisions between our own runs are warned about with the full list of
+  changed values (shared `diff_revisions` behaviour), so an annual revision
+  can produce a very long warning in the run log and manifest.
+- The `published_at` rule rests on the 2026 Advance Release Calendar. It was
+  not checked against historical release dates; a holiday-delayed release
+  more than 14 days after its Friday would make the rule leak.
+- No data before 04-Jul-2014; backtest windows before then have no weekly M2
+  from this dataset.
+- The loader requests 50 fixed keys and cannot detect series added to the
+  dataset later.
+- An expired key stops refreshes until it is renewed.
