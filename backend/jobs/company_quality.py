@@ -17,6 +17,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from jobs.company_as_of import corporate_action_available_date, fundamental_available_at
 from jobs.company_schemas import (
     CompanyFundamental,
     CorporateAction,
@@ -291,12 +292,17 @@ def validate_corporate_actions(
                 )
             )
     issues.extend(_mapping_issues((row.ticker for row in parsed), known_tickers, "corporate actions"))
+    not_evaluated = ["event completeness requires an approved source and its historical coverage"]
+    if any(corporate_action_available_date(action) is None for action in parsed):
+        not_evaluated.append(
+            "point-in-time action access excludes events without published_at or available_date"
+        )
     return _report(
         "corporate_actions",
         len(raw_rows),
         {row.ticker for row in parsed},
         issues,
-        ["event completeness requires an approved source and its historical coverage"],
+        not_evaluated,
         dict(raw_ticker_counts),
     )
 
@@ -322,8 +328,21 @@ def validate_fundamentals(
         except ValidationError as exc:
             issues.append(_validation_issue("fundamental", row, exc))
 
+    unknown_availability: Counter[str] = Counter(
+        record.ticker for record in parsed if fundamental_available_at(record) is None
+    )
+    for ticker, count in sorted(unknown_availability.items()):
+        issues.append(
+            QualityIssue(
+                code="fundamental_availability_unknown",
+                severity="warning",
+                message=f"{count} source records lack public availability and are excluded from PIT reads",
+                ticker=ticker,
+            )
+        )
+
     keys = [
-        (r.ticker, r.metric, r.period_end, r.as_of_date, r.source)
+        (r.ticker, r.statement_type, r.source_item, r.period_label, r.metric, r.source)
         for r in parsed
     ]
     counts = Counter(keys)
@@ -345,12 +364,13 @@ def validate_fundamentals(
             raise ValueError("as_of must include a timezone")
         as_of_utc = as_of.astimezone(timezone.utc)
         for record in parsed:
-            if record.published_at > as_of_utc:
+            availability = fundamental_available_at(record)
+            if availability is not None and availability > as_of_utc:
                 issues.append(
                     QualityIssue(
                         code="fundamental_not_public_as_of_date",
                         severity="error",
-                        message="record was published after the requested point-in-time date",
+                        message="record's publication or availability date is after the requested point-in-time",
                         ticker=record.ticker,
                         record_date=record.period_end,
                     )
@@ -358,11 +378,20 @@ def validate_fundamentals(
     else:
         deferred.append("point-in-time publication checks require a timezone-aware as_of timestamp")
 
+    point_in_time_records = parsed
+    if as_of_utc is not None:
+        point_in_time_records = [
+            record
+            for record in parsed
+            if (availability := fundamental_available_at(record)) is not None
+            and availability <= as_of_utc
+        ]
+
     if required_metrics is None:
         deferred.append("missing-metric checks require an approved per-ticker metric expectation")
     else:
         observed: dict[str, set[str]] = defaultdict(set)
-        for record in parsed:
+        for record in point_in_time_records:
             observed[record.ticker].add(record.metric)
         for ticker, metrics in required_metrics.items():
             for metric in sorted(metrics - observed.get(ticker, set())):
@@ -381,13 +410,25 @@ def validate_fundamentals(
         if any(days < 0 for days in stale_after_days.values()):
             raise ValueError("stale_after_days values must be non-negative")
         latest: dict[tuple[str, str], CompanyFundamental] = {}
-        for record in parsed:
+        for record in point_in_time_records:
             key = (record.ticker, record.metric)
-            if key not in latest or record.published_at > latest[key].published_at:
+            availability = fundamental_available_at(record)
+            prior_availability = (
+                fundamental_available_at(latest[key]) if key in latest else None
+            )
+            if key not in latest or (
+                availability is not None
+                and (prior_availability is None or availability > prior_availability)
+            ):
                 latest[key] = record
         for (ticker, metric), record in latest.items():
             max_age = stale_after_days.get(metric)
-            if max_age is not None and (as_of_utc - record.published_at).days > max_age:
+            availability = fundamental_available_at(record)
+            if (
+                max_age is not None
+                and availability is not None
+                and (as_of_utc - availability).days > max_age
+            ):
                 issues.append(
                     QualityIssue(
                         code="stale_fundamental",
@@ -399,6 +440,8 @@ def validate_fundamentals(
                 )
 
     issues.extend(_mapping_issues((row.ticker for row in parsed), known_tickers, "fundamentals"))
+    if unknown_availability:
+        deferred.append("records without actual publication/availability dates are excluded from point-in-time reads")
     return _report(
         "fundamentals",
         len(raw_rows),

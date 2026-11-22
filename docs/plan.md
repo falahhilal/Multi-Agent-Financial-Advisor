@@ -116,8 +116,8 @@ The company-stream setup is implemented in `data/README.md`, `backend/jobs/compa
 
 1. Company Stream A layout and shared conventions are documented; raw snapshots remain immutable and normalized tabular datasets use Parquet.
 2. Company schemas, provenance, manifest contract, and required `as_of` filters are implemented with offline tests. Missing event/fundamental availability is excluded.
-3. Team reports written permission for intended PSX/pyPSX collection and private HF sharing; other rights remain source-specific and must not be inferred.
-4. Storage location and backup/access procedure for the private data still need operational confirmation before collection. The local `data/` tree is gitignored.
+3. Team reports written permission for intended PSX/pyPSX historical-price, corporate-action and company-fundamentals collection and private HF sharing; this does not grant unrelated rights.
+4. Local `data/` is gitignored. Operational backup/access procedures for future runs remain open.
 
 #### Stream A. Company data
 
@@ -132,20 +132,35 @@ Covers everything about the listed companies and their prices.
 2. **KSE-100 constituent history.** Find out whether history exists or only the
    current snapshot. This decides how honestly survivorship bias can be
    handled.
-3. **Daily OHLCV** per ticker through `psxdata`, with Yahoo `.KA` as fallback.
-   Record which source supplied which ticker and date range.
-4. **Corporate actions:** splits, bonus shares, dividends. Keep raw and
-   adjusted closes separate.
-5. **Fundamentals per ticker:** P/E, EPS, book value, dividend yield, market
-   cap, each with its report date. First check whether `psxdata` has them per
-   ticker or only per sector. If only per sector, decide whether to scrape or
-   accept sector-level and say so.
+3. **Daily OHLCV — initial collection run 2026-11-22.** pyPSX returned
+   price history for all 18 active tickers (2015-01-01–2026-11-20; SYS begins
+   2015-02-06). Of 53,012 source rows, 52,950 passed normalization; 62
+   inconsistent OHLC rows were excluded and reported. The private HF upload
+   was verified. Prices are therefore partial pending review and remaining
+   quality policies. Do not use `psxdata` or Yahoo as a fallback without
+   source-term and access review.
+4. **Corporate actions — initial pyPSX collection 2026-11-22.** 386 rows were
+   archived and uploaded for the 18 active tickers (cash dividends, bonus,
+   split, rights and other event types). The response has ex-dates but no
+   verified publication/availability dates, so actions are excluded from PIT
+   reads and do not validate adjusted prices.
+5. **Fundamentals — initial pyPSX collection 2026-11-22.** 13,379 annual
+   statement-item rows were archived and uploaded, covering observed years
+   2015–2025/2026 by ticker. Publication dates, units and currency are absent;
+   do not use these rows for PIT backtests or derive historical metrics.
+   Select a source that provides point-in-time publication dates before
+   fundamentals can be treated as complete.
 6. **Sector map and sector summary series:** one sector label per ticker.
 7. **Data quality report per ticker:** missing days, halts, suspensions, stale
    prices, outliers. This decides each ticker's data-availability flag.
 
 Done when: every ticker has a quality report, the fundamentals question is
-answered, and prices read back by `as_of` return only data available then.
+answered, and prices read back by `as_of` return only data available then. The
+2026-11-22 run produced the ticker reports and passed as-of regression tests,
+but Stream A remains open: OHLC exceptions need review; action publication
+dates and event completeness, point-in-time fundamentals, approved session
+calendar, adjusted-price methodology and several quality policies are
+unresolved.
 
 #### Stream B. SBP and macro data
 

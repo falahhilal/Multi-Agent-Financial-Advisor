@@ -149,6 +149,28 @@ def test_fundamental_quality_flags_stale_missing_and_future_publication(
     assert "fundamental_not_public_as_of_date" in codes
 
 
+def test_fundamental_quality_handles_date_only_availability_and_excludes_future(
+    records: dict[str, list[dict[str, object]]],
+) -> None:
+    available = {
+        **records["fundamentals"][0], "ticker": "HBL", "published_at": None,
+        "available_date": "2026-04-01", "fetched_at": "2026-04-02T00:00:00Z",
+    }
+    future = {
+        **records["fundamentals"][0], "ticker": "UBL", "published_at": None,
+        "available_date": "2026-04-16", "fetched_at": "2026-04-17T00:00:00Z",
+    }
+    report = validate_fundamentals(
+        [available, future], {"HBL", "UBL"},
+        as_of=datetime(2026, 4, 15, tzinfo=timezone.utc),
+        required_metrics={"HBL": {"eps_basic"}, "UBL": {"eps_basic"}},
+        stale_after_days={"eps_basic": 30},
+    )
+    future_issue = next(issue for issue in report.issues if issue.ticker == "UBL")
+    assert future_issue.code == "fundamental_not_public_as_of_date"
+    assert any(issue.code == "missing_fundamental_metric" and issue.ticker == "UBL" for issue in report.issues)
+
+
 def test_dataset_coverage_flags_missing_and_unknown_tickers() -> None:
     report = validate_dataset_coverage(
         {"prices": ["HBL", "OUTSIDE"]}, {"HBL", "UBL"}

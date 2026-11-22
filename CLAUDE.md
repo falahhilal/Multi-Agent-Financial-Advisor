@@ -408,6 +408,11 @@ worked in the `Who:` line. Use a distinct short slug if the same person has
 multiple sessions on one day. Copy `worklogs/TEMPLATE.md` and write the
 worklog at the end of the session. Older worklogs keep their original names.
 
+At the start of a session, check the branch and working tree, then read the
+latest relevant worklog. Review its completed work and pending tasks and
+verify them against the current repository state before acting. Avoid
+repeating completed work.
+
 **Every worklog names people.** A `Who:` line listing whoever worked the
 session is mandatory — a worklog with no name on it is incomplete. Beyond
 that, attribute each decision and each work item to the person who made or

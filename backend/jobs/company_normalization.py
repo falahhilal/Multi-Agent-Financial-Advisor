@@ -49,8 +49,11 @@ def _natural_key(record: BaseModel, key_fields: Sequence[str]) -> tuple[str, ...
     return tuple(json.dumps(values[field], sort_keys=True) for field in key_fields)
 
 
-def _canonical_record(record: BaseModel) -> str:
-    return json.dumps(record.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+def _canonical_record(record: BaseModel, ignore_fields: frozenset[str] = frozenset()) -> str:
+    values = record.model_dump(mode="json")
+    for field in ignore_fields:
+        values.pop(field, None)
+    return json.dumps(values, sort_keys=True, separators=(",", ":"))
 
 
 def merge_records(
@@ -58,6 +61,7 @@ def merge_records(
     incoming: Sequence[RecordT],
     *,
     key_fields: Sequence[str],
+    ignore_fields: Sequence[str] = (),
 ) -> MergeResult:
     """Merge without deleting history; return exact duplicates and revisions.
 
@@ -67,6 +71,7 @@ def merge_records(
     """
     if not key_fields:
         raise ValueError("key_fields must not be empty")
+    ignored = frozenset(ignore_fields)
 
     ordered: dict[tuple[str, ...], RecordT] = {}
     canonical: dict[tuple[str, ...], str] = {}
@@ -76,17 +81,17 @@ def merge_records(
     for record in existing:
         key = _natural_key(record, key_fields)
         if key in ordered:
-            if canonical[key] != _canonical_record(record):
+            if canonical[key] != _canonical_record(record, ignored):
                 raise DuplicateRecordError("existing store has conflicting duplicate keys")
             duplicate_keys.append(key)
             continue
         ordered[key] = record
-        canonical[key] = _canonical_record(record)
+        canonical[key] = _canonical_record(record, ignored)
 
     incoming_batch: dict[tuple[str, ...], str] = {}
     for record in incoming:
         key = _natural_key(record, key_fields)
-        value = _canonical_record(record)
+        value = _canonical_record(record, ignored)
         if key in incoming_batch:
             if incoming_batch[key] != value:
                 raise DuplicateRecordError("incoming batch has conflicting duplicate keys")

@@ -66,7 +66,9 @@ class DailyOHLCV(CompanyRecord):
     adjusted_close: PositiveDecimal | None = None
     adjustment_factor: PositiveDecimal | None = None
     dividend: NonNegativeDecimal | None = None
+    dividend_basis: Literal["per_adjusted_share"] | None = None
     source: NonEmptyString
+    source_endpoint: NonEmptyString | None = None
     source_url: NonEmptyString | None = None
     source_record_id: NonEmptyString | None = None
     fetched_at: UtcTimestamp
@@ -84,17 +86,23 @@ class DailyOHLCV(CompanyRecord):
 
 class CorporateAction(CompanyRecord):
     ticker: Ticker
-    action_type: Literal["cash_dividend", "stock_split", "bonus_issue"]
+    action_type: Literal["cash_dividend", "stock_split", "bonus_issue", "rights_issue", "other"]
     announcement_date: date | None = None
     ex_date: date
     record_date: date | None = None
     payment_date: date | None = None
+    published_at: UtcTimestamp | None = None
     available_date: date | None = None
     amount_per_share: PositiveDecimal | None = None
     currency: CurrencyCode | None = None
     ratio_new_shares: PositiveDecimal | None = None
     ratio_old_shares: PositiveDecimal | None = None
+    provider_price_factor: DecimalValue | None = None
+    provider_total_factor: DecimalValue | None = None
+    provider_applied: bool | None = None
+    provider_fields: dict[str, str | None] = Field(default_factory=dict)
     source: NonEmptyString
+    source_endpoint: NonEmptyString | None = None
     source_url: NonEmptyString | None = None
     source_record_id: NonEmptyString | None = None
     fetched_at: UtcTimestamp
@@ -102,13 +110,13 @@ class CorporateAction(CompanyRecord):
     @model_validator(mode="after")
     def validate_action_fields(self) -> CorporateAction:
         if self.action_type == "cash_dividend":
-            if self.amount_per_share is None or self.currency is None:
-                raise ValueError("cash dividends require amount_per_share and currency")
+            if self.amount_per_share is not None and self.currency is None:
+                raise ValueError("cash dividend amount requires a currency")
             if self.ratio_new_shares is not None or self.ratio_old_shares is not None:
                 raise ValueError("cash dividends cannot have a share ratio")
         else:
-            if self.ratio_new_shares is None or self.ratio_old_shares is None:
-                raise ValueError("share actions require both ratio fields")
+            if (self.ratio_new_shares is None) != (self.ratio_old_shares is None):
+                raise ValueError("share actions must provide both ratio fields or neither")
             if self.amount_per_share is not None or self.currency is not None:
                 raise ValueError("share actions cannot have dividend amount or currency")
         return self
@@ -117,17 +125,23 @@ class CorporateAction(CompanyRecord):
 class CompanyFundamental(CompanyRecord):
     ticker: Ticker
     metric: MetricName
-    value: DecimalValue
-    unit: NonEmptyString
+    value: DecimalValue | None
+    unit: NonEmptyString | None = None
     currency: CurrencyCode | None = None
     period_start: date | None = None
     period_end: date | None = None
+    period_type: Literal["annual", "quarterly", "other"] | None = None
+    period_label: NonEmptyString | None = None
+    statement_type: NonEmptyString | None = None
+    source_item: NonEmptyString | None = None
     report_date: date | None = None
     published_at: UtcTimestamp | None = None
     available_date: date | None = None
     as_of_date: date | None = None
+    provider_fields: dict[str, str | None] = Field(default_factory=dict)
     basis: Literal["reported", "vendor_calculated", "project_calculated"]
     source: NonEmptyString
+    source_endpoint: NonEmptyString | None = None
     source_url: NonEmptyString | None = None
     source_record_id: NonEmptyString | None = None
     fetched_at: UtcTimestamp
@@ -138,10 +152,8 @@ class CompanyFundamental(CompanyRecord):
             raise ValueError("period_start requires period_end")
         if self.period_start is not None and self.period_start > self.period_end:
             raise ValueError("period_start must be on or before period_end")
-        if self.period_end is None and self.as_of_date is None:
-            raise ValueError("a period_end or as_of_date is required")
-        if self.published_at is None and self.available_date is None:
-            raise ValueError("published_at or available_date is required for point-in-time use")
+        if self.period_end is None and self.as_of_date is None and self.period_label is None:
+            raise ValueError("a period_end, as_of_date, or source period_label is required")
         return self
 
 
@@ -167,19 +179,49 @@ class DatasetManifest(CompanyRecord):
 
     @model_validator(mode="after")
     def validate_manifest(self) -> DatasetManifest:
+        if self.requested_start and self.requested_end and self.requested_start > self.requested_end:
+            raise ValueError("requested_start must be on or before requested_end")
         if (self.actual_first_date is None) != (self.actual_last_date is None):
             raise ValueError("actual first and last dates must both be set or both be null")
         if self.actual_first_date and self.actual_first_date > self.actual_last_date:
             raise ValueError("actual_first_date must be on or before actual_last_date")
+        if len(self.file_paths) != len(set(self.file_paths)):
+            raise ValueError("file_paths must be unique")
+        if self.file_count is not None and self.file_count != len(self.file_paths):
+            raise ValueError("file_count must match file_paths length")
+        if any(path.startswith(("/", "\\")) or ".." in path.replace("\\", "/").split("/") for path in self.file_paths):
+            raise ValueError("file_paths must be relative and cannot traverse parent directories")
+        if self.file_paths and set(self.checksums_sha256) != set(self.file_paths):
+            raise ValueError("checksums must cover every listed file path")
         for path, checksum in self.checksums_sha256.items():
             if path not in self.file_paths or len(checksum) != 64 or any(c not in "0123456789abcdef" for c in checksum):
                 raise ValueError("checksums must be lowercase SHA-256 values for listed file paths")
         if self.collection_status == "not_started" and (self.row_count is not None or self.file_paths):
             raise ValueError("not_started manifests cannot claim collected rows or files")
+        if self.collection_status == "not_started" and (
+            self.fetched_at is not None
+            or self.file_count is not None
+            or self.checksums_sha256
+            or self.actual_first_date is not None
+            or self.actual_last_date is not None
+            or self.error is not None
+        ):
+            raise ValueError("not_started manifests cannot contain collection results")
         if self.collection_status != "not_started" and self.fetched_at is None:
             raise ValueError("collected manifests require fetched_at")
         if self.collection_status == "failed" and not self.error:
             raise ValueError("failed manifests require error information")
+        if self.collection_status == "complete":
+            if self.error is not None:
+                raise ValueError("complete manifests cannot contain an error")
+            if self.row_count is None or self.file_count is None or self.file_count < 1:
+                raise ValueError("complete manifests require row_count and at least one file")
+            if not self.file_paths or set(self.checksums_sha256) != set(self.file_paths):
+                raise ValueError("complete manifests require a checksum for every file path")
+            if self.row_count > 0 and (self.requested_start is not None or self.requested_end is not None) and self.actual_first_date is None:
+                raise ValueError("complete date-range manifests require actual first/last dates")
+        if self.collection_status in {"partial", "failed"} and self.row_count is not None and self.file_count is None:
+            raise ValueError("manifests with collected rows require file_count")
         return self
 
 
