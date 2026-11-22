@@ -90,7 +90,7 @@ class FakeApi:
             self.routes[f"/api/v1/series/{s.key}/meta"] = meta_body(s.key)
             self.routes[f"/api/v1/series/{s.key}/data"] = data_body(s.key)
 
-    def __call__(self, url: str, headers: Any, timeout: float) -> common.HttpResponse:
+    def __call__(self, url: str, headers: Any, timeout: float, body: bytes | None = None) -> common.HttpResponse:
         parts = urllib.parse.urlsplit(url)
         if parts.path == "/robots.txt":
             return common.HttpResponse(url, 404, {}, b"")
