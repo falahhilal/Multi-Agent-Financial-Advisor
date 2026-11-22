@@ -1,0 +1,975 @@
+{
+  "schema_version": 1,
+  "id": "macro_fx",
+  "stream": "macro",
+  "dataset": "fx",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Bank Floating Daily Average Exchange Rates (PKR per National Currency)' (TS_GP_ES_FADERPKR_M), series TS_GP_ES_FADERPKR_M.XRDAVG0010 to TS_GP_ES_FADERPKR_M.XRDAVG0230 (23)",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-22T10:02:27Z",
+  "script": "backend/jobs/macro_fx.py",
+  "git_commit": "a409511c84da1a95cd653161b3114b0d9ece6fed",
+  "git_dirty": false,
+  "row_count": 75325,
+  "file_count": 49,
+  "date_range": {
+    "min": "2013-07-02",
+    "max": "2026-10-30"
+  },
+  "files": [
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0010_meta.json",
+      "bytes": 580,
+      "sha256": "6a5754a02a9a61583f5d63504970a9fd15fece2e005514a4da765d7ab8a07674"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0010_data.json",
+      "bytes": 739251,
+      "sha256": "14ee497a6b2d1285cbb790179f7102f2f8bdd0b19863665c659290561308fe08"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0020_meta.json",
+      "bytes": 574,
+      "sha256": "19f7c24558e4694df5befc4892688350e243e6ce4515eda38fcf58f5f8fe783f"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0020_data.json",
+      "bytes": 729451,
+      "sha256": "4c5232c2a5d0842e1e1f6c7719deb6ffd5c03cdfd23896bc5ad6bbb3106b1410"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0030_meta.json",
+      "bytes": 576,
+      "sha256": "1dfb5b8d8498879d4e571434604412b43070ebc3e91ff883ec1dc6d7ffc7256d"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0030_data.json",
+      "bytes": 733660,
+      "sha256": "17470d33793e5f17f2fb4f3a885b131da46f9f0847aab298e16eae00189b8bec"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0040_meta.json",
+      "bytes": 570,
+      "sha256": "3934b0c808b62f81d7244dfe49ea00856ec273ecd662edc2fe57ee23b91cbc06"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0040_data.json",
+      "bytes": 721746,
+      "sha256": "15c29b0b8acfb2939f5c43b2ee609cb99c6537cd5257d5faa2ad839ae0dfed5c"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0050_meta.json",
+      "bytes": 570,
+      "sha256": "8af1263e252b1ce4ed7eb32780a05c2ad9abfbf7be10976d162a17b56c92a738"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0050_data.json",
+      "bytes": 721765,
+      "sha256": "02a7a58f1f87ec30c22ce066ae09268716786998a7fba210ea84550e93f149ab"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0060_meta.json",
+      "bytes": 578,
+      "sha256": "1505853a7ece57577512902784528a5a76db2cc8695d17635887991c6cc3da2e"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0060_data.json",
+      "bytes": 734689,
+      "sha256": "bb3935cc437aa35631e471f8e2c0f3939e50b54e693c918c9135f4eb2184a399"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0070_meta.json",
+      "bytes": 570,
+      "sha256": "b266f29d3fe6f2eb2b170eaeb6a129d7303112dc28848a16a5103530cef115c1"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0070_data.json",
+      "bytes": 718318,
+      "sha256": "697901f5d42fa32e158b2eaa931873ea6cd6d313c58f454f37dd0d60a0932441"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0080_meta.json",
+      "bytes": 572,
+      "sha256": "9deef0a350f43d285cb85d3e49e6be29ec73ceb5f1fccb655938a944904e0af3"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0080_data.json",
+      "bytes": 727037,
+      "sha256": "fc9039f72b8475228e8d5a486fd557c0428d07c78da5469701d7465c39054198"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0090_meta.json",
+      "bytes": 580,
+      "sha256": "cbf52d373f002c08e64cd793c77e802de3e043aa43169e1e29eaa626f008e14b"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0090_data.json",
+      "bytes": 738076,
+      "sha256": "2bfd294fb362b7fc94450072c5feb4b5031f6d6e9bdae053609134dcf9244d24"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0100_meta.json",
+      "bytes": 582,
+      "sha256": "06988af54ce47878d32ab49bdaecf143f389422dd50c9548207e52d1edfac6e4"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0100_data.json",
+      "bytes": 742097,
+      "sha256": "a8fae31dd025d19e66fac0535611e2bcbc2c5fe84126ed4549144a686adc8207"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0110_meta.json",
+      "bytes": 576,
+      "sha256": "e66fd2d0f6edbbbf6ed09c7c78b7d40a2bf63aaa38e28e7799576e692ef08bca"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0110_data.json",
+      "bytes": 731311,
+      "sha256": "4cc442d96c41439d55d0b56eb6fe3e25f91632c2913dd90cc46142e44b00d4d5"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0120_meta.json",
+      "bytes": 568,
+      "sha256": "dff6e31f0c21381a777e9209458e35ecc8beb89b4202272bf66ddfe990fcf61d"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0120_data.json",
+      "bytes": 717913,
+      "sha256": "52517efc583d700c5f43c7f898d2f2d4af344ec8ca3f5966f3877e6e9313eb3f"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0130_meta.json",
+      "bytes": 570,
+      "sha256": "2969d6c279568dcf2707890d44470ed823918327ca84796084065f478f38c035"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0130_data.json",
+      "bytes": 720843,
+      "sha256": "00494ab2106b45adde88ea7b2e28f03dad161902d55172db7ef445c97219b73b"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0140_meta.json",
+      "bytes": 578,
+      "sha256": "549b8a1f9545716691906e0880e596e8bcac81d7a2c229d07d6233407dc2d1e8"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0140_data.json",
+      "bytes": 736168,
+      "sha256": "e1f48d30552872aacfef595b5f830a580e73ff388ffd50bbd1764ee419f0c19b"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0150_meta.json",
+      "bytes": 572,
+      "sha256": "9922094634122aec0a35b259aed2803c9e40bc5a2a2cd5f020a0d3167ef8a5aa"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0150_data.json",
+      "bytes": 725065,
+      "sha256": "aae621dbfe7c46aedf004363029b04059533c2ec999557f9caf2550633437106"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0160_meta.json",
+      "bytes": 568,
+      "sha256": "bae7c381bb827fe4b8033b75ba498c571e0d3f0cefa3056c58b42c71befac2f3"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0160_data.json",
+      "bytes": 721089,
+      "sha256": "497a4d4f1cf0827dd3dd1243f43468201e7660ad1625534e546ef94d94dde721"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0170_meta.json",
+      "bytes": 568,
+      "sha256": "ecff11eba38b992a16ccd7bda01892bd85d9ffcca6749d1b42cec83af2044cf3"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0170_data.json",
+      "bytes": 718520,
+      "sha256": "32b2825a350739d8ea39fab60b9fb71a94d4cac02fbca43d6c9f65fc9427f7fd"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0180_meta.json",
+      "bytes": 564,
+      "sha256": "8f2c4dbb00a2c7c63c5373607e74fa06910dc7a6c871627b02a3dc3fea2d4831"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0180_data.json",
+      "bytes": 708743,
+      "sha256": "45a90a49c2e1277b3a86248438a747fecda268c227e42260256c7448c57e7fa5"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0190_meta.json",
+      "bytes": 570,
+      "sha256": "d1e446219db399b2ec4a954d78181be4a06241bcdcbb13a9d74dd063d95e4bdb"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0190_data.json",
+      "bytes": 719024,
+      "sha256": "c415576fcb6fc6c4df115f4c169f507bb635d470fc256e080b759543b0f21995"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0200_meta.json",
+      "bytes": 572,
+      "sha256": "e39ef433b638a90992c62693b30c0abc3cf6a9384f28a83ebec5880b192cf945"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0200_data.json",
+      "bytes": 725064,
+      "sha256": "6753a495dbcfcfc58747dac0a714e91002b329d861dd016da96a0f5e59e02cb8"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0210_meta.json",
+      "bytes": 584,
+      "sha256": "b9e49126487da2f97818e2b481b3585b93a3acada353cbbafee45d7773d00ce7"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0210_data.json",
+      "bytes": 747243,
+      "sha256": "9c04218e891f318a7f20e0d10570dc9ae9aa30965a9d0412b133231c04b0c671"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0220_meta.json",
+      "bytes": 568,
+      "sha256": "e8445bee3381193332d0c05090d66e6a81bbca6eea738d13d0a8f18be7080e2a"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0220_data.json",
+      "bytes": 720421,
+      "sha256": "3124e449322cf6645e207e3fa64f778fadaed024a9141b271474cc75024c74df"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0230_meta.json",
+      "bytes": 554,
+      "sha256": "4a8b943410d7dc4e00a1e46cfaf0eda236a7f600ca4adcdf6ff7cec3459e6341"
+    },
+    {
+      "path": "macro/fx/raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0230_data.json",
+      "bytes": 698134,
+      "sha256": "ec6cc010ccf40da59db168e219a39940694a1aeece61af1a8fd99852c7ef6a51"
+    },
+    {
+      "path": "macro/fx/interim/fetch_date=2026-11-22/observations-20261122T100035Z.parquet",
+      "bytes": 556733,
+      "sha256": "f58937e7bfb46ac5a70ea484f762d2d20eb8137ee0d90245004036e30adc48c5"
+    },
+    {
+      "path": "macro/fx/processed/fx.parquet",
+      "bytes": 770805,
+      "sha256": "ed5c9989b9fb3c020151e502e460292d84e73937c78ea0a51bef265b78abe9a6"
+    },
+    {
+      "path": "macro/fx/runs/fetch_date=2026-11-22/run-20261122T100035Z.json",
+      "bytes": 38743,
+      "sha256": "3842122aeb7549e84997bb4d30e333fc2209327ef570ba6d41fdb143d6d1943b"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/fx/",
+  "hf_revision": "b54a7163ef41c8c5a780d95bda8b7a71d304941b",
+  "notes": "SBP EasyData API, Bank Floating Daily Average Exchange Rates (PKR per National Currency). 23 daily series, PAK Rupees per one unit of the currency, one row per series per date (long format; currency_code identifies the series). Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept (append_only_snapshot); revisions and status-only changes against the previous run are logged as warnings. Dates are working days, plus four Saturdays (2019-08-17, 2022-04-16, 2022-04-23, 2022-04-30). Status comments are kept as returned (29 rows carry an unrelated comment about the 1990-91 invasion of Kuwait). Series names have leading dots and spaces removed in processed; interim keeps them as returned. published_at = 10th of the month after observation_date 23:59:59 Asia/Karachi in UTC (basis monthly_release_10th_next_month): the data is disseminated monthly, so backtests see a value up to about 40 days after its date. SBP's daily Weighted Average Customer Exchange Rates are a different series and are not included.",
+  "warnings": [
+    "TS_GP_ES_FADERPKR_M.XRDAVG0110: 1 change(s) of more than 10% against the previous observation: 2020-03-19 (-12.15%)",
+    "TS_GP_ES_FADERPKR_M.XRDAVG0160: 1 change(s) of more than 10% against the previous observation: 2015-01-16 (+13.84%)",
+    "TS_GP_ES_FADERPKR_M.XRDAVG0190: 3 change(s) of more than 10% against the previous observation: 2018-08-13 (-14.63%), 2021-11-24 (-10.65%), 2021-12-21 (+28.10%)"
+  ],
+  "extra": {
+    "series": {
+      "TS_GP_ES_FADERPKR_M.XRDAVG0010": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Australian Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Australian Dollar",
+        "currency_code": "AUD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 739251,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0010_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0010_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0020": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Bahraini Dinar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Bahraini Dinar",
+        "currency_code": "BHD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 729451,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0020_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0020_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0030": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Canadian Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Canadian Dollar",
+        "currency_code": "CAD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 733660,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0030_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0030_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0040": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Chinese Yuan",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Chinese Yuan",
+        "currency_code": "CNY",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 721746,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0040_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0040_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0050": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Danish Krone",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Danish Krone",
+        "currency_code": "DKK",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 721765,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0050_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0050_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0060": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Hong Kong Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Hong Kong Dollar",
+        "currency_code": "HKD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 734689,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0060_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0060_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0070": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Japanese Yen",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Japanese Yen",
+        "currency_code": "JPY",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 718318,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0070_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0070_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0080": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Kuwaiti Dinar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Kuwaiti Dinar",
+        "currency_code": "KWD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 727037,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0080_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0080_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0090": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Malaysian Ringgit",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Malaysian Ringgit",
+        "currency_code": "MYR",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 738076,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0090_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0090_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0100": {
+        "name": "Daily Average Exchange rate of PAK Rupees per New Zealand Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per New Zealand Dollar",
+        "currency_code": "NZD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 742097,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0100_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0100_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0110": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Norwegian Krone",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Norwegian Krone",
+        "currency_code": "NOK",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 731311,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [
+          "2020-03-19 (-12.15%)"
+        ],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0110_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0110_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0120": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Omani Riyal",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Omani Riyal",
+        "currency_code": "OMR",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 717913,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0120_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0120_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0130": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Qatari Riyal",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Qatari Riyal",
+        "currency_code": "QAR",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 720843,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0130_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0130_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0140": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Singapore Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Singapore Dollar",
+        "currency_code": "SGD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 736168,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0140_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0140_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0150": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Swedish Krona",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Swedish Krona",
+        "currency_code": "SEK",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 725065,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0150_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0150_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0160": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Swiss Franc",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Swiss Franc",
+        "currency_code": "CHF",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 721089,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [
+          "2015-01-16 (+13.84%)"
+        ],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0160_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0160_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0170": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Saudi Riyal",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Saudi Riyal",
+        "currency_code": "SAR",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 718520,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0170_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0170_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0180": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Thai Baht",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Thai Baht",
+        "currency_code": "THB",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 708743,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0180_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0180_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0190": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Turkish Lira",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Turkish Lira",
+        "currency_code": "TRY",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 719024,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [
+          "2018-08-13 (-14.63%)",
+          "2021-11-24 (-10.65%)",
+          "2021-12-21 (+28.10%)"
+        ],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0190_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0190_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0200": {
+        "name": "Daily Average Exchange rate of PAK Rupees per U.A.E. Dirham",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per U.A.E. Dirham",
+        "currency_code": "AED",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 725064,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0200_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0200_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0210": {
+        "name": "Daily Average Exchange rate of PAK Rupees per U.K. Pound Sterling",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per U.K. Pound Sterling",
+        "currency_code": "GBP",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 747243,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0210_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0210_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0220": {
+        "name": "Daily Average Exchange rate of PAK Rupees per U.S. Dollar",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per U.S. Dollar",
+        "currency_code": "USD",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 720421,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0220_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0220_data.json"
+        }
+      },
+      "TS_GP_ES_FADERPKR_M.XRDAVG0230": {
+        "name": "Daily Average Exchange rate of PAK Rupees per Euro",
+        "meta_name_as_returned": "Daily Average Exchange rate of PAK Rupees per Euro",
+        "currency_code": "EUR",
+        "meta_start_date": "2013-07-02",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Bank Floating Daily Average Exchange Rates (PKR per National Currency)",
+        "http_status": 200,
+        "bytes": 698134,
+        "rows": 3275,
+        "first_observation": "2013-07-02",
+        "last_observation": "2026-10-30",
+        "max_gap_days": 10,
+        "max_gap": "2021-05-07 to 2021-05-17",
+        "allowed_saturdays": [
+          "2019-08-17",
+          "2022-04-16",
+          "2022-04-23",
+          "2022-04-30"
+        ],
+        "large_moves": [],
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0230_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T100035Z_TS_GP_ES_FADERPKR_M.XRDAVG0230_data.json"
+        }
+      }
+    },
+    "rows_per_series": {
+      "TS_GP_ES_FADERPKR_M.XRDAVG0010": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0020": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0030": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0040": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0050": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0060": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0070": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0080": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0090": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0100": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0110": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0120": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0130": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0140": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0150": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0160": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0170": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0180": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0190": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0200": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0210": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0220": 3275,
+      "TS_GP_ES_FADERPKR_M.XRDAVG0230": 3275
+    },
+    "latest_date": "2026-10-30",
+    "published_at_basis": "monthly_release_10th_next_month",
+    "citation": "State Bank of Pakistan, (2026), Daily data from Bank Floating Daily Average Exchange Rates (PKR per National Currency), for 02-Jul-2013 to 30-Oct-2026, Source EasyData, Bank Floating Daily Average Exchange Rates (PKR per National Currency), 05-Nov-2026",
+    "last_run": {
+      "run_id": "20261122T100035Z",
+      "fetched_at": "2026-11-22T10:00:35Z",
+      "end_date": "2026-11-22",
+      "git": {
+        "commit": "a409511c84da1a95cd653161b3114b0d9ece6fed",
+        "dirty": false
+      },
+      "rows": 75325,
+      "revisions": {
+        "previous": null,
+        "status_changed": 0
+      },
+      "published_at_basis": "monthly_release_10th_next_month",
+      "citation": "State Bank of Pakistan, (2026), Daily data from Bank Floating Daily Average Exchange Rates (PKR per National Currency), for 02-Jul-2013 to 30-Oct-2026, Source EasyData, Bank Floating Daily Average Exchange Rates (PKR per National Currency), 05-Nov-2026"
+    }
+  }
+}
