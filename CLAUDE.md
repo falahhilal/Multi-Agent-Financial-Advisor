@@ -262,12 +262,17 @@ there.
 ### Where things live
 
 ```
-data/                      gitignored, repo root. Reproducible, never committed.
-  raw/<source>/            exactly what the source returned. Never edited.
-  raw/news/YYYY-MM-DD/     one folder per fetch day
-  interim/                 parsed, not yet validated
-  processed/               clean parquet, the only thing the app reads
-  _logs/                   run logs and coverage logs
+data/                      gitignored except this structure README; data never committed.
+  raw/company_prices/       immutable source response snapshots
+  raw/corporate_actions/    immutable source responses
+  raw/fundamentals/         immutable source responses
+  interim/                  parsed, not yet validated
+  processed/company_prices/ normalized Parquet
+  processed/corporate_actions/ normalized Parquet
+  processed/fundamentals/   normalized Parquet
+  manifests/                local copies; reviewed templates/schema in backend/data_manifests/
+  quality_reports/          validation and coverage reports
+  _logs/                    run logs and coverage logs
 backend/jobs/              committed loaders, one script per source
 backend/data_manifests/    committed. One manifest per dataset
 backend/universe/          committed. Universe file and changelog
@@ -284,9 +289,7 @@ backend/universe/          committed. Universe file and changelog
    though the data is not.
 4. **Read the terms first.** Record licence, storage limits and
    automated-access rules in `docs/data-sources.md` before the first fetch.
-   PSX Data Portal scripted access, including `psxdata` prices and KSE-100
-   levels, is paused pending written permission; do not run those loaders
-   until permission is recorded in the data-source documentation. If a source
+   The team reports written permission for intended PSX/pyPSX collection and private HF dataset sharing; see `docs/data-sources.md`. This does not grant or imply unrelated licensing or redistribution rights. Do not fetch data unless the user explicitly requests collection. If a source
    forbids storing article text, store headline, link and date only. Never
    collect from a source whose terms forbid automated access.
 5. **One rerunnable loader per source,** with rate limiting and retries.
@@ -330,9 +333,7 @@ step, with model version and cost. (NFR-02, NFR-03.)
 
 **Data** — data-source libraries are loaders into our PostgreSQL/parquet
 store, not live request-path dependencies. Scripted PSX Data Portal access,
-including `psxdata` prices and KSE-100 levels, remains paused pending written
-permission (see `docs/data-sources.md`); do not run these loaders until it is
-recorded. SBP PDFs via pdfplumber, World Bank via wbgapi, FRED, NewsAPI are
+The team reports written permission for intended PSX/pyPSX collection and private HF sharing (see `docs/data-sources.md`); this is not a claim about unrelated rights. SBP PDFs via pdfplumber, World Bank via wbgapi, FRED, NewsAPI are
 planned sources subject to their terms. All ingestion runs in `jobs/` on a
 schedule; the request path only retrieves. Start archiving news headlines
 now — the free NewsAPI tier has roughly a month of history, which is not

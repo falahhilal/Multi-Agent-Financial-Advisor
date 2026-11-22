@@ -110,28 +110,25 @@ purpose, format and consuming agent, is in the data catalogue, which becomes
    unavailable history go in a coverage log that the thesis later cites.
 8. **No user data in any dataset.** Synthetic profiles only.
 
-#### Shared setup (before the streams can write anywhere)
+#### Shared setup (completed 2026-11-22 for company Stream A)
 
-Small and quick, done first so all three streams use the same layout.
+The company-stream setup is implemented in `data/README.md`, `backend/jobs/company_schemas.py`, `backend/jobs/company_as_of.py`, `backend/jobs/company_pypsx.py`, and `backend/data_manifests/`. This does not mark collection complete or authorize a fetch by itself.
 
-1. Agree the folder layout under `data/` (raw, interim, processed, manifests).
-2. Agree one set of conventions: date format (ISO 8601), timezone (Asia/Karachi
-   for PSX, UTC for fetch timestamps), ticker format, file formats.
-3. Create the `data-sources.md` template and the manifest format.
-4. Design the storage schema (Postgres tables or parquet layout) and the
-   read path that requires an `as_of` date.
-5. Decide where the news archive job runs (it needs an always-on machine) and
-   where raw data is shared between the three people and backed up. `data/` is
-   not in git, so without this each person only has their own files.
+1. Company Stream A layout and shared conventions are documented; raw snapshots remain immutable and normalized tabular datasets use Parquet.
+2. Company schemas, provenance, manifest contract, and required `as_of` filters are implemented with offline tests. Missing event/fundamental availability is excluded.
+3. Team reports written permission for intended PSX/pyPSX collection and private HF sharing; other rights remain source-specific and must not be inferred.
+4. Storage location and backup/access procedure for the private data still need operational confirmation before collection. The local `data/` tree is gitignored.
 
 #### Stream A. Company data
 
 Covers everything about the listed companies and their prices.
 
-1. **Freeze universe v1** from the company list the team already has:
-   `backend/universe/psx_v1.yaml` with ticker, name, sector, board lot,
-   `listed_from`, `listed_to`, data-availability flag, plus the `CASH` line,
-   and a `CHANGELOG.md`.
+1. **Freeze universe v1 — company selection complete (2026-11-22).**
+   `backend/universe/psx_v1.yaml` contains the 18 selected tickers, sector,
+   board lot, `listed_from`, `listed_to`, data-availability fields, and `CASH`.
+   FATIMA replaces ENGRO and NCL replaces ILP. ENGRO's historical identity is
+   retained separately; its exact delisting date and other unverified metadata
+   remain null. See `backend/universe/CHANGELOG.md`.
 2. **KSE-100 constituent history.** Find out whether history exists or only the
    current snapshot. This decides how honestly survivorship bias can be
    handled.

@@ -64,6 +64,8 @@ class DailyOHLCV(CompanyRecord):
     price_unit: Literal["per_share"]
     volume_unit: Literal["shares"]
     adjusted_close: PositiveDecimal | None = None
+    adjustment_factor: PositiveDecimal | None = None
+    dividend: NonNegativeDecimal | None = None
     source: NonEmptyString
     source_url: NonEmptyString | None = None
     source_record_id: NonEmptyString | None = None
@@ -87,6 +89,7 @@ class CorporateAction(CompanyRecord):
     ex_date: date
     record_date: date | None = None
     payment_date: date | None = None
+    available_date: date | None = None
     amount_per_share: PositiveDecimal | None = None
     currency: CurrencyCode | None = None
     ratio_new_shares: PositiveDecimal | None = None
@@ -120,7 +123,8 @@ class CompanyFundamental(CompanyRecord):
     period_start: date | None = None
     period_end: date | None = None
     report_date: date | None = None
-    published_at: UtcTimestamp
+    published_at: UtcTimestamp | None = None
+    available_date: date | None = None
     as_of_date: date | None = None
     basis: Literal["reported", "vendor_calculated", "project_calculated"]
     source: NonEmptyString
@@ -136,6 +140,46 @@ class CompanyFundamental(CompanyRecord):
             raise ValueError("period_start must be on or before period_end")
         if self.period_end is None and self.as_of_date is None:
             raise ValueError("a period_end or as_of_date is required")
+        if self.published_at is None and self.available_date is None:
+            raise ValueError("published_at or available_date is required for point-in-time use")
+        return self
+
+
+class DatasetManifest(CompanyRecord):
+    """Run metadata contract; templates may be uncollected and contain no files."""
+
+    dataset_name: NonEmptyString
+    ticker: Ticker | None = None
+    source: NonEmptyString
+    source_endpoint: NonEmptyString | None = None
+    fetched_at: UtcTimestamp | None = None
+    requested_start: date | None = None
+    requested_end: date | None = None
+    actual_first_date: date | None = None
+    actual_last_date: date | None = None
+    row_count: int | None = Field(default=None, ge=0)
+    file_count: int | None = Field(default=None, ge=0)
+    file_paths: tuple[NonEmptyString, ...] = ()
+    checksums_sha256: dict[str, str] = Field(default_factory=dict)
+    schema_version: NonEmptyString
+    collection_status: Literal["not_started", "complete", "partial", "failed"]
+    error: str | None = None
+
+    @model_validator(mode="after")
+    def validate_manifest(self) -> DatasetManifest:
+        if (self.actual_first_date is None) != (self.actual_last_date is None):
+            raise ValueError("actual first and last dates must both be set or both be null")
+        if self.actual_first_date and self.actual_first_date > self.actual_last_date:
+            raise ValueError("actual_first_date must be on or before actual_last_date")
+        for path, checksum in self.checksums_sha256.items():
+            if path not in self.file_paths or len(checksum) != 64 or any(c not in "0123456789abcdef" for c in checksum):
+                raise ValueError("checksums must be lowercase SHA-256 values for listed file paths")
+        if self.collection_status == "not_started" and (self.row_count is not None or self.file_paths):
+            raise ValueError("not_started manifests cannot claim collected rows or files")
+        if self.collection_status != "not_started" and self.fetched_at is None:
+            raise ValueError("collected manifests require fetched_at")
+        if self.collection_status == "failed" and not self.error:
+            raise ValueError("failed manifests require error information")
         return self
 
 

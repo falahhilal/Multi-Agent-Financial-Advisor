@@ -1,8 +1,10 @@
 # Company data contracts and local validation
 
-Company data collection is paused until the project's source permissions and
-coverage are established. These contracts are provider-neutral; no source
-adapter or live collector is enabled by this change.
+This is pre-ingestion setup. The team reports written permission for intended
+PSX/pyPSX historical-price collection and private HF sharing (see
+`docs/data-sources.md`). No data has been collected in this task. These
+provider-neutral contracts and an injectable pyPSX loader are prepared, but
+the loader is never run by tests or at import time.
 
 ## Canonical sector mapping
 
@@ -26,29 +28,61 @@ reclassified. The exporter rejects invalid universe YAML, a non-18-company
 `jobs.company_schemas` defines strict-extra-field Pydantic contracts:
 
 - `DailyOHLCV`: ticker, exchange trade date, as-traded OHLC, non-negative
-  share volume, currency, units, optional separately sourced adjusted close,
-  source identifiers/URL, and UTC fetch timestamp. OHLC consistency and
-  positive prices are schema constraints.
-- `CorporateAction`: ticker, action type, event dates, source provenance and
-  fetch time. Cash dividends require a positive per-share amount and currency;
+  share volume, currency, units, nullable `adjusted_close`, `adjustment_factor`
+  and `dividend`, source identifiers/URL, and UTC fetch timestamp. Raw close
+  is never copied into adjusted fields. OHLC consistency and positive prices
+  are schema constraints.
+- `CorporateAction`: ticker, action type, event dates, explicit nullable
+  `available_date`, source provenance and fetch time. Cash dividends require a positive per-share amount and currency;
   splits/bonus issues require both sides of a positive share ratio.
 - `CompanyFundamental`: ticker, metric slug, decimal value, unit, optional
   currency, optional fiscal period or as-of date, optional report date,
-  publication timestamp, basis (reported or calculated), and source provenance.
+  nullable publication timestamp or availability date, basis (reported or
+  calculated), and source provenance. Period end and actual public availability
+  remain separate.
+- `DatasetManifest`: typed run contract for source, request and returned date
+  ranges, ticker, row/file counts, paths, SHA-256 checksums, schema version,
+  collection status, and errors. The template in
+  `backend/data_manifests/company_prices.template.json` is explicitly
+  `not_started`; it records no fetched data.
 - `SectorMappingRow`: versioned ticker/name/sector values tied to the canonical
   YAML path.
 
 Decimal source values are parsed through decimal strings to avoid binary-float
-arithmetic. Dates remain dates, timestamps must be timezone-aware and are
-normalized to UTC, and provider fields not represented by the contract are
+arithmetic. Trading dates are ISO dates on the Asia/Karachi market calendar;
+fetch timestamps are timezone-aware UTC; tickers are uppercase; currency is
+PKR where applicable. Nulls stay explicit. Provider fields not represented by the contract are
 rejected until a deliberate schema update is reviewed.
 
 `jobs.company_normalization` provides source-neutral record validators and
 `merge_records`. Natural-key repeats do not add rows; conflicting records in
 one input batch fail; changed values for an existing key replace that row and
 are returned in `revised_keys` for review. No records are interpolated or
-silently corrected. Proposed Parquet storage remains under the HF `company/`
-directory after permissions are established; raw snapshots remain immutable.
+silently corrected. Local layout and storage decisions are documented in
+`data/README.md`; raw snapshots are immutable and validated tabular outputs
+are Parquet. Manifests are committed under `backend/data_manifests/`; data
+payloads are gitignored. The per-record provenance fields are `source`,
+`source_url`, `source_record_id` where supplied, and `fetched_at`.
+
+## Point-in-time access and provider adapter
+
+`jobs.company_as_of.records_as_of(records, as_of)` is the smallest read
+interface prepared for backtests. It requires a date. Prices use exchange
+trade date; corporate actions require `available_date`; fundamentals use
+explicit `available_date` or their public `published_at` converted to the
+Asia/Karachi calendar date. Missing action/fundamental availability is
+excluded, never backfilled from ex-date, period end, or report-period dates.
+
+`jobs.company_pypsx.collect_prices` is injectable for offline testing and
+only imports pyPSX inside the future fetch function. It deduplicates tickers,
+checks uppercase symbols and date ranges, spaces requests, retries with
+bounded exponential backoff, records per-ticker failures, and writes
+content-addressed snapshots without overwriting. SDK-returned frame snapshots
+are a preserved provider representation, not the original HTTP wire bytes.
+The module does not normalize or upload data. A later explicit ingestion
+command must normalize into Parquet, produce the committed manifest, and
+record gaps/quality reports. Corporate actions and fundamentals have no
+assumed pyPSX methods.
 
 ## Quality checks and limits
 

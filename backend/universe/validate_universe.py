@@ -12,7 +12,7 @@ from typing import Any
 import yaml
 
 DEFAULT_PATH = Path(__file__).with_name("psx_v1.yaml")
-TOP_LEVEL_FIELDS = {"version", "companies", "cash"}
+TOP_LEVEL_FIELDS = {"version", "companies", "historical_companies", "cash"}
 COMPANY_FIELDS = {
     "ticker",
     "name",
@@ -91,6 +91,38 @@ def validate_universe(data: Any) -> list[str]:
         available = company.get("data_available")
         if available is not None and not isinstance(available, bool):
             errors.append(f"{prefix}.data_available must be a boolean or null")
+
+    historical = data.get("historical_companies", [])
+    if not isinstance(historical, list):
+        errors.append("historical_companies must be a list")
+        historical = []
+    seen_historical: set[str] = set()
+    for index, company in enumerate(historical):
+        prefix = f"historical_companies[{index}]"
+        if not isinstance(company, dict):
+            errors.append(f"{prefix} must be a mapping")
+            continue
+        expected = {"ticker", "name", "sector", "listed_from", "listed_to", "status_note"}
+        if company.keys() != expected:
+            errors.append(f"{prefix} fields must be: {', '.join(sorted(expected))}")
+        ticker = company.get("ticker")
+        if not isinstance(ticker, str) or not TICKER_PATTERN.fullmatch(ticker):
+            errors.append(f"{prefix}.ticker must be uppercase letters, digits, dots, or hyphens")
+        elif ticker in seen_tickers or ticker in seen_historical:
+            errors.append(f"{prefix}.ticker duplicates {ticker}")
+        else:
+            seen_historical.add(ticker)
+        if not all(isinstance(company.get(field), str) and company[field].strip() for field in ("name", "sector", "status_note")):
+            errors.append(f"{prefix} name, sector, and status_note must be non-empty strings")
+        for field in ("listed_from", "listed_to"):
+            value = company.get(field)
+            if value is not None:
+                try:
+                    if not isinstance(value, str):
+                        raise ValueError
+                    date.fromisoformat(value)
+                except ValueError:
+                    errors.append(f"{prefix}.{field} must be an ISO date string or null")
 
     cash = data.get("cash")
     if not isinstance(cash, dict):

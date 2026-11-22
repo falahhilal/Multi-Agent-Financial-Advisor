@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from datetime import date
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
@@ -15,9 +15,11 @@ from jobs.company_normalization import (
     normalize_fundamentals,
     normalize_prices,
 )
-from jobs.company_schemas import CompanyFundamental, CorporateAction, DailyOHLCV
+from jobs.company_schemas import CompanyFundamental, CorporateAction, DailyOHLCV, DatasetManifest
+from jobs.company_as_of import records_as_of
 
 FIXTURE_PATH = Path(__file__).parent / "fixtures" / "company_records.json"
+MANIFEST_TEMPLATE_PATH = Path(__file__).parents[2] / "data_manifests" / "company_prices.template.json"
 
 
 @pytest.fixture
@@ -115,3 +117,44 @@ def test_merge_rejects_conflicting_duplicate_keys(records: dict[str, list[dict[s
 
     with pytest.raises(DuplicateRecordError, match="incoming batch"):
         merge_records((), (row, changed), key_fields=("ticker", "trade_date"))
+
+
+def test_as_of_excludes_future_prices_actions_and_fundamentals(records: dict[str, list[dict[str, object]]]) -> None:
+    action = CorporateAction.model_validate({**records["actions"][0], "available_date": "2026-01-08"})
+    future_fundamental = CompanyFundamental.model_validate({**records["fundamentals"][0], "published_at": "2026-02-02T10:00:00Z"})
+    result = records_as_of(
+        [*normalize_prices(records["prices"]), action, future_fundamental], date(2026, 1, 5)
+    )
+    assert [row.trade_date for row in result if isinstance(row, DailyOHLCV)] == [date(2026, 1, 5)]
+    assert not any(isinstance(row, (CorporateAction, CompanyFundamental)) for row in result)
+
+
+def test_unknown_action_availability_is_excluded(records: dict[str, list[dict[str, object]]]) -> None:
+    action = CorporateAction.model_validate(records["actions"][0])
+    assert records_as_of([action], date(2026, 12, 31)) == ()
+
+
+def test_fundamental_cannot_lack_publication_and_availability_dates(records: dict[str, list[dict[str, object]]]) -> None:
+    row = {**records["fundamentals"][0], "published_at": None, "available_date": None}
+    with pytest.raises(ValidationError, match="published_at or available_date"):
+        CompanyFundamental.model_validate(row)
+
+
+def test_raw_close_never_populates_adjusted_close(records: dict[str, list[dict[str, object]]]) -> None:
+    row = DailyOHLCV.model_validate(records["prices"][0])
+    assert row.close == Decimal("11.00")
+    assert row.adjusted_close is None
+    assert row.adjustment_factor is None
+
+
+def test_manifest_template_contract_and_checksum_validation() -> None:
+    template = DatasetManifest.model_validate_json(MANIFEST_TEMPLATE_PATH.read_text(encoding="utf-8"))
+    assert template.collection_status == "not_started"
+    assert template.file_paths == ()
+    base = {
+        "dataset_name": "company_prices", "source": "pypsx", "fetched_at": datetime.now(timezone.utc),
+        "schema_version": "company_prices_v1", "collection_status": "not_started",
+    }
+    assert DatasetManifest.model_validate(base).row_count is None
+    with pytest.raises(ValidationError):
+        DatasetManifest.model_validate({**base, "checksums_sha256": {"prices.parquet": "bad"}})

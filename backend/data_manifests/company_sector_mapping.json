@@ -5,9 +5,9 @@
   "dataset": "sector_mapping",
   "source": "Project-supplied canonical sector labels in backend/universe/psx_v1.yaml",
   "fetch_mode": "reproducible",
-  "fetched_at": "2026-11-19T16:59:04Z",
+  "fetched_at": "2026-11-22T07:49:29Z",
   "script": "backend/jobs/company_sector_mapping.py",
-  "git_commit": "738e7bff2fd80b035f03e30d0caed11965c037c2",
+  "git_commit": "ee54082c4a6cffec64e220094e655a500ad8784f",
   "git_dirty": true,
   "row_count": 18,
   "file_count": 1,
@@ -15,8 +15,8 @@
   "files": [
     {
       "path": "processed/company/sector_mapping.csv",
-      "bytes": 1517,
-      "sha256": "8b2717019356bf738c61f942c78093e59710a80d8c6887d09503e86ec63f76f6"
+      "bytes": 1531,
+      "sha256": "67d0cfee416a45fa505edc6e7c345e818e4994c5e36ad84f9773bbc4ce75f5ee"
     }
   ],
   "hf_repo": null,
@@ -32,15 +32,15 @@
     "ticker_coverage": [
       "DGKC",
       "EFERT",
-      "ENGRO",
+      "FATIMA",
       "FFC",
       "GATM",
       "HBL",
-      "ILP",
       "LUCK",
       "MARI",
       "MEBL",
       "MLCF",
+      "NCL",
       "NETSOL",
       "NML",
       "OGDC",

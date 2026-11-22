@@ -11,44 +11,20 @@ Entries are grouped by stream. Each stream owner edits only their section.
 
 ---
 
-## Company data stream (owner: Falah) — collection not authorized yet
+## Company data stream (owner: Falah) — pre-ingestion setup complete; no data fetched
 
 The canonical 18-ticker sector mapping is supplied in
 `backend/universe/psx_v1.yaml`. Its deterministic CSV export is generated from
 that file; sector names must not be inferred or replaced.
 
-**Market-data collection status: paused.** Scripted PSX Data Portal access,
-including `psxdata`, remains paused pending written permission. PSX advertises
-EOD and historical OHLCV products and corporate announcements through PUCARS;
-the project's permission requirement also applies to automated retrieval,
-retention, team access, and HF storage. The PSX Data Services page lists
-licensed vendor routes, but no vendor license has been reviewed or approved
-for this project ([PSX Data Services](https://www.psx.com.pk/psx/product-and-services/data-services-vending)).
+**Permission and current status.** The team reports receiving written permission for the intended PSX/pyPSX data collection and private Hugging Face dataset sharing. This records only that permission as described by the team; it does not assert unrelated licensing, public redistribution, or any wider rights. No financial data has been fetched in this setup task.
 
-EODHD's public documentation lists a Karachi (`KAR`) exchange and EOD, split,
-dividend, and fundamentals APIs. This is a candidate for coverage review only:
-coverage for every project ticker is unverified, its data-quality warranty is
-limited, and its standard personal-use terms do not permit sharing data with
-the project team or redistributing it to the private HF dataset. Its academic
-offering requires written confirmation covering this project's team access,
-storage, retention, and research outputs before any use. Yahoo Finance via
-`yfinance` is not approved as a fallback: it is an unofficial personal-use
-wrapper and does not establish complete PSX coverage or project storage rights.
-See [EODHD's KAR listing](https://eodhd.com/exchange/KAR), [personal-use
-limits](https://eodhd.com/help/personal-use), and [academic research
-offer](https://eodhd.com/lp/universities); see the [yfinance terms
-guidance](https://github.com/ranaroussi/yfinance/blob/main/README.md).
+**Historical prices — pyPSX 2.8.3 (tested locally with pandas 2.3.3).** Successful local API checks reported by the team: `pypsx.get_archive_status()` and `pypsx.get_historical(ticker, start="2015-01-01", end="2026-11-20")`. The archive status reported daily prices from 1998-06-30 through 2026-11-20 and 1,517 symbols. Initial historical retrieval returned records for all 18 final v1 tickers; for NCL and FATIMA the reported first records were 2015-01-01. These are initial API availability checks only, not completeness, accuracy, tradability, or data-quality validation. The inspected HBL sample fields were `symbol`, `datetime`, `open`, `high`, `low`, `close`, `volume`, `adj_factor`, `tr_close`, and `dividend`; `adj_factor` was 1.0 and `tr_close` and `dividend` were null. Validate field semantics and corporate-action adjustments before using adjusted prices. The SDK emitted a pandas `FutureWarning` about chained assignment; this is a compatibility warning, not a failed request.
 
-Fundamentals should prefer issuer-published reports only after access and
-retention terms are checked per issuer. Machine-readable historical coverage
-for the 18 tickers has not been established. PSX PUCARS/portal automation is
-not an approved substitute.
+Provider limits and open decisions: pyPSX availability is not guaranteed; trading sessions may be missing; adjusted closes/factors have not been validated; this evidence establishes no historical fundamentals. Corporate-action source/coverage, historical fundamentals source/coverage, company-sector source of truth, and historical listing/delisting source/coverage remain pending verification. ENGRO is retained as historical metadata; its reported January 2025 delisting is recorded without an invented exact date. Board lots and listing dates remain null until verified.
 
-No company price, corporate-action, or fundamentals data has been fetched.
-The offline schemas and quality rules live in `backend/jobs/company_data.md`;
-quality checks requiring a trading calendar, source event history, expected
-metrics, or stale-age policy remain unevaluated. Do not run an ingestion job
-or upload company market data until the source and its rights are documented.
+The loader-only adapter is `backend/jobs/company_pypsx.py`; it imports pyPSX only when an explicit future call is made. It uses the tested historical-price API, isolates ticker failures, and snapshots SDK-returned frames by content hash. It does not infer pyPSX methods for actions or fundamentals. Raw files belong under `data/raw/`; validated normalized Parquet belongs under `data/processed/`. Runtime application code must read the project store, never pyPSX. See `backend/jobs/company_data.md` for schemas, manifest contract, point-in-time behavior, and offline checks.
+
 
 ---
 
@@ -264,14 +240,13 @@ body, 128 tokens. **Unvalidated:** the 60-row hand spot-check was not done.
 Known symptoms: almost no neutral labels for Aaj (2%); non-market stories
 labelled, often positive. Source datasets were read only.
 
-### PSX Data Portal (dps.psx.com.pk): not collected
+### PSX Data Portal announcements and filings: not collected
 
 Company announcements and filings (planned dataset `news_psx_announcements`)
-are **not collected**. PSX's Terms of Use (www.psx.com.pk/psx/terms-of-use,
-read 2026-11-08) prohibit "software, spiders, robots … or other devices or
-mechanisms to navigate, search or determine the PSX Website" without prior
-written permission; the Data Portal has no separate terms. Decision (Maryam,
-2026-11-08): skip until PSX grants written permission. The same clause
-affects anything else fetched from dps.psx.com.pk by script (psxdata prices,
-KSE-100 levels). Announcements reported by the press are covered by the
-news datasets above.
+are **not collected**. The team reports written permission for its intended
+PSX/pyPSX historical-price collection and private HF dataset sharing; this
+section does not treat that statement as permission for announcements,
+filings, KSE-100 levels, unrelated endpoints, or other licensing and
+redistribution rights. Verify the source-specific scope before collecting
+those datasets. Announcements reported by the press are covered by the news
+datasets above.

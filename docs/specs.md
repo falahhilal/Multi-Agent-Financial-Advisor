@@ -203,9 +203,11 @@ retrieved context, state it plainly in the limitations chapter.
 
 ### 3.2 Design under-specification
 
-**(f) The asset universe did not exist.** *(Resolved by decision 3 — now
-individual PSX stocks plus cash. The ticker list itself is still to be
-written; see §4.)*
+**(f) The asset universe did not exist.** *(Resolved by decision 3 and the
+2026-11-22 Stream A update: `backend/universe/psx_v1.yaml` now fixes 18
+individual PSX equities across six supplied sectors plus `CASH`. ENGRO is
+retained under historical metadata with its exact delisting date unverified;
+FATIMA replaces ENGRO and NCL replaces ILP in the active v1 list.)*
 
 **(g) `existing_holdings` is collected and never used.** No agent's output
 schema touches it. Is the Constructor proposing a portfolio from scratch or
@@ -317,7 +319,8 @@ Carried forward. Answers belong in an ADR when they land.
 
 **From the stock-level universe decision**
 
-1. How many tickers in the starting list?
+1. **Resolved for v1:** 18 tickers as listed in `backend/universe/psx_v1.yaml`.
+   Future universe changes require a versioned change and changelog entry.
 2. Is the list fixed for the whole project, or re-derived per run?
 3. Is KSE-100 constituent *history* available, or only the current snapshot?
    (Determines whether survivorship bias can be handled honestly.)
