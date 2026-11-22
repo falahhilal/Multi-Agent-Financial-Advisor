@@ -57,6 +57,7 @@ Feeds (checked 2026-11-08):
 | thefinancialdaily.com/feed/ | test | 30 | ~6 days | no (summary) |
 | pakistangulfeconomist.com/feed/ | test | 12 | weekly | no (summary) |
 | propakistani.pk/feed/ | test | 10 | ~11 h | yes |
+| nation.com.pk/rss/business (added 2026-11-20) | primary | 100 | ~6.5 days | no: fetched from each article page (`fetch_pages`) |
 
 Not used: brecorder `feeds/pakistan/markets` and `feeds/business-finance/pakistan`
 (reported stale), Profit / Pakistan Today (reported dead).
@@ -79,6 +80,13 @@ seven feed URLs; no site's terms mention RSS, bots or automated access):
   The RSS page offers feeds with "headlines, summaries and content".
 - **The Financial Daily, Pakistan & Gulf Economist, ProPakistani**: no terms
   page found; only privacy policies.
+- **The Nation** (`/copyrights`, read 2026-11-20): "Re-use, republication,
+  distribution and modification of any content … for commercial purposes is
+  strictly prohibited without written consent"; "Content can be
+  used/consulted/printed for personal, academic or non-commercial purposes."
+  robots.txt allows our User-Agent on feeds and article pages (disallows only
+  admin and ajax paths). Its AI-use policy covers only The Nation's own
+  newsroom use of AI.
 
 Handling: the dataset is private, used only for non-commercial academic
 research, and never redistributed; no article text is published in the thesis
@@ -88,6 +96,8 @@ if the team decides a source's terms require it.
 
 **Decision (Maryam, 2026-11-08): keep full text for all seven feeds**, on the
 basis above (private, non-commercial academic research, never redistributed).
+The same applies to The Nation (added by Maryam, 2026-11-20), whose terms
+explicitly allow academic, non-commercial use.
 Supervisor confirmation still to be recorded. Removing text from HF later
 means rewriting the dataset history, so revisit this early if it changes.
 

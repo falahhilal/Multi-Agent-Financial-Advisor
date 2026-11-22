@@ -5,7 +5,8 @@
 * :func:`html_to_text`, :func:`parse_published`, :func:`detect_language`.
 * :func:`parse_article`: article pages on brecorder.com, english.aaj.tv and
   dawn.com (JSON-LD ``NewsArticle`` plus ``div.story__content`` and
-  ``div.story__tags``) and tribune.com.pk (``span.story-text``).
+  ``div.story__tags``), tribune.com.pk (``span.story-text``) and
+  nation.com.pk (``div.news-detail-content-class``).
 """
 
 from __future__ import annotations
@@ -156,6 +157,15 @@ def parse_article(html: bytes, url: str) -> dict[str, Any]:
     canonical = canonical_url(str(canon_tag["href"]) if canon_tag else url)
     # Business Recorder Group / Dawn platform, then The Express Tribune.
     body = soup.select_one("div.story__content") or soup.select_one("span.story-text")
+    tags = [a.get_text(strip=True) for a in soup.select("div.story__tags a")]
+    if body is None:  # The Nation: drop embedded links to other stories, ads, tags
+        body = soup.select_one("div.news-detail-content-class")
+        if body is not None:
+            tags = [a.get_text(strip=True) for a in body.select("div.jeg_post_tags a")]
+            for junk in body.select(
+                "div.oembed_ltr, div.jeg_post_tags, [id^='div-gpt-ad'], script"
+            ):
+                junk.decompose()
     title = ld.get("headline") or _meta(soup, "og:title")
     lang = soup.html.get("lang") if soup.html else None
     return {
@@ -168,6 +178,6 @@ def parse_article(html: bytes, url: str) -> dict[str, Any]:
         "summary": _meta(soup, "description"),
         "full_text": html_to_text(str(body)) if body else None,
         "language": str(lang).lower() if lang else None,
-        "tags": [a.get_text(strip=True) for a in soup.select("div.story__tags a")],
+        "tags": tags,
         "canonical_url": canonical,
     }
