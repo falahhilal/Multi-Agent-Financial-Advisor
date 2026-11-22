@@ -14,8 +14,12 @@ Two steps, each resumable, one request every ``MIN_INTERVAL`` seconds:
     ``--end`` not yet read. Each response is saved unmodified
     (``raw/sitemaps/sitemap_<day>.xml.gz``). Every listed link goes into
     ``links.parquet`` (all sections: sport, politics, ...). Per-day status is
-    in ``days.parquet``; days missing from the index are counted, not
-    guessed.
+    in ``days.parquet``. The index leaves out, in every month, the day
+    whose number is today's date (the 20th when read on 2026-11-20, the 21st
+    on 2026-11-21), and 2022-02-17, although those daily sitemaps exist. So
+    every calendar day in range is read; ``in_index`` records whether the
+    last index run's copy listed the day (it changes from run to run), and
+    an unlisted day that answers 404 is ``gone``.
 
 ``text``
     Picks links whose URL slug matches ``SLUG_RE`` (market words: psx, kse,
@@ -24,7 +28,8 @@ Two steps, each resumable, one request every ``MIN_INTERVAL`` seconds:
     ``jobs.news_common.parse_article``. ``is_market`` marks pages whose title
     or text names the PSX, the KSE indices or a stock exchange/market, so
     off-topic slug matches can be dropped by readers. ``SLUG_RULE`` records
-    which filter chose a row.
+    which filter chose a row. A page that redirects to a different article
+    path is ``redirected``, not ``ok``: its text belongs to another story.
 
 Dates: ``published_at`` is the page's own date. The URL carries the day the
 article was filed under (``/DD-Mon-YYYY/slug``, the print-edition day), so
@@ -57,6 +62,7 @@ from collections.abc import Callable
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -111,8 +117,10 @@ NOTES = (
     "The Nation's daily sitemaps (one per day, 2017 onward) and the market "
     "articles picked from them by URL slug (SLUG_RE, rule in slug_rule), "
     "fetched from nation.com.pk. links.parquet lists every article link in "
-    "the sitemaps (all sections); articles.parquet one row per picked link "
-    "with a status: ok, no_text, gone (404/410) or failed (retried). "
+    "the sitemaps (all sections), including days the sitemap index omits "
+    "(in_index in days.parquet); articles.parquet one row per picked link "
+    "with a status: ok, no_text, gone (404/410), redirected (landed on a "
+    "different article; text kept but not this URL's) or failed (retried). "
     "is_market marks pages naming the PSX/KSE/a stock exchange; the slug "
     "filter misses market stories whose URL has none of its words. "
     "first_public_at = min(page published_at, end of the URL's day in PKT) is "
@@ -131,6 +139,7 @@ DAYS_SCHEMA = pa.schema(
         ("fetched_at", _TS),
         ("raw_file", pa.string()),
         ("attempts", pa.int32()),
+        ("in_index", pa.bool_()),  # listed in /sitemap.xml at the last index run
     ]
 )
 LINKS_SCHEMA = pa.schema(
@@ -172,7 +181,7 @@ ARTICLES_SCHEMA = pa.schema(
         ("attempts", pa.int32()),
     ]
 )
-ARTICLE_FINAL = frozenset({"ok", "no_text", "gone"})
+ARTICLE_FINAL = frozenset({"ok", "no_text", "gone", "redirected"})
 
 Fetch = Callable[[str], HttpResponse]
 
@@ -373,11 +382,25 @@ def run_index(
         if start.isoformat() <= d <= end.isoformat()
     ]
     calendar = (end - start).days + 1
-    todo = [d for d in listed if days.get(d, {}).get("status") not in ("ok", "gone")]
+    listed_set = set(listed)
+    unlisted = [
+        d
+        for d in (
+            (start + timedelta(days=i)).isoformat() for i in range(calendar - 1, -1, -1)
+        )
+        if d not in listed_set
+    ]
+    for d, day_row in days.items():
+        day_row["in_index"] = d in listed_set
+    todo = [
+        d
+        for d in listed + unlisted
+        if days.get(d, {}).get("status") not in ("ok", "gone")
+    ]
     log.info(
-        "index: %d days listed in range (%d calendar days), %d to read",
+        "index: %d days listed in range, %d calendar days not listed, %d to read",
         len(listed),
-        calendar,
+        len(unlisted),
         len(todo),
     )
     fails = 0
@@ -416,6 +439,7 @@ def run_index(
             "fetched_at": datetime.now(timezone.utc).replace(microsecond=0),
             "raw_file": None,
             "attempts": (prev["attempts"] if prev else 0) + 1,
+            "in_index": day in listed_set,
         }
         try:
             r = fetch(f"{BASE}/sitemap_{day}.xml")
@@ -456,7 +480,10 @@ def run_index(
         "step": "index",
         "days_listed_in_range": len(listed),
         "calendar_days_in_range": calendar,
-        "days_not_in_sitemap_index": calendar - len(listed),
+        "days_not_in_sitemap_index": len(unlisted),
+        "unlisted_days_ok": sum(
+            1 for d in unlisted if days.get(d, {}).get("status") == "ok"
+        ),
         "days_read_this_run": budget.done,
         "days_remaining": sum(
             1 for d in todo if days.get(d, {}).get("status") not in ("ok", "gone")
@@ -470,31 +497,48 @@ def run_index(
     }
 
 
+def redirected(url: str, final_url: str | None) -> bool:
+    """True if the page landed on a different article (The Nation sends some
+    removed stories to an unrelated one): the text is not this URL's."""
+    if not final_url:
+        return False
+    return urlsplit(url).path.rstrip("/") != urlsplit(final_url).path.rstrip("/")
+
+
+def mark_redirect(row: dict[str, Any]) -> dict[str, Any]:
+    if row["status"] == "ok" and redirected(row["url"], row["final_url"]):
+        row["status"] = "redirected"
+        row["error"] = f"redirected to {row['final_url']}"[:300]
+    return row
+
+
 def row_from_page(
     link: dict[str, Any], resp: HttpResponse, fetched_at: datetime, attempts: int
 ) -> dict[str, Any]:
     f = parse_article(resp.content, resp.url)
     first, after = first_public(f["published_at"], link["url_day"])
     text = f["full_text"]
-    return {
-        **_base(link, fetched_at, attempts),
-        "final_url": resp.url,
-        "status": "ok" if text else "no_text",
-        "http_status": resp.status,
-        "title": f["title"],
-        "published_at": f["published_at"],
-        "published_at_raw": f["published_at_raw"],
-        "published_tz": f["published_tz"],
-        "modified_at": f["modified_at"],
-        "first_public_at": first,
-        "published_after_url_day": after,
-        "is_market": bool(MARKET_RE.search(f"{f['title'] or ''}\n{text or ''}")),
-        "authors": f["authors"],
-        "summary": f["summary"],
-        "full_text": text,
-        "language": f["language"],
-        "tags": f["tags"],
-    }
+    return mark_redirect(
+        {
+            **_base(link, fetched_at, attempts),
+            "final_url": resp.url,
+            "status": "ok" if text else "no_text",
+            "http_status": resp.status,
+            "title": f["title"],
+            "published_at": f["published_at"],
+            "published_at_raw": f["published_at_raw"],
+            "published_tz": f["published_tz"],
+            "modified_at": f["modified_at"],
+            "first_public_at": first,
+            "published_after_url_day": after,
+            "is_market": bool(MARKET_RE.search(f"{f['title'] or ''}\n{text or ''}")),
+            "authors": f["authors"],
+            "summary": f["summary"],
+            "full_text": text,
+            "language": f["language"],
+            "tags": f["tags"],
+        }
+    )
 
 
 def _base(link: dict[str, Any], fetched_at: datetime, attempts: int) -> dict[str, Any]:
@@ -540,8 +584,9 @@ def run_text(
 ) -> dict[str, Any]:
     if links is None:
         links = _read("links.parquet", LINKS_SCHEMA, upload)
-    arts = {
-        r["article_id"]: r for r in _read("articles.parquet", ARTICLES_SCHEMA, upload)
+    arts = {  # mark_redirect: rows stored before the redirect rule, no refetch
+        r["article_id"]: mark_redirect(r)
+        for r in _read("articles.parquet", ARTICLES_SCHEMA, upload)
     }
     picked: dict[str, dict[str, Any]] = {}
     for link in links:

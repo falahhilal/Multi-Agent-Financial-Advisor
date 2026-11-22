@@ -125,7 +125,12 @@ def test_index_then_text_resume(setup: Path) -> None:
             _page("Market slips", "The PSX fell.", "2018-07-10T01:00:00+05:00"),
         )
 
-    kw: dict[str, Any] = {"upload": False, "end": date(2018, 7, 11), "fetch": fetch}
+    kw: dict[str, Any] = {
+        "upload": False,
+        "start": date(2018, 7, 10),
+        "end": date(2018, 7, 11),
+        "fetch": fetch,
+    }
     assert na.run("index", **kw) == 0
     days = pq.read_table(setup / "nation" / "days.parquet").to_pylist()
     assert [(d["day"], d["status"], d["n_links"]) for d in days] == [
@@ -191,7 +196,13 @@ def test_breaker_stops_and_fails(setup: Path) -> None:
             return common.HttpResponse(url, 200, {}, body)
         raise common.HttpError(url, 503, "HTTP 503")
 
-    code = na.run("index", upload=False, end=date(2018, 7, 31), fetch=fetch)
+    code = na.run(
+        "index",
+        upload=False,
+        start=date(2018, 7, 1),
+        end=date(2018, 7, 31),
+        fetch=fetch,
+    )
     assert code == 1
     days = pq.read_table(setup / "nation" / "days.parquet").to_pylist()
     assert len(days) == na.BREAKER and {d["status"] for d in days} == {"failed"}
@@ -204,7 +215,14 @@ def test_time_budget(setup: Path) -> None:
         return common.HttpResponse(url, 200, {}, DAYS["2018-07-10"])
 
     assert (
-        na.run("index", upload=False, end=date(2018, 7, 11), fetch=fetch, max_minutes=0)
+        na.run(
+            "index",
+            upload=False,
+            start=date(2018, 7, 10),
+            end=date(2018, 7, 11),
+            fetch=fetch,
+            max_minutes=0,
+        )
         == 0
     )
     m = json.loads((setup / "manifests" / "news_nation_archive.json").read_text())
@@ -223,8 +241,138 @@ def test_text_limit_leaves_rest_for_next_run(setup: Path) -> None:
             url, 200, {}, _page("PSX", "The PSX fell.", "2018-07-10T01:00:00+05:00")
         )
 
-    kw: dict[str, Any] = {"upload": False, "end": date(2018, 7, 11), "fetch": fetch}
+    kw: dict[str, Any] = {
+        "upload": False,
+        "start": date(2018, 7, 10),
+        "end": date(2018, 7, 11),
+        "fetch": fetch,
+    }
     na.run("index", **kw)
     assert na.run("text", limit=1, **kw) == 0
     m = json.loads((setup / "manifests" / "news_nation_archive.json").read_text())
     assert m["extra"]["last_run"]["remaining"] == 2 and m["row_count"] == 1
+
+
+def test_index_reads_days_the_sitemap_index_omits(setup: Path) -> None:
+    def fetch(url: str) -> common.HttpResponse:
+        if url.endswith("/sitemap.xml"):
+            return common.HttpResponse(url, 200, {}, INDEX)  # lists 07-10, 07-11
+        m = na._SITEMAP_DAY.search(url)
+        assert m
+        if m.group(1) == "2018-07-12":  # not in the index, but published
+            return common.HttpResponse(
+                url, 200, {}, _day("2018-07-12", ["psx-sheds-100-points"])
+            )
+        if m.group(1) == "2018-07-13":  # not in the index, not published
+            raise common.HttpError(url, 404, "HTTP 404")
+        return common.HttpResponse(url, 200, {}, DAYS[m.group(1)])
+
+    kw: dict[str, Any] = {
+        "upload": False,
+        "start": date(2018, 7, 10),
+        "end": date(2018, 7, 13),
+        "fetch": fetch,
+    }
+    assert na.run("index", **kw) == 0
+    days = {
+        d["day"]: (d["status"], d["in_index"])
+        for d in pq.read_table(setup / "nation" / "days.parquet").to_pylist()
+    }
+    assert days == {
+        "2018-07-10": ("ok", True),
+        "2018-07-11": ("ok", True),
+        "2018-07-12": ("ok", False),
+        "2018-07-13": ("gone", False),
+    }
+    links = pq.read_table(setup / "nation" / "links.parquet").to_pylist()
+    assert "psx-sheds-100-points" in {r["slug"] for r in links}
+    m = json.loads((setup / "manifests" / "news_nation_archive.json").read_text())
+    last = m["extra"]["last_run"]
+    assert last["days_not_in_sitemap_index"] == 2 and last["unlisted_days_ok"] == 1
+    assert last["days_remaining"] == 0
+
+
+def test_redirect_to_another_article_is_not_ok(setup: Path) -> None:
+    sbp = f"{BASE}/28-Jan-2025/sbp-cuts-policy-rate-by-100-basis-points-to-12pc"
+    assert na.redirected(sbp, f"{BASE}/28-Jan-2025/cold-forecast-for-lahore")
+    assert not na.redirected(sbp, sbp + "/")
+    assert not na.redirected(sbp, sbp.replace("https://www.", "https://"))
+    assert not na.redirected(sbp, None)
+
+    def fetch(url: str) -> common.HttpResponse:
+        if url.endswith("/sitemap.xml"):
+            return common.HttpResponse(url, 200, {}, INDEX)
+        m = na._SITEMAP_DAY.search(url)
+        if m:
+            return common.HttpResponse(url, 200, {}, DAYS[m.group(1)])
+        if url.endswith("psx-gains-300-points"):
+            return common.HttpResponse(
+                f"{BASE}/11-Jul-2018/weather-update",
+                200,
+                {},
+                _page("Weather", "Cold in Lahore.", "2018-07-11T01:00:00+05:00"),
+            )
+        return common.HttpResponse(
+            url, 200, {}, _page("PSX", "The PSX fell.", "2018-07-10T01:00:00+05:00")
+        )
+
+    kw: dict[str, Any] = {
+        "upload": False,
+        "start": date(2018, 7, 10),
+        "end": date(2018, 7, 11),
+        "fetch": fetch,
+    }
+    na.run("index", **kw)
+    na.run("text", **kw)
+    rows = {
+        r["url"].rsplit("/", 1)[1]: r
+        for r in pq.read_table(setup / "nation" / "articles.parquet").to_pylist()
+    }
+    gains = rows["psx-gains-300-points"]
+    assert gains["status"] == "redirected"
+    assert gains["error"] == f"redirected to {BASE}/11-Jul-2018/weather-update"
+    assert rows["market-slips-below-40-000-point-level"]["status"] == "ok"
+
+
+def test_stored_redirect_rows_are_remarked_without_refetch(setup: Path) -> None:
+    row = na._base(
+        {
+            "article_id": "a1",
+            "url": f"{BASE}/11-Jul-2018/psx-gains-300-points",
+            "url_day": "2018-07-11",
+            "lastmod": None,
+        },
+        datetime(2026, 11, 20, tzinfo=timezone.utc),
+        1,
+    )
+    row.update(status="ok", final_url=f"{BASE}/11-Jul-2018/weather-update")
+    (setup / "nation").mkdir(parents=True)
+    pq.write_table(
+        na.pa.Table.from_pylist([row], schema=na.ARTICLES_SCHEMA),
+        setup / "nation" / "articles.parquet",
+    )
+    link = {
+        "article_id": "a1",
+        "url": row["url"],
+        "sitemap_day": "2018-07-11",
+        "url_day": "2018-07-11",
+        "slug": "psx-gains-300-points",
+        "lastmod": None,
+    }
+    pq.write_table(
+        na.pa.Table.from_pylist([link], schema=na.LINKS_SCHEMA),
+        setup / "nation" / "links.parquet",
+    )
+
+    def fetch(url: str) -> common.HttpResponse:
+        raise AssertionError(f"no request expected: {url}")
+
+    kw: dict[str, Any] = {
+        "upload": False,
+        "start": date(2018, 7, 10),
+        "end": date(2018, 7, 11),
+        "fetch": fetch,
+    }
+    assert na.run("text", **kw) == 0
+    (out,) = pq.read_table(setup / "nation" / "articles.parquet").to_pylist()
+    assert out["status"] == "redirected"

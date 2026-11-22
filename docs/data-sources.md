@@ -238,6 +238,87 @@ Tribune, Business Recorder); robots.txt allows the article paths for our
 User-Agent. Same full-text decision: private, non-commercial academic
 research, never redistributed.
 
+### news_nation_archive
+
+| | |
+|---|---|
+| Purpose | Historical (2017 onward) market news from The Nation, for the Sector Analyst's and Macro Agent's retrieval corpus. Complements `news_gdelt_fulltext`, above all where GDELT lists no Business Recorder articles (2018 to early 2023). |
+| Loader | `backend/jobs/news_nation_archive.py`, two resumable steps run on demand: `index` reads The Nation's daily sitemaps, `text` fetches the article pages picked from them |
+| Fetch mode | `reproducible`: sitemaps and pages can be fetched again, but the publisher edits and removes pages |
+| Location | HF `news/backfill/nation/`: `days.parquet`, `links.parquet`, `articles.parquet`, `coverage_by_month.csv`, `raw/sitemap_index/`, `raw/sitemaps/` and `raw/pages/<year>/` (unmodified responses), `runs/` |
+| Format | `days.parquet`: one row per calendar day (`day`, `status`, `n_links`, `in_index`, ...). `links.parquet`: every article link in the sitemaps, all sections (`article_id`, `url`, `sitemap_day`, `url_day`, `slug`, `lastmod`). `articles.parquet`: one row per picked link: `article_id`, `url`, `final_url`, `url_day`, `slug_rule`, `status`, `http_status`, `error`, `title`, `published_at` (UTC, from the page), `published_at_raw`, `published_tz`, `modified_at`, `first_public_at`, `published_after_url_day`, `is_market`, `authors`, `summary`, `full_text`, `language`, `tags`, `fetched_at`, `raw_file`, `attempts` |
+| Which links are fetched | URL slug contains a market word as a whole hyphen-separated word (`SLUG_RE`: psx, kse, stocks, shares, bourse, equities, bullish, bearish, index, points, investors, trading, market, ...); `slug_rule` = `slug-v1`. `is_market` = title or text names the PSX, the KSE indices, a stock exchange or the stock market. |
+| Point-in-time key | `first_public_at` = the earlier of the page's `published_at` and the end (23:59:59 PKT) of the day in the URL |
+
+Collected 2026-11-20 to 2026-11-21 (Maryam) from nation.com.pk, one request
+every 3 s: the index in two runs (the second for the days the index left
+out), the text in six (105-minute chunks; one
+chunk was cut short by a machine restart and resumed from its checkpoint).
+No request is left failed.
+
+- **Days**: all 3,610 calendar days from 2017-01-01 to 2026-11-19 read.
+  The sitemap index (`/sitemap.xml`) leaves out, in every month, the day
+  whose number is the date it is read (the 20th of every month in the copy
+  read on 2026-11-20, the 21st in the copy read on 2026-11-21), plus
+  2022-02-17. Those daily sitemaps exist, so the job reads every calendar
+  day; `in_index` only says whether the last copy of the index listed the
+  day. 2022-02-17's sitemap is empty (0 links), the only day with none.
+  Median 148 links a day.
+- **Links**: 543,422 (all sections). 8,252 picked by the slug rule (1.5%).
+- **Articles**: 8,250 `ok` with text, 2 `redirected` (below). 2,693 of
+  the `ok` rows are `is_market` (about a third; the rest are slug matches
+  such as "flour-market-prices" or "polio-drops-at-transit-points").
+
+| Year | Links | Picked | ok | is_market |
+|---|---|---|---|---|
+| 2017 | 70,478 | 943 | 943 | 350 |
+| 2018 | 66,152 | 900 | 900 | 324 |
+| 2019 | 48,648 | 609 | 609 | 234 |
+| 2020 | 50,002 | 791 | 791 | 192 |
+| 2021 | 54,546 | 799 | 799 | 210 |
+| 2022 | 53,474 | 893 | 893 | 287 |
+| 2023 | 51,681 | 806 | 806 | 254 |
+| 2024 | 54,277 | 813 | 813 | 277 |
+| 2025 | 51,010 | 854 | 852 | 305 |
+| 2026 (to 11-19) | 43,154 | 844 | 844 | 260 |
+
+Every month from 2017-01 to 2026-11 has `is_market` articles: median 22 a
+month, fewest 9 (2020-11), most 36 (2018-10). Median text length 1,632
+characters (1,273 for `is_market` rows).
+
+Known issues, to be handled by whoever reads this dataset:
+
+- **The slug filter misses market stories whose URL has none of its
+  words.** A sample of days found the daily market report was picked
+  whenever one was filed, but this was not measured over the whole
+  archive. `links.parquet` keeps every link, so a wider rule can be added
+  later as `slug-v2` without reading the sitemaps again.
+- **Redirects**: 2 links from 2025-01-28 (including
+  `sbp-cuts-policy-rate-by-100-basis-points-to-12pc`) redirect to an
+  unrelated story (`cold-forecast-for-lahore`). They are `redirected`, not
+  `ok`; their stored text is the other story's. Use `status == "ok"`.
+- **Duplicates**: 10 groups of `ok` rows (21 rows) share identical text:
+  the same story under two slugs (one with a numeric suffix such as
+  `-886763`), or posted again the next day (a 2022-11-23 PSX report also
+  filed under 2022-11-24). Deduplicate on `full_text` and keep the earliest
+  `first_public_at`.
+- **Very short pages**: 36 `ok` rows have under 300 characters, 12 under
+  100. Most are cartoon or photo pages whose only text is a caption
+  ("STOCK MARKET"); 7 are `is_market`. Drop them before indexing.
+- **Dates**: 11 rows carry a page date later than their URL day (updated
+  pages); `published_after_url_day` marks them and `first_public_at` caps
+  the date at the URL day. Use `first_public_at`, not `published_at`.
+- The Nation's bylines are mostly wire and desk names (APP 1,605, Our Staff
+  Reporter 1,325, NEWS WIRE 823, Agencies 744, Web Desk 606), so the same
+  wire story may also appear in Dawn or Tribune rows of
+  `news_gdelt_fulltext`.
+
+**Terms and access**: The Nation's terms (`/copyrights`, read 2026-11-20)
+allow use for "personal, academic or non-commercial purposes" (see the
+RSS section above). robots.txt allows the sitemaps and article paths for
+our User-Agent. The same full-text decision applies: private,
+non-commercial academic research, never redistributed.
+
 ### news_finbert_sentiment (status: use under review, ADR-0005)
 
 | | |
