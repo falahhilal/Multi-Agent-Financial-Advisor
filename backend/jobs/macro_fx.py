@@ -395,14 +395,7 @@ def validate(
     return out, warnings, report
 
 
-def rows_summary(rows_per_series: Mapping[str, int]) -> str:
-    """One line for the final log: the common count, or every series' count."""
-    counts = set(rows_per_series.values())
-    total = sum(rows_per_series.values())
-    if len(counts) == 1:
-        return f"rows per series: {counts.pop()} for all {len(rows_per_series)} series ({total} total)"
-    each = ", ".join(f"{k.rsplit('.', 1)[-1]}={n}" for k, n in rows_per_series.items())
-    return f"rows per series differ ({total} total): {each}"
+rows_summary = ed.rows_summary  # moved to easydata.py; kept here by name
 
 
 # --------------------------------------------------------------------------
