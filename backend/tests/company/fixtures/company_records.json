@@ -1,0 +1,66 @@
+{
+  "prices": [
+    {
+      "ticker": "HBL",
+      "trade_date": "2026-01-05",
+      "open": "10.00",
+      "high": "12.00",
+      "low": "9.00",
+      "close": "11.00",
+      "volume": 100,
+      "currency": "PKR",
+      "price_unit": "per_share",
+      "volume_unit": "shares",
+      "source": "synthetic-test-fixture",
+      "source_record_id": "test-price-1",
+      "fetched_at": "2026-01-06T00:00:00Z"
+    },
+    {
+      "ticker": "HBL",
+      "trade_date": "2026-01-06",
+      "open": "10.00",
+      "high": "12.00",
+      "low": "9.00",
+      "close": "10.00",
+      "volume": 0,
+      "currency": "PKR",
+      "price_unit": "per_share",
+      "volume_unit": "shares",
+      "source": "synthetic-test-fixture",
+      "source_record_id": "test-price-2",
+      "fetched_at": "2026-01-07T00:00:00Z"
+    }
+  ],
+  "actions": [
+    {
+      "ticker": "HBL",
+      "action_type": "cash_dividend",
+      "announcement_date": "2026-01-02",
+      "ex_date": "2026-01-06",
+      "payment_date": "2026-01-20",
+      "amount_per_share": "0.50",
+      "currency": "PKR",
+      "source": "synthetic-test-fixture",
+      "source_record_id": "test-action-1",
+      "fetched_at": "2026-01-07T00:00:00Z"
+    }
+  ],
+  "fundamentals": [
+    {
+      "ticker": "HBL",
+      "metric": "eps_basic",
+      "value": "2.50",
+      "unit": "PKR/share",
+      "currency": "PKR",
+      "period_start": "2025-01-01",
+      "period_end": "2025-12-31",
+      "report_date": "2026-02-01",
+      "published_at": "2026-02-02T10:00:00+05:00",
+      "as_of_date": "2026-02-02",
+      "basis": "reported",
+      "source": "synthetic-test-fixture",
+      "source_record_id": "test-fundamental-1",
+      "fetched_at": "2026-02-03T00:00:00Z"
+    }
+  ]
+}

@@ -1,7 +1,10 @@
 # Worklogs
 
 One file per working session: what was decided, what was done, what is still
-open. Named `YYYY-MM-DD-short-slug.md` using the date the session started.
+open. Name it `YYYY-MM-DD-person-short-slug.md`, using the session start date,
+the primary author's first name, and a short topic slug. List all participants
+in the `Who:` line; use a distinct slug if the same person has multiple
+sessions on one day.
 
 Purpose is twofold. Day to day it is the handoff between sessions — anyone
 picking the project back up reads the newest file and knows where things

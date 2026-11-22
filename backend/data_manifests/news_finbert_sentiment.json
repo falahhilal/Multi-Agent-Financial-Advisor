@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "id": "news_finbert_sentiment",
+  "stream": "news",
+  "dataset": "finbert_sentiment",
+  "source": "ProsusAI/finbert@0bc2ac10dda6929bcb1f77ccc43c7ec5c424f031 over news_rss_articles, news_aaj_psx_archive, news_gdelt_index",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-09T19:10:55Z",
+  "script": "backend/jobs/news_finbert.py",
+  "git_commit": "30614c7912975e92f0445377dcf1c14cec3b7398",
+  "git_dirty": false,
+  "row_count": 5403,
+  "file_count": 4,
+  "date_range": {
+    "min": "2017-01-01T02:45:00+00:00",
+    "max": "2026-11-09T11:33:08+00:00"
+  },
+  "files": [
+    {
+      "path": "news/sentiment/finbert_0bc2ac10_t128/scores.parquet",
+      "bytes": 368283,
+      "sha256": "4a744300346771c455e54cda1a8433f80733ccc38f3df82a79145883c54504b0"
+    },
+    {
+      "path": "news/sentiment/finbert_0bc2ac10_t128/label_by_month.csv",
+      "bytes": 13611,
+      "sha256": "2bc39b1c177f9d07acc2d1571b4c15384ac34880c5d6a03a5d8cf4e0425e244f"
+    },
+    {
+      "path": "news/sentiment/finbert_0bc2ac10_t128/spotcheck_sample.csv",
+      "bytes": 6624,
+      "sha256": "79e1fd66a05ab0d46d7069b9a2fd710fee872ad164f72b10fbd1c5edeec847c6"
+    },
+    {
+      "path": "news/sentiment/finbert_0bc2ac10_t128/runs/run-20261109T190929Z.json",
+      "bytes": 730,
+      "sha256": "d39e65d7f96770ae36d0c04eb9c74ce6a12cb26a68a33b9b287ebf462123dc39"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "news/sentiment/finbert_0bc2ac10_t128/",
+  "hf_revision": "ada7493ea22719d4556ab650e869dd37978bcd5a",
+  "notes": "ProsusAI/finbert at revision 0bc2ac10dda6929bcb1f77ccc43c7ec5c424f031 (model licence CC BY-NC-SA 4.0: non-commercial, share-alike). Input = title + start of body, truncated to 128 tokens; GDELT rows are title only (GDELT titles have tokenised spacing, e.g. 'shares , oil'). FinBERT is English-only and was not trained on Pakistani text: these labels are an UNVALIDATED PROXY until the hand spot-check (spotcheck_sample.csv) is done. Urdu and other non-English rows are excluded. Source datasets are read-only; nothing in them is modified. The same article can appear in more than one source dataset with different inputs; each is scored separately (key: source_dataset + article_id). The RSS feeds include non-market stories (sport, greetings, awards) that FinBERT also labels, often 'positive': filter to market-relevant articles (ticker/sector tagging, not built yet) before using these as a market signal.",
+  "warnings": [
+    "unvalidated proxy: hand spot-check (spotcheck_sample.csv) not done yet"
+  ],
+  "extra": {
+    "last_run": {
+      "run_id": "20261109T190929Z",
+      "scored_at": "2026-11-09T19:09:29Z",
+      "git": {
+        "commit": "30614c7912975e92f0445377dcf1c14cec3b7398",
+        "dirty": false
+      },
+      "model": "ProsusAI/finbert",
+      "model_revision": "0bc2ac10dda6929bcb1f77ccc43c7ec5c424f031",
+      "max_tokens": 128,
+      "new_scores": 5403,
+      "total_scores": 5403,
+      "labels": {
+        "positive": 1732,
+        "negative": 1935,
+        "neutral": 1736
+      },
+      "truncated": 624,
+      "sources": {
+        "news_rss_articles": {
+          "rows": 299,
+          "to_score": 299
+        },
+        "news_aaj_psx_archive": {
+          "rows": 418,
+          "excluded_non_english": 5,
+          "to_score": 413
+        },
+        "news_gdelt_index": {
+          "rows": 4691,
+          "to_score": 4691
+        }
+      },
+      "limit": null
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "news_gdelt_index",
+  "stream": "news",
+  "dataset": "gdelt_index",
+  "source": "GDELT DOC 2.0 API <https://api.gdeltproject.org/api/v2/doc/doc>, query: (\"KSE-100\" OR \"KSE100\" OR \"Pakistan Stock Exchange\") (domainis:brecorder.com OR domainis:dawn.com OR domainis:tribune.com.pk)",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-16T01:27:43Z",
+  "script": "backend/jobs/news_gdelt.py",
+  "git_commit": "20faee0fb7f0405245df3804fa92232e5e785507",
+  "git_dirty": false,
+  "row_count": 8946,
+  "file_count": 121,
+  "date_range": {
+    "min": "2017-01-01T02:45:00+00:00",
+    "max": "2026-11-06T09:30:00+00:00"
+  },
+  "files": [
+    {
+      "path": "news/backfill/gdelt/articles.parquet",
+      "bytes": 727381,
+      "sha256": "f581740f0ec943d0771ac0b5d8f6eb3483e264651c86fe4b127fd10a2a86fb53"
+    },
+    {
+      "path": "news/backfill/gdelt/windows.parquet",
+      "bytes": 6028,
+      "sha256": "eff12750448a9148538c5dc2420b12664187406c685e9fc9797db929b59ab08f"
+    },
+    {
+      "path": "news/backfill/gdelt/runs/run-20261116T012406Z.json",
+      "bytes": 562,
+      "sha256": "1ce665ebf83e49c77e0ee4c11d3307646269089f2069a8175083a5052d252fad"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "news/backfill/gdelt/",
+  "hf_revision": "d7a5367cd887ebe5456bf37dc97c28adb340fa2f",
+  "notes": "GDELT DOC 2.0 article lists (title, URL, seendate) for PSX/KSE-100 terms on brecorder.com, dawn.com and tribune.com.pk, 30-day windows from 2017-01-01. seendate is when GDELT saw the article, not its publish time (usually within hours, not guaranteed). No article text: see news_wayback_backfill. Coverage is limited to what GDELT crawled; on 2026-11-08 Business Recorder appeared in 2017 but not in 2018 or 2026 test windows, and the latest week returned nothing. GDELT treats enddatetime as covering that whole day, so items seen on a window's last day also appear in the next window (deduped; window_start records the first window that returned the article). Failed windows are listed in windows.parquet and retried on the next run. GDELT data: unlimited use with citation to the GDELT Project and a link to https://www.gdeltproject.org/.",
+  "warnings": [
+    "2 windows failed; re-run to retry them"
+  ],
+  "extra": {
+    "last_run": {
+      "run_id": "20261116T012406Z",
+      "fetched_at": "2026-11-16T01:24:06Z",
+      "git": {
+        "commit": "20faee0fb7f0405245df3804fa92232e5e785507",
+        "dirty": false
+      },
+      "query": "(\"KSE-100\" OR \"KSE100\" OR \"Pakistan Stock Exchange\") (domainis:brecorder.com OR domainis:dawn.com OR domainis:tribune.com.pk)",
+      "query_sha": "aeada4ed6612",
+      "windows_planned": 2,
+      "windows_queried": 2,
+      "stopped_early": false,
+      "new_articles": 0,
+      "windows_failed_this_run": 2,
+      "total_articles": 8946,
+      "window_status_totals": {
+        "ok": 119,
+        "failed": 2
+      }
+    }
+  }
+}

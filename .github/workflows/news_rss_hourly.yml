@@ -6,15 +6,17 @@
 #
 # Cost: the repo is private, so each run uses the owner's Actions minutes
 # (billed per job, rounded up to whole minutes; a run takes about 1 minute).
-# Hourly is about 744 minutes a month. To halve it, change the cron to
-# "7 */2 * * *" (every 2 hours). Keep it at least every 2 hours: the
-# Business Recorder and ProPakistani feeds only show the last ~11-16 hours.
+# Hourly is about 744 minutes a month (a run that fetches many Business
+# Recorder articles from the sitemap can take 3-5 minutes). To halve it,
+# change the cron to "23 */2 * * *" (every 2 hours).
+# Minute 23, not 0-10: GitHub delays or drops scheduled runs near the top of
+# the hour (on 2026-11-08/09 the minute-7 schedule ran only every 4-6 hours).
 
 name: news-rss-hourly
 
 on:
   schedule:
-    - cron: "7 * * * *"   # minute 7 of every hour, UTC
+    - cron: "23 * * * *"  # minute 23 of every hour, UTC
   workflow_dispatch: {}    # manual "Run workflow" button
 
 permissions:
@@ -27,7 +29,7 @@ concurrency:
 jobs:
   archive:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: backend
@@ -38,10 +40,10 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: backend/jobs/requirements-news-rss.txt
+          cache-dependency-path: backend/jobs/requirements-news.txt
 
       - name: Install dependencies
-        run: pip install -r jobs/requirements-news-rss.txt
+        run: pip install -r jobs/requirements-news.txt
 
       - name: Archive RSS feeds
         env:

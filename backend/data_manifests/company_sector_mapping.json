@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "company_sector_mapping",
+  "stream": "company",
+  "dataset": "sector_mapping",
+  "source": "Project-supplied canonical sector labels in backend/universe/psx_v1.yaml",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-22T08:34:51Z",
+  "script": "backend/jobs/company_sector_mapping.py",
+  "git_commit": "70097be25c96008437a9d8871ef6c60491fada77",
+  "git_dirty": true,
+  "row_count": 18,
+  "file_count": 1,
+  "date_range": null,
+  "files": [
+    {
+      "path": "processed/company/sector_mapping.csv",
+      "bytes": 1531,
+      "sha256": "67d0cfee416a45fa505edc6e7c345e818e4994c5e36ad84f9773bbc4ce75f5ee"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "company/reference/sector_mapping.csv",
+  "hf_revision": "5ef23c4295341f1dbdbde123f63ad2dbe09c0466",
+  "notes": "Canonical reference uploaded to the private HF company/ prefix.",
+  "warnings": [
+    "uncommitted changes in working tree: git_commit may not reproduce this run"
+  ],
+  "extra": {
+    "universe_version": "psx_v1",
+    "storage_status": "uploaded"
+  }
+}

@@ -212,9 +212,17 @@ def test_write_manifest_validates(
 class _Handler(BaseHTTPRequestHandler):
     hits: ClassVar[dict[str, list[float]]] = {}
     user_agents: ClassVar[list[str]] = []
+    bodies: ClassVar[list[str]] = []
+    content_types: ClassVar[list[str]] = []
 
     def log_message(self, *args: Any) -> None:  # keep test output quiet
         pass
+
+    def do_POST(self) -> None:
+        length = int(self.headers.get("Content-Length", "0"))
+        _Handler.bodies.append(self.rfile.read(length).decode())
+        _Handler.content_types.append(self.headers.get("Content-Type", ""))
+        self._send(200, b"<table></table>", "text/html")
 
     def do_GET(self) -> None:
         _Handler.hits.setdefault(self.path, []).append(time.monotonic())
@@ -241,6 +249,8 @@ class _Handler(BaseHTTPRequestHandler):
 def server() -> Iterator[str]:
     _Handler.hits = {}
     _Handler.user_agents = []
+    _Handler.bodies = []
+    _Handler.content_types = []
     common._robots_cache.clear()
     common._next_slot.clear()
     httpd = ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
@@ -319,3 +329,17 @@ def test_cross_host_https_to_http_redirect_refused() -> None:
     req = common.urllib.request.Request("https://www.example.com/a")
     with pytest.raises(common.urllib.error.HTTPError):
         handler.redirect_request(req, None, 302, "Found", {}, "http://evil.example/a")
+
+
+def test_http_post_sends_form_body(server: str) -> None:
+    resp = common.http_post(
+        server + "/announcements", data={"type": "C", "symbol": "OGDC"}, min_interval=0
+    )
+    assert resp.status == 200 and resp.text() == "<table></table>"
+    assert _Handler.bodies == ["type=C&symbol=OGDC"]
+    assert _Handler.content_types[0].startswith("application/x-www-form-urlencoded")
+
+
+def test_http_post_respects_robots(server: str) -> None:
+    with pytest.raises(common.RobotsDisallowedError):
+        common.http_post(server + "/private/x", data={"a": 1}, min_interval=0)

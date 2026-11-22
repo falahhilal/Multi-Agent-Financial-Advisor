@@ -1,0 +1,683 @@
+{
+  "schema_version": 1,
+  "id": "company_company_prices",
+  "stream": "company",
+  "dataset": "company_prices",
+  "source": "pyPSX History archive get_historical",
+  "fetch_mode": "reproducible",
+  "fetched_at": "2026-11-22T08:34:53Z",
+  "script": "backend/jobs/company_ingest.py",
+  "git_commit": "70097be25c96008437a9d8871ef6c60491fada77",
+  "git_dirty": true,
+  "row_count": 52950,
+  "file_count": 58,
+  "date_range": {
+    "min": "2015-01-01",
+    "max": "2026-11-20"
+  },
+  "files": [
+    {
+      "path": "raw/company_prices/HBL_c30c9dc0fa3835926880011e853de8bb2bc1c08768ff0fc4a5199191e53d703d.json",
+      "bytes": 545963,
+      "sha256": "c30c9dc0fa3835926880011e853de8bb2bc1c08768ff0fc4a5199191e53d703d"
+    },
+    {
+      "path": "raw/company_prices/UBL_eb148c37b8673530c394fdef71391f32111269ac5cdd3fd57e88b6941d8e5a8a.json",
+      "bytes": 547256,
+      "sha256": "eb148c37b8673530c394fdef71391f32111269ac5cdd3fd57e88b6941d8e5a8a"
+    },
+    {
+      "path": "raw/company_prices/MEBL_6ece283b6907d71a9c39958b84a4ebf53b4ab9f19d7518cbc0e7c100f34ae499.json",
+      "bytes": 537219,
+      "sha256": "6ece283b6907d71a9c39958b84a4ebf53b4ab9f19d7518cbc0e7c100f34ae499"
+    },
+    {
+      "path": "raw/company_prices/OGDC_bbe76ab18999b46ad662071aa053833c1df2b3dcb2cf4f5c056cd084bd058dfa.json",
+      "bytes": 548888,
+      "sha256": "bbe76ab18999b46ad662071aa053833c1df2b3dcb2cf4f5c056cd084bd058dfa"
+    },
+    {
+      "path": "raw/company_prices/PPL_f7285d8bd241dcc2e62a6461a316e9adc39c9c1f6bd70b17646a84c08d72ead4.json",
+      "bytes": 544811,
+      "sha256": "f7285d8bd241dcc2e62a6461a316e9adc39c9c1f6bd70b17646a84c08d72ead4"
+    },
+    {
+      "path": "raw/company_prices/MARI_9b38cbd4695c59d834fd0638c07310daf22e1d6ffb631a2e772c9904e8ab0047.json",
+      "bytes": 552852,
+      "sha256": "9b38cbd4695c59d834fd0638c07310daf22e1d6ffb631a2e772c9904e8ab0047"
+    },
+    {
+      "path": "raw/company_prices/LUCK_847171ea4a222b0a72732567bdd2f2af213bf6aac6ed85690492da72545b8266.json",
+      "bytes": 547767,
+      "sha256": "847171ea4a222b0a72732567bdd2f2af213bf6aac6ed85690492da72545b8266"
+    },
+    {
+      "path": "raw/company_prices/DGKC_32acb9a8f3630fe60ee018721d92f00f4814b435ebaffc4c6c5654d00894a34f.json",
+      "bytes": 546890,
+      "sha256": "32acb9a8f3630fe60ee018721d92f00f4814b435ebaffc4c6c5654d00894a34f"
+    },
+    {
+      "path": "raw/company_prices/MLCF_2c633f3bfdb0947522a90d679aa0f2a2d62af7bdf06e85d646b6cd9d531d1410.json",
+      "bytes": 542891,
+      "sha256": "2c633f3bfdb0947522a90d679aa0f2a2d62af7bdf06e85d646b6cd9d531d1410"
+    },
+    {
+      "path": "raw/company_prices/FFC_82b14e629aaf316905297dd629cd3454b0481cd0b478c88a86fdde54039e5d8d.json",
+      "bytes": 544454,
+      "sha256": "82b14e629aaf316905297dd629cd3454b0481cd0b478c88a86fdde54039e5d8d"
+    },
+    {
+      "path": "raw/company_prices/EFERT_a631711c12a2f27f89d9a5119f474a197a9334e8731a0b8116eed9ebb2c4d3f5.json",
+      "bytes": 545558,
+      "sha256": "a631711c12a2f27f89d9a5119f474a197a9334e8731a0b8116eed9ebb2c4d3f5"
+    },
+    {
+      "path": "raw/company_prices/FATIMA_31a232ab27fbadb02e521c2cd817fa76b2ad9f9ff27e28e76a32e981a75db994.json",
+      "bytes": 543551,
+      "sha256": "31a232ab27fbadb02e521c2cd817fa76b2ad9f9ff27e28e76a32e981a75db994"
+    },
+    {
+      "path": "raw/company_prices/SYS_e0c54ca6e2909f717569148ee99d32ca9b8de4d44f502e057f9eb9bf8bbe9bfd.json",
+      "bytes": 533967,
+      "sha256": "e0c54ca6e2909f717569148ee99d32ca9b8de4d44f502e057f9eb9bf8bbe9bfd"
+    },
+    {
+      "path": "raw/company_prices/TRG_2bba6633bf9a33e61c47145634224101273d73dc0410eed69037e3dd642e662a.json",
+      "bytes": 540924,
+      "sha256": "2bba6633bf9a33e61c47145634224101273d73dc0410eed69037e3dd642e662a"
+    },
+    {
+      "path": "raw/company_prices/NETSOL_c6a3c15286476e35433af36360a33d91db40b3d9a1da44ccaaaf4ad242ad6a83.json",
+      "bytes": 548610,
+      "sha256": "c6a3c15286476e35433af36360a33d91db40b3d9a1da44ccaaaf4ad242ad6a83"
+    },
+    {
+      "path": "raw/company_prices/NCL_26869cb14c7eb83ea0f168e5edac044d689b8cf9b237253eb4bbbe3412280a09.json",
+      "bytes": 535309,
+      "sha256": "26869cb14c7eb83ea0f168e5edac044d689b8cf9b237253eb4bbbe3412280a09"
+    },
+    {
+      "path": "raw/company_prices/NML_adc5f72cf9c72e8350c4fce127fd033caf397650be7ec2e5ac251ca2ea4d6a2f.json",
+      "bytes": 541796,
+      "sha256": "adc5f72cf9c72e8350c4fce127fd033caf397650be7ec2e5ac251ca2ea4d6a2f"
+    },
+    {
+      "path": "raw/company_prices/GATM_2d2337c366b89a45a8247149596c55f84da59bb45f9d70e35312c0ed9a01eb7f.json",
+      "bytes": 538664,
+      "sha256": "2d2337c366b89a45a8247149596c55f84da59bb45f9d70e35312c0ed9a01eb7f"
+    },
+    {
+      "path": "processed/company_prices/ticker=HBL/prices.parquet",
+      "bytes": 107270,
+      "sha256": "5b07f8affdacd34dc3ab9f5d52b6739775f2541b82fe1ee1986e9d605a0c075d"
+    },
+    {
+      "path": "processed/company_prices/ticker=UBL/prices.parquet",
+      "bytes": 106714,
+      "sha256": "ea13a0d4d6af97c7b83dc352afb309cead7b52d6fea1c07f9528edb416f5046c"
+    },
+    {
+      "path": "processed/company_prices/ticker=MEBL/prices.parquet",
+      "bytes": 101573,
+      "sha256": "327089c3f4ba95fc17c0e1e842bc60ce08c173db51632fd3b08937ce5f676832"
+    },
+    {
+      "path": "processed/company_prices/ticker=OGDC/prices.parquet",
+      "bytes": 108696,
+      "sha256": "893193d255b85034b3596c2a79a69346cf05f9c2fc606df512707bb447e920e6"
+    },
+    {
+      "path": "processed/company_prices/ticker=PPL/prices.parquet",
+      "bytes": 108212,
+      "sha256": "ddfbea86b8b9f3bdce922d132b57cfb546d3d5a6c09913e0b6b4d5234b1bdf82"
+    },
+    {
+      "path": "processed/company_prices/ticker=MARI/prices.parquet",
+      "bytes": 105104,
+      "sha256": "bbf437d0ebc98c69d3db262932edaab65ba4ee5ef6b5a71f8ed2979e381e13db"
+    },
+    {
+      "path": "processed/company_prices/ticker=LUCK/prices.parquet",
+      "bytes": 106737,
+      "sha256": "cbb9514d09af08d4696df00371659cb129e64a9f6eb8b9fc16c5b91ad44840a2"
+    },
+    {
+      "path": "processed/company_prices/ticker=DGKC/prices.parquet",
+      "bytes": 110210,
+      "sha256": "74e53cc390e47219a3af0b630a7764b405aff984e4efd9a4820bc9602fc5ffea"
+    },
+    {
+      "path": "processed/company_prices/ticker=MLCF/prices.parquet",
+      "bytes": 107490,
+      "sha256": "1adcffb2bc66a19735021451efe391d6e1dfd0d00432dce4ebf83a30b8f413e2"
+    },
+    {
+      "path": "processed/company_prices/ticker=FFC/prices.parquet",
+      "bytes": 103402,
+      "sha256": "0fb614c34ba0e016e0835459ecbea943dad1364a164071e856a37819c48d08be"
+    },
+    {
+      "path": "processed/company_prices/ticker=EFERT/prices.parquet",
+      "bytes": 103525,
+      "sha256": "4aad406c29255e9977b446bfa51892ec068918e2f0ce28ec19725c91ec0af8c9"
+    },
+    {
+      "path": "processed/company_prices/ticker=FATIMA/prices.parquet",
+      "bytes": 94879,
+      "sha256": "e6f5dbd493e022fbcb1785e32354be485f7b01d8ceb150dc51717fb7e17d1f5a"
+    },
+    {
+      "path": "processed/company_prices/ticker=SYS/prices.parquet",
+      "bytes": 103354,
+      "sha256": "0164a6af047f54d374f28c6f0a5f74d8f8de0687a30655b86104e752b185a950"
+    },
+    {
+      "path": "processed/company_prices/ticker=TRG/prices.parquet",
+      "bytes": 110096,
+      "sha256": "0d61fd86a9891fbb6b0c004b3d98c1f506641d41aad7b75c42e305422c14b417"
+    },
+    {
+      "path": "processed/company_prices/ticker=NETSOL/prices.parquet",
+      "bytes": 105324,
+      "sha256": "8abaabddb9092456b725e5681d291d8a3d812da9064b8547a207e3c4c92bb2fe"
+    },
+    {
+      "path": "processed/company_prices/ticker=NCL/prices.parquet",
+      "bytes": 91759,
+      "sha256": "f3a4a2f86d71b0c0e33faa339977a1fb07d3c03e762fc292a013f0ff538ddc65"
+    },
+    {
+      "path": "processed/company_prices/ticker=NML/prices.parquet",
+      "bytes": 104575,
+      "sha256": "fb0206286b49e018d2b5c98babceea6ab6c6566ee4b557bc7d12b9d9ff08f278"
+    },
+    {
+      "path": "processed/company_prices/ticker=GATM/prices.parquet",
+      "bytes": 91780,
+      "sha256": "4b639f4b63d96dc8f6b7f776171fcfc87c70f7023f20859a40a7194841df51f1"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/dataset_prices.json",
+      "bytes": 31293,
+      "sha256": "540e6a954304f50f06cc25085777fcc0c85a563035ef3ea2974c784bd3cb19eb"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/dataset_ticker_coverage.json",
+      "bytes": 731,
+      "sha256": "2aed12babcd5a31f1a000b505bd1bf3435df02906b842c71b56b7dfd3b113eef"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/DGKC.json",
+      "bytes": 1208,
+      "sha256": "9cd316fcff2936064c50db56c92aa52158b9062cb8b79c45991e1d3e49b2e991"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/EFERT.json",
+      "bytes": 2136,
+      "sha256": "504845a8ca223143ba1a9a88a32603d937680914f6b67c9db845aaf71749268b"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/FATIMA.json",
+      "bytes": 3995,
+      "sha256": "068a373c71386065b15bf8df387836f1c1a3a0924724b6d50bf6e46b65c873b5"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/FFC.json",
+      "bytes": 2591,
+      "sha256": "5d95b7c2becfd5bffa49eb2bd56e52ef9fdb4215e6ce8548f7cb04a71dab9cb0"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/GATM.json",
+      "bytes": 1669,
+      "sha256": "c98a349a0b4daef45c9fb561143ce7bd4026676fa3db3079e179e05c9832fa57"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/HBL.json",
+      "bytes": 2126,
+      "sha256": "956f50558eca1ca6624614a07549e07fb4ebf182dff83e1ac5bd4473389db4a9"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/LUCK.json",
+      "bytes": 746,
+      "sha256": "93ffd11af20b36f6ac0aeab62b3cb68a693deed3f5aa55979fb80534ca18e7f4"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/MARI.json",
+      "bytes": 2597,
+      "sha256": "e990b3f08cadf6dc6995b0736db76ae9ef2d87a970b64faa42e615f7dc7e8fd7"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/MEBL.json",
+      "bytes": 7480,
+      "sha256": "2ab176db869db005ee14c7f84b9c3b43d855908ad6ea528dffa399a6027662ad"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/MLCF.json",
+      "bytes": 1208,
+      "sha256": "50c9075c8d65f2594cb965439d9a361f673398161a31b8e9439b6355b2e98f6f"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/NCL.json",
+      "bytes": 745,
+      "sha256": "08958c89b5e9415bf1252b6378631b8737731ba70e2636773d408a4e65e09153"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/NETSOL.json",
+      "bytes": 2141,
+      "sha256": "96f7a6176c4e47e1b355361adfaee0c6504a1889f44711ee5d6b84b0dadd6152"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/NML.json",
+      "bytes": 3051,
+      "sha256": "9626ff36d3af586c5e80ff0b5b1ff750d6fe9c372913e601508b3cbb4b6825b5"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/OGDC.json",
+      "bytes": 1207,
+      "sha256": "d90d68d8e0137ade02d725a9617413e1697aa2fa8251d5b7fd80135a8b7e22a9"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/PPL.json",
+      "bytes": 1666,
+      "sha256": "8ffe8141aa9482c16b3df5012d192b37c4dfe110f34eb1cdf3da401177ceba22"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/SYS.json",
+      "bytes": 4344,
+      "sha256": "040126d60fd33d712d43c950f81c450cc88268a3df95af83720dd0ee7a0c7019"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/TRG.json",
+      "bytes": 2129,
+      "sha256": "45b6403fdf142f0af74b1c35653eeb2f417c4510ac7d92918e91c2b08334f758"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/tickers/UBL.json",
+      "bytes": 2589,
+      "sha256": "8a2845447f1c595e47ccd0fd77a788c8fd296a7236b9a59c8573616923c3f508"
+    },
+    {
+      "path": "manifests/company_prices/20261122T083353Z-cd11b23a/run.json",
+      "bytes": 33400,
+      "sha256": "9da994342401afe138d7a8e00cb1062dec0f1a59e1b11b2ced659c0cf8d224ec"
+    },
+    {
+      "path": "quality_reports/company_prices/20261122T083353Z-cd11b23a/dataset_summary.json",
+      "bytes": 47929,
+      "sha256": "816ccd7b1f07f12f4b489452309a111cfe3834c6d26f85a3e1f3b7746a48228f"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "company/prices/manifests/20261122T083353Z-cd11b23a.json",
+  "hf_revision": "9ff11920320a7a04be560f0fd4b788fcf1cb9690",
+  "notes": "Prices were requested with adjust_splits=False; adjusted_close remains null. Collection status describes this price run; Stream A remains incomplete because point-in-time actions and fundamentals are unresolved. Manifest row_count is normalized validated rows; raw source rows=53012, accepted normalized rows=52950.",
+  "warnings": [
+    "uncommitted changes in working tree: git_commit may not reproduce this run"
+  ],
+  "extra": {
+    "dataset_schema_version": "company_prices_v1",
+    "collection_status": "partial",
+    "quality_status": "incomplete",
+    "requested_start": "2015-01-01",
+    "requested_end": "2026-11-20",
+    "per_ticker": {
+      "HBL": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2946,
+        "stored_unique_row_count": 2946,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/HBL_c30c9dc0fa3835926880011e853de8bb2bc1c08768ff0fc4a5199191e53d703d.json",
+        "raw_sha256": "c30c9dc0fa3835926880011e853de8bb2bc1c08768ff0fc4a5199191e53d703d",
+        "normalized_path": "processed/company_prices/ticker=HBL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 51: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'HBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'HBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 804: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'HBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "UBL": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2945,
+        "stored_unique_row_count": 2945,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/UBL_eb148c37b8673530c394fdef71391f32111269ac5cdd3fd57e88b6941d8e5a8a.json",
+        "raw_sha256": "eb148c37b8673530c394fdef71391f32111269ac5cdd3fd57e88b6941d8e5a8a",
+        "normalized_path": "processed/company_prices/ticker=UBL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 95: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'UBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'UBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1189: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'UBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1206: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'UBL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "MEBL": {
+        "collection_status": "complete",
+        "source_row_count": 2924,
+        "valid_normalized_row_count": 2913,
+        "stored_unique_row_count": 2913,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/MEBL_6ece283b6907d71a9c39958b84a4ebf53b4ab9f19d7518cbc0e7c100f34ae499.json",
+        "raw_sha256": "6ece283b6907d71a9c39958b84a4ebf53b4ab9f19d7518cbc0e7c100f34ae499",
+        "normalized_path": "processed/company_prices/ticker=MEBL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 91: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MEBL', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 225: ValidationError: 1 validation error for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 230: ValidationError: 3 validation errors for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nhigh\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nlow\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 241: ValidationError: 3 validation errors for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nhigh\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nlow\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 252: ValidationError: 3 validation errors for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nhigh\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nlow\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 276: ValidationError: 3 validation errors for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nhigh\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nlow\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 354: ValidationError: 3 validation errors for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nhigh\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than\nlow\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 386: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MEBL', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 965: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MEBL', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1533: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MEBL', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1712: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MEBL', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "OGDC": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2948,
+        "stored_unique_row_count": 2948,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/OGDC_bbe76ab18999b46ad662071aa053833c1df2b3dcb2cf4f5c056cd084bd058dfa.json",
+        "raw_sha256": "bbe76ab18999b46ad662071aa053833c1df2b3dcb2cf4f5c056cd084bd058dfa",
+        "normalized_path": "processed/company_prices/ticker=OGDC/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 216: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'OGDC', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "PPL": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2947,
+        "stored_unique_row_count": 2947,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/PPL_f7285d8bd241dcc2e62a6461a316e9adc39c9c1f6bd70b17646a84c08d72ead4.json",
+        "raw_sha256": "f7285d8bd241dcc2e62a6461a316e9adc39c9c1f6bd70b17646a84c08d72ead4",
+        "normalized_path": "processed/company_prices/ticker=PPL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'PPL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 739: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'PPL', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "MARI": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2945,
+        "stored_unique_row_count": 2945,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/MARI_9b38cbd4695c59d834fd0638c07310daf22e1d6ffb631a2e772c9904e8ab0047.json",
+        "raw_sha256": "9b38cbd4695c59d834fd0638c07310daf22e1d6ffb631a2e772c9904e8ab0047",
+        "normalized_path": "processed/company_prices/ticker=MARI/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 1084: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MARI', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1364: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MARI', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1420: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MARI', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1726: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MARI', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "LUCK": {
+        "collection_status": "complete",
+        "source_row_count": 2944,
+        "valid_normalized_row_count": 2944,
+        "stored_unique_row_count": 2944,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/LUCK_847171ea4a222b0a72732567bdd2f2af213bf6aac6ed85690492da72545b8266.json",
+        "raw_sha256": "847171ea4a222b0a72732567bdd2f2af213bf6aac6ed85690492da72545b8266",
+        "normalized_path": "processed/company_prices/ticker=LUCK/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": []
+      },
+      "DGKC": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2948,
+        "stored_unique_row_count": 2948,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/DGKC_32acb9a8f3630fe60ee018721d92f00f4814b435ebaffc4c6c5654d00894a34f.json",
+        "raw_sha256": "32acb9a8f3630fe60ee018721d92f00f4814b435ebaffc4c6c5654d00894a34f",
+        "normalized_path": "processed/company_prices/ticker=DGKC/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 2027: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'DGKC', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "MLCF": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2948,
+        "stored_unique_row_count": 2948,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/MLCF_2c633f3bfdb0947522a90d679aa0f2a2d62af7bdf06e85d646b6cd9d531d1410.json",
+        "raw_sha256": "2c633f3bfdb0947522a90d679aa0f2a2d62af7bdf06e85d646b6cd9d531d1410",
+        "normalized_path": "processed/company_prices/ticker=MLCF/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 1731: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'MLCF', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "FFC": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2945,
+        "stored_unique_row_count": 2945,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/FFC_82b14e629aaf316905297dd629cd3454b0481cd0b478c88a86fdde54039e5d8d.json",
+        "raw_sha256": "82b14e629aaf316905297dd629cd3454b0481cd0b478c88a86fdde54039e5d8d",
+        "normalized_path": "processed/company_prices/ticker=FFC/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FFC', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1556: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FFC', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1639: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FFC', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 2055: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FFC', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "EFERT": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2946,
+        "stored_unique_row_count": 2946,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/EFERT_a631711c12a2f27f89d9a5119f474a197a9334e8731a0b8116eed9ebb2c4d3f5.json",
+        "raw_sha256": "a631711c12a2f27f89d9a5119f474a197a9334e8731a0b8116eed9ebb2c4d3f5",
+        "normalized_path": "processed/company_prices/ticker=EFERT/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'EFERT', 'trad...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 607: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'EFERT', 'trad...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1423: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'EFERT', 'trad...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "FATIMA": {
+        "collection_status": "complete",
+        "source_row_count": 2946,
+        "valid_normalized_row_count": 2939,
+        "stored_unique_row_count": 2939,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/FATIMA_31a232ab27fbadb02e521c2cd817fa76b2ad9f9ff27e28e76a32e981a75db994.json",
+        "raw_sha256": "31a232ab27fbadb02e521c2cd817fa76b2ad9f9ff27e28e76a32e981a75db994",
+        "normalized_path": "processed/company_prices/ticker=FATIMA/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 18: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 100: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 199: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 249: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 569: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 795: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1963: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'FATIMA', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "SYS": {
+        "collection_status": "complete",
+        "source_row_count": 2913,
+        "valid_normalized_row_count": 2905,
+        "stored_unique_row_count": 2905,
+        "actual_first_date": "2015-02-06",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/SYS_e0c54ca6e2909f717569148ee99d32ca9b8de4d44f502e057f9eb9bf8bbe9bfd.json",
+        "raw_sha256": "e0c54ca6e2909f717569148ee99d32ca9b8de4d44f502e057f9eb9bf8bbe9bfd",
+        "normalized_path": "processed/company_prices/ticker=SYS/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 0: ValidationError: 1 validation error for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 1: ValidationError: 1 validation error for DailyOHLCV\nopen\n  Input should be greater than 0 [type=greater_than, input_value=Decimal('0.0'), input_type=Decimal]\n    For further information visit https://errors.pydantic.dev/2.12/v/greater_than",
+          "row 77: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 89: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 964: ValidationError: 1 validation error for DailyOHLCV\n  Value error, close must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 990: ValidationError: 1 validation error for DailyOHLCV\n  Value error, close must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 992: ValidationError: 1 validation error for DailyOHLCV\n  Value error, close must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1714: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'SYS', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "TRG": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2946,
+        "stored_unique_row_count": 2946,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/TRG_2bba6633bf9a33e61c47145634224101273d73dc0410eed69037e3dd642e662a.json",
+        "raw_sha256": "2bba6633bf9a33e61c47145634224101273d73dc0410eed69037e3dd642e662a",
+        "normalized_path": "processed/company_prices/ticker=TRG/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 112: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'TRG', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 294: ValidationError: 1 validation error for DailyOHLCV\n  Value error, close must be between low and high [type=value_error, input_value={'ticker': 'TRG', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1865: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'TRG', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "NETSOL": {
+        "collection_status": "complete",
+        "source_row_count": 2948,
+        "valid_normalized_row_count": 2945,
+        "stored_unique_row_count": 2945,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/NETSOL_c6a3c15286476e35433af36360a33d91db40b3d9a1da44ccaaaf4ad242ad6a83.json",
+        "raw_sha256": "c6a3c15286476e35433af36360a33d91db40b3d9a1da44ccaaaf4ad242ad6a83",
+        "normalized_path": "processed/company_prices/ticker=NETSOL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 100: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NETSOL', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1025: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NETSOL', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1834: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NETSOL', 'tra...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "NCL": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2949,
+        "stored_unique_row_count": 2949,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/NCL_26869cb14c7eb83ea0f168e5edac044d689b8cf9b237253eb4bbbe3412280a09.json",
+        "raw_sha256": "26869cb14c7eb83ea0f168e5edac044d689b8cf9b237253eb4bbbe3412280a09",
+        "normalized_path": "processed/company_prices/ticker=NCL/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": []
+      },
+      "NML": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2944,
+        "stored_unique_row_count": 2944,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/NML_adc5f72cf9c72e8350c4fce127fd033caf397650be7ec2e5ac251ca2ea4d6a2f.json",
+        "raw_sha256": "adc5f72cf9c72e8350c4fce127fd033caf397650be7ec2e5ac251ca2ea4d6a2f",
+        "normalized_path": "processed/company_prices/ticker=NML/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 788: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NML', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 840: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NML', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 855: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NML', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1701: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NML', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 1960: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'NML', 'trade_...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      },
+      "GATM": {
+        "collection_status": "complete",
+        "source_row_count": 2949,
+        "valid_normalized_row_count": 2947,
+        "stored_unique_row_count": 2947,
+        "actual_first_date": "2015-01-01",
+        "actual_last_date": "2026-11-20",
+        "raw_path": "raw/company_prices/GATM_2d2337c366b89a45a8247149596c55f84da59bb45f9d70e35312c0ed9a01eb7f.json",
+        "raw_sha256": "2d2337c366b89a45a8247149596c55f84da59bb45f9d70e35312c0ed9a01eb7f",
+        "normalized_path": "processed/company_prices/ticker=GATM/prices.parquet",
+        "revised_dates": [],
+        "idempotent_merge_check": true,
+        "errors": [
+          "row 545: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'GATM', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error",
+          "row 796: ValidationError: 1 validation error for DailyOHLCV\n  Value error, open must be between low and high [type=value_error, input_value={'ticker': 'GATM', 'trade...=datetime.timezone.utc)}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/value_error"
+        ]
+      }
+    },
+    "remote_paths": {
+      "raw": "company/prices/raw/",
+      "normalized": "company/prices/normalized/",
+      "quality_reports": "company/quality_reports/prices/20261122T083353Z-cd11b23a/",
+      "run_metadata": "company/prices/runs/20261122T083353Z-cd11b23a/run.json",
+      "reference_mapping": "company/reference/sector_mapping.csv",
+      "price_manifest": "company/prices/manifests/20261122T083353Z-cd11b23a.json",
+      "reference_manifest": "company/reference/manifest.json"
+    },
+    "upload_revisions": {
+      "raw": "09ff77840c5a6d6be94f7e6c7764b174de5eb774",
+      "normalized": "25df2b9edee6912823739a748f9e2f05e35bc9be",
+      "quality_reports": "9841e06af2cf5c9e355d3ff6611215123131beba",
+      "run_metadata": "9ff11920320a7a04be560f0fd4b788fcf1cb9690",
+      "reference_mapping": "5ef23c4295341f1dbdbde123f63ad2dbe09c0466",
+      "reference_manifest": "7d280f02770021c4ad9c2b998bc82831116be66b"
+    },
+    "not_evaluated": [
+      "complete PSX trading-session calendar and ticker-specific suspensions",
+      "approved suspicious-movement threshold or price-limit policy",
+      "verified corporate actions and adjustment validation",
+      "point-in-time company fundamentals and approved age rules"
+    ],
+    "stream_a_status": "incomplete",
+    "raw_source_row_count": 53012,
+    "valid_normalized_row_count": 52950
+  }
+}
