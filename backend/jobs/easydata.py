@@ -1,6 +1,7 @@
 """Shared helpers for macro-stream loaders that read the SBP EasyData API.
 
-Used by ``macro_policy_rate.py`` and ``macro_tbill_auctions.py``. Not part of
+Used by ``macro_policy_rate.py``, ``macro_tbill_auctions.py``,
+``macro_inflation.py`` and ``macro_fx.py``. Not part of
 ``common.py`` (shared by all streams); this module belongs to the macro stream.
 
 EasyData passes the API key (``EASYDATA_API_KEY``) in the query string, and
@@ -52,6 +53,7 @@ KEY_ENV = "EASYDATA_API_KEY"
 MIN_INTERVAL = 2.0  # seconds between requests; limits are 250/hour, 2,000/day
 PKT = timezone(timedelta(hours=5))  # Pakistan Standard Time, no DST
 REDACTED = "REDACTED"
+MAX_LISTED = 10  # items listed in one warning; full lists are in the run log
 
 # Field names in API responses, after lower-casing and dropping non-alphanumerics.
 DATA_FIELDS = {
@@ -126,6 +128,12 @@ S = TypeVar("S", bound=SeriesLike)
 
 def _identity(name: str) -> str:
     return name
+
+
+def listed(items: list[str]) -> str:
+    """At most ``MAX_LISTED`` items, comma-separated, with a count of the rest."""
+    more = f" (+{len(items) - MAX_LISTED} more, see run log)" if len(items) > MAX_LISTED else ""
+    return ", ".join(items[:MAX_LISTED]) + more
 
 
 # --------------------------------------------------------------------------
@@ -416,6 +424,39 @@ def diff_revisions(
         "backfilled": len(backfilled),
     }
     return summary, warnings
+
+
+def status_changes(
+    previous: pa.Table | None, current: list[dict[str, Any]]
+) -> tuple[dict[str, Any], list[str]]:
+    """Rows whose value is unchanged since the previous run but whose status or
+    status comment changed (value changes are reported by ``diff_revisions``)."""
+    if previous is None:
+        return {"previous": None}, []
+    cols = ["series_key", "observation_date", "value", "observation_status", "status_comments"]
+    prev = {
+        (r["series_key"], r["observation_date"].isoformat()): r
+        for r in previous.select(cols).to_pylist()
+    }
+    changed = []
+    for r in current:
+        k = (r["series_key"], r["observation_date"].isoformat())
+        p = prev.get(k)
+        if p is None or p["value"] != r["value"]:
+            continue
+        if (p["observation_status"], p["status_comments"]) != (r["observation_status"], r["status_comments"]):
+            changed.append(
+                f"{k[0]} {k[1]}: status {p['observation_status']!r} -> {r['observation_status']!r}, "
+                f"comment {p['status_comments']!r} -> {r['status_comments']!r}"
+            )
+    changed.sort()
+    warnings = []
+    if changed:
+        warnings.append(
+            f"status or status comment changed with value unchanged since previous run "
+            f"({len(changed)} row(s)): {listed(changed)}"
+        )
+    return {"status_changed": len(changed), "status_changes": changed}, warnings
 
 
 # --------------------------------------------------------------------------

@@ -117,7 +117,9 @@ MISSING_STATUS = "missing value"  # compared case-insensitively, trimmed
 HARD_MIN, HARD_MAX = -100.0, 1000.0  # value <= HARD_MIN or >= HARD_MAX fails the run
 SANE_MIN, SANE_MAX = -50.0, 100.0  # outside [SANE_MIN, SANE_MAX] warns
 STALE_AFTER_DAYS = 45  # latest month older than this (vs today) warns
-MAX_LISTED = 10  # items listed in one warning; full lists are in the run log
+MAX_LISTED = ed.MAX_LISTED
+_listed = ed.listed
+status_changes = ed.status_changes  # shared with macro_fx; kept here by name
 
 _NAME_PREFIX = re.compile(r"^[.\s]+")
 
@@ -299,11 +301,6 @@ def _decimals(raw: str | None) -> int:
     if _is_blank(raw) or "." not in str(raw):
         return 0
     return len(str(raw).strip().split(".", 1)[1])
-
-
-def _listed(items: list[str]) -> str:
-    more = f" (+{len(items) - MAX_LISTED} more, see run log)" if len(items) > MAX_LISTED else ""
-    return ", ".join(items[:MAX_LISTED]) + more
 
 
 # --------------------------------------------------------------------------
@@ -516,39 +513,6 @@ def validate(
             f"(more than {STALE_AFTER_DAYS})"
         )
     return out, warnings, report
-
-
-def status_changes(
-    previous: pa.Table | None, current: list[dict[str, Any]]
-) -> tuple[dict[str, Any], list[str]]:
-    """Rows whose value is unchanged since the previous run but whose status or
-    status comment changed (value changes are reported by ``diff_revisions``)."""
-    if previous is None:
-        return {"previous": None}, []
-    cols = ["series_key", "observation_date", "value", "observation_status", "status_comments"]
-    prev = {
-        (r["series_key"], r["observation_date"].isoformat()): r
-        for r in previous.select(cols).to_pylist()
-    }
-    changed = []
-    for r in current:
-        k = (r["series_key"], r["observation_date"].isoformat())
-        p = prev.get(k)
-        if p is None or p["value"] != r["value"]:
-            continue
-        if (p["observation_status"], p["status_comments"]) != (r["observation_status"], r["status_comments"]):
-            changed.append(
-                f"{k[0]} {k[1]}: status {p['observation_status']!r} -> {r['observation_status']!r}, "
-                f"comment {p['status_comments']!r} -> {r['status_comments']!r}"
-            )
-    changed.sort()
-    warnings = []
-    if changed:
-        warnings.append(
-            f"status or status comment changed with value unchanged since previous run "
-            f"({len(changed)} row(s)): {_listed(changed)}"
-        )
-    return {"status_changed": len(changed), "status_changes": changed}, warnings
 
 
 # --------------------------------------------------------------------------
