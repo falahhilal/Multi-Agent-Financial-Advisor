@@ -281,3 +281,64 @@ Known gaps and limits:
   dataset later.
 - SBP may revise history silently; we only detect revisions between our own
   runs. An expired key stops refreshes until it is renewed.
+
+### macro_fx
+
+| | |
+|---|---|
+| Purpose | Daily PKR exchange rates for the Macro Agent's currency signals (PKR/USD above all) and FX context in the backtest. |
+| Loader | `backend/jobs/macro_fx.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually after each monthly refresh (around the 5th) and before each experiment freeze. One run makes 46 requests (23 `/meta` + 23 `/data`); keep all EasyData runs within 250 requests per hour and 2,000 per day per key. The run log and the final log line give the row count per series. |
+| Source | SBP EasyData API, dataset "Bank Floating Daily Average Exchange Rates (PKR per National Currency)" (`TS_GP_ES_FADERPKR_M`), source SBP. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 23 series, `TS_GP_ES_FADERPKR_M.XRDAVG0010` to `XRDAVG0230`, unit PKR: "Daily Average Exchange rate of PAK Rupees per <currency>" for AUD, BHD, CAD, CNY, DKK, HKD, JPY, KWD, MYR, NZD, NOK, OMR, QAR, SGD, SEK, CHF, SAR, THB, TRY, AED, GBP, USD (`XRDAVG0220`), EUR (`XRDAVG0230`), in key order. Values are PAK Rupees per one unit of the currency (JPY per 1 yen: about 1.76 PKR in Oct-2026). `currency_code` and `currency_name` come from a fixed table in the loader, not from parsing names. Expected names are taken from the manual CSV's "Series name" column (2026-11-22) and are checked exactly against `/meta` on every run, after removing leading dots and spaces; a mismatch aborts before any data is fetched. Confirmed 2026-11-22: all 23 `/meta` names matched the CSV exactly on the first `--no-upload` run (including "Hong Kong Dollar" and "U.A.E. Dirham"). The spelling "Hon Kong" appears only on the EasyData dataset web page, not in the API or the CSV. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/fx/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/fx.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with row counts and check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per date: `series_key`, `series_name` (leading dots and spaces removed), `currency_code` (ISO 4217), `currency_name`, `observation_date`, `value` (PKR per one unit of the currency), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = the 10th of the month after `observation_date`, 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "monthly_release_10th_next_month"`. Evidence (Mahrukh, 2026-11-22): the dataset overview says "This daily data is compiled and disseminated on monthly basis"; Oct-2026 data was refreshed 05-Nov-2026; SBP publishes the same series as a monthly table ("Daily Average Banks' Floating Exchange Rates", BFER_Daily.pdf). **Consequence: backtests see each FX value up to about 40 days after its date** (a value for the 1st of a month becomes visible on the 10th of the next month). SBP's daily "Weighted Average Customer Exchange Rates" are a different series (buying and selling rates, close to but not equal to these values), public the same day, and are not collected. |
+| Coverage | From the EasyData dataset web page on 2026-11-22: 02-Jul-2013 to 30-Oct-2026, daily, Last Refresh Date 05-Nov-2026. Manual Long Format CSV (2026-11-22): 75,325 rows (23 series x 3,275 dates), no empty values, all status "Normal", no duplicates. |
+| Citation | State Bank of Pakistan, (2026), Daily data from Bank Floating Daily Average Exchange Rates (PKR per National Currency), for 02-Jul-2013 to 30-Oct-2026, Source EasyData, Bank Floating Daily Average Exchange Rates (PKR per National Currency), 05-Nov-2026. (The loader writes the citation with the run's actual date range to the run log and manifest; year and refresh date come from the Last Refresh Date, never the run date.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, a `/data` response
+that is not valid JSON (no repair, unlike `macro_inflation`), unparseable or
+duplicate dates, dates after the run date, fewer than two rows per series, or
+a value that is empty, non-numeric or ≤ 0. It **warns** on: weekend dates
+other than the four known Saturdays, gaps of more than 14 days between
+consecutive dates, a change of more than 10% against the series' previous
+observation, series with different date sets or end dates, the latest date
+more than 45 days old, first observation different from Available Since, an
+unexpected dataset name, a unit other than PKR, a status other than "Normal",
+value revisions since the previous run, and status-only changes since the
+previous run. Status comments are kept as returned and never warned about.
+
+Known gaps and limits:
+
+- Dates are working days. Four Saturdays exist (2019-08-17, 2022-04-16,
+  2022-04-23, 2022-04-30) and are allowed. Holiday gaps of up to 10 days
+  (e.g. 2021-05-07 to 2021-05-17) are normal and not warned; the run log
+  records the largest gap per series.
+- Large real moves exist. USD +5.65% on 2023-01-26 and +6.35% on 2023-01-27
+  (below 10%, no warning). Five moves above 10% against the previous
+  observation (checked on all 23 series of the 2026-11-22 CSV) warn on every
+  run, as expected: TRY (XRDAVG0190) −14.63% on 2018-08-13, −10.65% on
+  2021-11-24, +28.10% on 2021-12-21; NOK (XRDAVG0110) −12.15% on 2020-03-19;
+  CHF (XRDAVG0160) +13.84% on 2015-01-16. No other series has a move above
+  10%.
+- 29 rows have status "Normal" but an unrelated status comment ("Iraqi
+  invasion of Kuwait from Aug-1990 till Sep-1991"): XRDAVG0030 2022-07-13 to
+  2022-08-01 and XRDAVG0130 2016-12-05 to 2016-12-26. Kept as returned, not
+  warned.
+- Values carry 6-9 decimals (e.g. USD 2026-10-30 = 277.0589286) and are stored
+  as returned; the run log records the maximum decimals per series.
+- The `published_at` rule rests on the current monthly dissemination and one
+  observed refresh date (05-Nov-2026). It was not checked against historical
+  release dates; a release after the 10th would make the rule leak.
+- No data before 02-Jul-2013; backtest windows before then have no FX series
+  from this dataset.
+- The loader requests 23 fixed keys and cannot detect series added to the
+  dataset later.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
