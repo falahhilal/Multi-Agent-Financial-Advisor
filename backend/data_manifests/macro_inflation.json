@@ -1,0 +1,2320 @@
+{
+  "schema_version": 1,
+  "id": "macro_inflation",
+  "stream": "macro",
+  "dataset": "inflation",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Inflation Snapshot (New Base: 2015-16)' (TS_GP_PT_CPI_M), original data Pakistan Bureau of Statistics, series TS_GP_PT_CPI_M.P00011516 to TS_GP_PT_CPI_M.P00601516 (60)",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-21T21:03:34Z",
+  "script": "backend/jobs/macro_inflation.py",
+  "git_commit": "a6dc861bbd77577eb61acdc9ffdc49514c0b869e",
+  "git_dirty": false,
+  "row_count": 7440,
+  "file_count": 123,
+  "date_range": {
+    "min": "2016-07-31",
+    "max": "2026-10-31"
+  },
+  "files": [
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00011516_meta.json",
+      "bytes": 753,
+      "sha256": "a2da30c01f6dc8d886f93ba0316d274c2eb9c5a592364b7ffb5ff63fc6c6e10d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00011516_data.json",
+      "bytes": 22266,
+      "sha256": "5a75569914294c204d9d40315d333eafd879963861a8546108c4392ab1cb2c3b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00021516_meta.json",
+      "bytes": 729,
+      "sha256": "23c8cb790a90b87392281a86fe4ef0a5df1fb68d6c8c15c147f282d1f4386abf"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00021516_data.json",
+      "bytes": 21881,
+      "sha256": "1c98e55307620c75dbf3396500cb08236bfa5cb9a6505dfa95aaec0425464302"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00031516_meta.json",
+      "bytes": 719,
+      "sha256": "bbc98824013d83ae9d5006129d3612c69dca5850c5a3c0a0b5db76546ac91473"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00031516_data.json",
+      "bytes": 21894,
+      "sha256": "7983ff14eb4582ed6f56cb131137d673147b8fb548b067426b4269d7d6173ecd"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00041516_meta.json",
+      "bytes": 492,
+      "sha256": "6fe6b7cdaf6b0a1802fdb64d3b8a46fb6b71fd4d1ace0e644b88d270edf2f83b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00041516_data.json",
+      "bytes": 22513,
+      "sha256": "9cff535bd2cc05712b5056be6f9ec3882ae4282c10db1c48a046e284d3bc67c3"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00051516_meta.json",
+      "bytes": 492,
+      "sha256": "fd50cbbbbe0a6545f519a3761866b82c861994353146242b86118243985fe90c"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00051516_data.json",
+      "bytes": 22512,
+      "sha256": "935fd86e93f71c15edc4465334128449819e0c037dfda384b8c70da61ea80465"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00061516_meta.json",
+      "bytes": 504,
+      "sha256": "193277a02e36461088cb1c732c72dbd08e3d9e5cbbf75b62ac6b4508a30e631e"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00061516_data.json",
+      "bytes": 23002,
+      "sha256": "596aa6a09c1a3a21f37c23b6fed8e715bbae4cf75e4bbdc3d1f9988cfd59b240"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00071516_meta.json",
+      "bytes": 504,
+      "sha256": "5ef723bc10f0f0db74e799fe523b0dc28773bc44e8fba58a8567609fc3537e99"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00071516_data.json",
+      "bytes": 22992,
+      "sha256": "0dcf1d9051a9a6ad80dadffa813f665d36866eda12085ae0dcde5a0fc92c9dc8"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00081516_meta.json",
+      "bytes": 465,
+      "sha256": "8a115607dbf0d9d1d92fb2943c3918e19acb42c51de14ac3b3307b0f3ca1d9b2"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00081516_data.json",
+      "bytes": 21156,
+      "sha256": "4eb7f903a4ff078922b5ff60dad14e3817480d33c08d71e8b6b8aaa52d412cb7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00091516_meta.json",
+      "bytes": 472,
+      "sha256": "d744b02bc7958da5b2245fab6f667001b7b770b2bfee0aedff3ecf49d6db8f36"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00091516_data.json",
+      "bytes": 21768,
+      "sha256": "9ac6d1c41bad0707102b2a760bf8de5d8a79f3784cc36ba929637ba3329273cd"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00101516_meta.json",
+      "bytes": 484,
+      "sha256": "192dc913c3ea00829e82a6b2450f7ad8d9c9c43fa3d0a5bf24e9d36118a8cc21"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00101516_data.json",
+      "bytes": 22293,
+      "sha256": "3fab519a7776a67cfc408612f7b4026db03b0cdf534ee3cd2263e04f95719fda"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00111516_meta.json",
+      "bytes": 466,
+      "sha256": "f6e1d4b3651979186f674be392cc1b024aea73d0e7c78e4a3402e61f40e071f5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00111516_data.json",
+      "bytes": 21148,
+      "sha256": "258cc6ca8237738c5ad432f755a09c944cff4fa95113fd412e59b59dc98d71d2"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00121516_meta.json",
+      "bytes": 508,
+      "sha256": "602b13c01bccb82725beb09c69f5fc9d106aab37d7c1cf3ee51531da0303e4a6"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00121516_data.json",
+      "bytes": 23852,
+      "sha256": "35bb5adaff99d53e5d7a2ceb74f43f5e52d3feebfe95f0b4d7ba218b2323ce24"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00131516_meta.json",
+      "bytes": 508,
+      "sha256": "6079c36b9102b6ad497225d58a5fb31aeb60340671f0b1c242a94aca598aeae5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00131516_data.json",
+      "bytes": 23862,
+      "sha256": "93695f2d2b7dd47bdeb46d2addc3d582cbe9d2829d5d3a6768b033129920ba5d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00141516_meta.json",
+      "bytes": 517,
+      "sha256": "33f1c9108e6cb7ddd9bdeb9c906a777d14622023c402207c64120bab127493dc"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00141516_data.json",
+      "bytes": 26344,
+      "sha256": "bf8ada771228ef8cf4e8887f53dafc6372dbd54fe3a3521b545a9af76c5f9ac7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00151516_meta.json",
+      "bytes": 517,
+      "sha256": "8515951f530908b951bb7aeb79919e3bd291272cf4c164178b46f3e79e51e7b2"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00151516_data.json",
+      "bytes": 26352,
+      "sha256": "8b984e0585d7eced861f6a56a08559bd35b7a4a09449d696bc364c69723e05b6"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00161516_meta.json",
+      "bytes": 510,
+      "sha256": "77951c2a318b1fe7a53bb042991ba3c0cd1fe37a0007f62118678342b08e1e0d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00161516_data.json",
+      "bytes": 25727,
+      "sha256": "bb75ed49522ad2e166539ebc23919e0ad815e93e22218f1742724075c4ee2fbd"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00171516_meta.json",
+      "bytes": 501,
+      "sha256": "325ec0d7ab49f008474d749eb7794166fc4b102f68e979d89d1793bbc02ddfb8"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00171516_data.json",
+      "bytes": 25349,
+      "sha256": "4841935bd288272f0d72c83306422a3107259e4c1e31d7e1a121bdeff530471f"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00181516_meta.json",
+      "bytes": 501,
+      "sha256": "653d455222abea29feff4155917483dde44aea37441a5880592b5f525ae39ab1"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00181516_data.json",
+      "bytes": 25353,
+      "sha256": "c2af832287b6378f6d072bc629833d0e40d937c64de1ee326512d8053633abea"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00191516_meta.json",
+      "bytes": 518,
+      "sha256": "4dd861b7083a248c4eb54ac0e110e299a30cf1e656c4cbe266e4c15240f890c3"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00191516_data.json",
+      "bytes": 25984,
+      "sha256": "f12d32fa4709e635422a7bda880bddf9293de66ed5c803af136339b7d080656e"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00201516_meta.json",
+      "bytes": 518,
+      "sha256": "c4142eb758218e91b1f2b13577ba076b047dc7d7589356480a0a5a282c067b82"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00201516_data.json",
+      "bytes": 25978,
+      "sha256": "777462625b692a5fd25c4b5078b852a873ddc43bcbef6e3084f8512d12b9196b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00211516_meta.json",
+      "bytes": 530,
+      "sha256": "35d4111697032d831a500051f5858bae8af3976632386d783e0060e6dd1ab245"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00211516_data.json",
+      "bytes": 26457,
+      "sha256": "050797f68b3f1a307fb4e84a66dfee698b4bb88a500ee4cc484a1d2f0a44db34"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00221516_meta.json",
+      "bytes": 530,
+      "sha256": "aece604fc76588fab5e43d96b5783b20a4aae0e9c1b22a905f7ef7325378a132"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00221516_data.json",
+      "bytes": 26457,
+      "sha256": "ab49d7d43c851bb91a7d3c2da630850fa1b74a9ea6ebb007f6d239afa92c41af"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00231516_meta.json",
+      "bytes": 491,
+      "sha256": "043fc551adc2ba6c2625e0e61b5b82fb8096850abb95c06392749c565d4c4a9b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00231516_data.json",
+      "bytes": 24606,
+      "sha256": "cb053ac24fca84bd2921f6d45473042bd1db7ab875f7e311f30cc4347777a2ea"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00241516_meta.json",
+      "bytes": 498,
+      "sha256": "b4e3647a0e1fc0c54f674b57af41b18ac9125b9349eb2478d6e7496ec96b5a58"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00241516_data.json",
+      "bytes": 25239,
+      "sha256": "4e98fc3f5b5b1e887383d44c38b8406783b03adab31d57211cd83a16500b79f5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00251516_meta.json",
+      "bytes": 510,
+      "sha256": "9600efeca574c631f0b0dc395af0e15c68177c7cba33ac6d8a25a33819fefb5d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00251516_data.json",
+      "bytes": 25738,
+      "sha256": "d6c2a2cd396403616cba6618c256c2c2cd602ae19a571ed12e993cd6b134a1d5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00261516_meta.json",
+      "bytes": 492,
+      "sha256": "d95d09f1794e33a23dbfb15152ad5643352f5cf0bca8028c7c76e5abf2edd4fa"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00261516_data.json",
+      "bytes": 24611,
+      "sha256": "37c9dc19db817f4148d2250c3bd08b8ce9f634e180cc2808f4716acdee7f69bf"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00271516_meta.json",
+      "bytes": 534,
+      "sha256": "7bd61a2d815cdc61398e8aa9ccacda924b26eb35724246d4ca234797f5b44b02"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00271516_data.json",
+      "bytes": 27329,
+      "sha256": "b91ec7310ca1f046db049541cd42b6edc26889aba47c0211a8c6d9470cb3c3af"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00281516_meta.json",
+      "bytes": 534,
+      "sha256": "d09ba51f34795a6f6ed6b6764b8470e9c9c5781aef14efb7a2a5fe472250633f"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00281516_data.json",
+      "bytes": 27321,
+      "sha256": "07649b64e67fe93d3b4426e71bea7734da8cb4b72e585c3dc732dd873236ad32"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00291516_meta.json",
+      "bytes": 543,
+      "sha256": "02793e3ea0b0146bd9efef07fc15078f91fb2e7ddf4ebea71e3e2e30e55ac0f7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00291516_data.json",
+      "bytes": 29843,
+      "sha256": "d8fd612a9d412f22b4840a053bbb787e6bc14524420cac7ac75238740853638e"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00301516_meta.json",
+      "bytes": 543,
+      "sha256": "1c6959e79c6553bbbee9261b878c43d305170f7be4ac90f9a85188bd60ec93a2"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00301516_data.json",
+      "bytes": 29845,
+      "sha256": "4e25143ff0a92cb14aa248af4398c52beb70a67a7c3252007ed7fb719f56492f"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00311516_meta.json",
+      "bytes": 509,
+      "sha256": "1b453119216b5e8a81dabba4612353ebb33fae8aa2910ef011dd8ed3f85105bf"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00311516_data.json",
+      "bytes": 23873,
+      "sha256": "069b062aa10739dd95c4278aaefe0cf259c30a25d445d023174571194ff8b9a5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00321516_meta.json",
+      "bytes": 500,
+      "sha256": "b01438291c75cac222f25c4a7a1f91f6b3a378318c2489e709ff3ed83686d878"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00321516_data.json",
+      "bytes": 23493,
+      "sha256": "aa921792442094f3cd5271727cb6f50cd14b2dd9633e96e847fb7793f19fcde9"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00331516_meta.json",
+      "bytes": 500,
+      "sha256": "998bf92d97defea49ee8ef2927835dcb4d546991f055e2682a2126ee3f840c5d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00331516_data.json",
+      "bytes": 23501,
+      "sha256": "7698cff27d7a73b6316306093a0bcb6eb5f2c0cf50d1010288450a31c6d55079"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00341516_meta.json",
+      "bytes": 517,
+      "sha256": "88e28a7ed671831ecffdca76da97d77371f9557b30b6874210ac16f84de10235"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00341516_data.json",
+      "bytes": 24137,
+      "sha256": "47c74ad12ede790bd127b86fffc0d8518fedd347c8ab998b90c53058889a2c01"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00351516_meta.json",
+      "bytes": 517,
+      "sha256": "b1ca5aea3dc4d592f8c3bd4017154aa6812e81e8df7b7d1f7af9c5eb6692384a"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00351516_data.json",
+      "bytes": 24131,
+      "sha256": "ceed87dd861a72bbdd6712d2bc79a384bb5c089e1dafe0bfc8b358c25d955a92"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00361516_meta.json",
+      "bytes": 529,
+      "sha256": "dd1ea418b5b3a27e9bd7fbf342753882ecc709018ed7732f442b9223bf977fe5"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00361516_data.json",
+      "bytes": 24615,
+      "sha256": "ad8a83907f43cfcbfac7762cc918fcdc9a24c0234a84baf6cb2293ce69639d18"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00371516_meta.json",
+      "bytes": 529,
+      "sha256": "16fe97f474ebbb0517b311a3f6d278becba527d8d04ce762c9fc3f2dd6a86737"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00371516_data.json",
+      "bytes": 24613,
+      "sha256": "2c3041d75d2e92ff1c6e2aca7983fc315b8f64e500eb7dc3c665ea5280ccca64"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00381516_meta.json",
+      "bytes": 490,
+      "sha256": "5dfd503ee0f6a2af928b0410ffde920d7c31e60b4b56fa215d18cca7e1f55600"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00381516_data.json",
+      "bytes": 22772,
+      "sha256": "5a61a1792b248ba0556f24e4b397c3a33dc0375fd34437356d64b31fc1844b6e"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00391516_meta.json",
+      "bytes": 497,
+      "sha256": "1e1f1a76643623a660cf5f5b085ee87f210a478bb249f1719e1410f034ba4158"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00391516_data.json",
+      "bytes": 23384,
+      "sha256": "b8e8f8200c74d73de7eee6a14108a6a0537c2584ffa281f10296261ea65a0589"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00401516_meta.json",
+      "bytes": 509,
+      "sha256": "0e33794cf51677d87a1b9105911443e595a82d4ca571c60c88b7237ea64748f8"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00401516_data.json",
+      "bytes": 23898,
+      "sha256": "7366293307f1668d4041e8760e4fb44db63079da6b2efa43cbc3d83ccfba96e7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00411516_meta.json",
+      "bytes": 491,
+      "sha256": "2efa9843e698bf900969c88895e897d01f5441105000a832fdc22d9263fff2ad"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00411516_data.json",
+      "bytes": 22774,
+      "sha256": "e9853423123b20c49021f477bffdc6c0bdb6562d61d825aee52230c9f1733ef8"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00421516_meta.json",
+      "bytes": 533,
+      "sha256": "6ba7053c555f66fc7a23d656852350d476d6df63918bf75dbe53840f1f364ec7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00421516_data.json",
+      "bytes": 25462,
+      "sha256": "712ef0bb66622714aab897d9c2eaf42b02b9a87d9dca6d8bd216c01b887b07c7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00431516_meta.json",
+      "bytes": 533,
+      "sha256": "85981e993ad2317aa6c8b830c6794d2cbdafff4e82d8b880afe03827c0844a4d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00431516_data.json",
+      "bytes": 25480,
+      "sha256": "a5bcf5d8dc8363452ccb1969f7d43d99da4b1922db35e7697a3c66f2fd56d1cb"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00441516_meta.json",
+      "bytes": 542,
+      "sha256": "235075c6a276fa30ad91a70c28ead7fccae1a72590ff7dbfc8591bb9eded3ed8"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00441516_data.json",
+      "bytes": 27989,
+      "sha256": "a96d3efb12bf1b22f91e2ded87ced3578d0420a1ac82023d11efd789730a2467"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00451516_meta.json",
+      "bytes": 542,
+      "sha256": "2d353eab4891e1bfdcecf779cf3ce4da397fb1b92a4cb73f9ae4326e4822353d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00451516_data.json",
+      "bytes": 28001,
+      "sha256": "e55fdc0362b54bfa0391c5658d6cf2913b41fb239ba615d48f890b35048921c3"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00461516_meta.json",
+      "bytes": 488,
+      "sha256": "b7df645d0bcb55840e52810d4017b5e8dffdae45d85b6eeb40d55db67fc6db4a"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00461516_data.json",
+      "bytes": 22422,
+      "sha256": "54444618abc46ab3bf14b0530f5a86ab5c1e44adfeaedc7e8ef3e1463deffc8f"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00471516_meta.json",
+      "bytes": 479,
+      "sha256": "de503e752b0e8306df16c672a333f33c805f558bc987cee0721d00e3aff259f9"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00471516_data.json",
+      "bytes": 22051,
+      "sha256": "e0a69781e5f6f34b2861dcda1e361f842223eefebb1053877559a62af0ddc46a"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00481516_meta.json",
+      "bytes": 479,
+      "sha256": "35f7017b3f40bf0088225d5da00991be24c1253e79ebcb6d5cf2979c677198b3"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00481516_data.json",
+      "bytes": 22053,
+      "sha256": "0114d8b823c3b6da3910441c9c29cf8d20f2f98d637b72164a20e8c83b7e812e"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00491516_meta.json",
+      "bytes": 496,
+      "sha256": "ea62605bf21f1a98ccc2478cbb1edf591742363dfc7a467b2cacf9c0956309b1"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00491516_data.json",
+      "bytes": 22706,
+      "sha256": "fe238543cc644ce961f5a0a2ce36cf41ccd6dcd988f5ff7e436b23244c9ca7ae"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00501516_meta.json",
+      "bytes": 496,
+      "sha256": "649152ee650b39c6f328465497d6292d28a80ee9b1b1404b13b3e3928c06ac71"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00501516_data.json",
+      "bytes": 22700,
+      "sha256": "c41f3a3ef3ecafdf6a0c77e64beefe6ccc0facfdd893c08074465f80d7297c52"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00511516_meta.json",
+      "bytes": 508,
+      "sha256": "f54b72dad1383d6dc0f8cc282896bdb80fe213743d5bc30944040341d7d62236"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00511516_data.json",
+      "bytes": 23149,
+      "sha256": "0a44b546b2d33262f3392ac62ceb768e42150b26840a4dd04f4cb61b98648db7"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00521516_meta.json",
+      "bytes": 508,
+      "sha256": "84ec8b0ea725d6048d9c73906ecf13faf6c0192567e1c7b783fafa54503a4e21"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00521516_data.json",
+      "bytes": 23145,
+      "sha256": "91397ef5f8a08cf4c8e68bf65417e6520882cfa5d2e362fb26960ec73b55a989"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00531516_meta.json",
+      "bytes": 469,
+      "sha256": "e1edd78548d5cbb7ce7f580d5db3d9ab91bc538347c926590d1d622a0412f2b0"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00531516_data.json",
+      "bytes": 21321,
+      "sha256": "b4fb117970b8148ff5d42e163c35466be8cc2a43460192fefdc51cf367d08253"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00541516_meta.json",
+      "bytes": 476,
+      "sha256": "cd95f14ee707d3b312dfba9fe5063bdb1ca9640598d9ff8dd37cd482f248006d"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00541516_data.json",
+      "bytes": 21960,
+      "sha256": "8a3c61575d27dc29e507c58c916e38bf2db4386d9a860763b69cc769498f41e1"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00551516_meta.json",
+      "bytes": 488,
+      "sha256": "04e6e9e9d6a2304ef578d1e27548ad9783e7fa5f41b7a0bf0d431507cabff0b6"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00551516_data.json",
+      "bytes": 22468,
+      "sha256": "9fbe638a0c560f75773854a41d1ad506e54600fb7097554dabb998757f9dbd98"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00561516_meta.json",
+      "bytes": 470,
+      "sha256": "7b565f601d6b01a36a717e6ad7825c65de634626823fe4c590ad098d9f47f735"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00561516_data.json",
+      "bytes": 21328,
+      "sha256": "8df1648f606db64fead867a32a49f0f6f9964bd6e1054f0f43c815b25ded0b85"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00571516_meta.json",
+      "bytes": 512,
+      "sha256": "15f72a6b33b0b9dee18b5e7c5c78e10480149c9d5e11ae5a9550e71fc8f27f01"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00571516_data.json",
+      "bytes": 23999,
+      "sha256": "9211c7baa7469d136596916a3a689e2d194416104957c5958df54fed6aa22d79"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00581516_meta.json",
+      "bytes": 512,
+      "sha256": "bdf99c444342e7e3e6dbae1534222325902eb412f0c5de50a02a6e62de620a6c"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00581516_data.json",
+      "bytes": 23989,
+      "sha256": "b1bc0d2a55d1c5cffe47fc3fed0c8e36e17238e2f7eb87fe7ce3c9ddd481e03b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00591516_meta.json",
+      "bytes": 521,
+      "sha256": "c2651a5094ee6de3ab53e12408fa4ecfbcc2565148353d92c4bb0adc4292841b"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00591516_data.json",
+      "bytes": 24500,
+      "sha256": "ac882d16e173ab8cf264b7439f91b57d5bd30c483e724966724237c72c262a21"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00601516_meta.json",
+      "bytes": 521,
+      "sha256": "be08804bdde818d68bbf7dbc79efdde6c9849c6c1f1de90dda17446c80ff7dd9"
+    },
+    {
+      "path": "macro/inflation/raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00601516_data.json",
+      "bytes": 24507,
+      "sha256": "87c2b38899f24d19aacf5a969ee8bb12fb7837b6e86eea977f76a2c69806cb8f"
+    },
+    {
+      "path": "macro/inflation/interim/fetch_date=2026-11-21/observations-20261121T205902Z.parquet",
+      "bytes": 25011,
+      "sha256": "22ad49511d5fc12aece5631ea52684011c45d834f2ce8e598f06394f404847d6"
+    },
+    {
+      "path": "macro/inflation/processed/inflation.parquet",
+      "bytes": 30747,
+      "sha256": "e6a0d8cbce0ffd5e6a7578d4284fff933782cb05f3f889b64fdc65f99a958711"
+    },
+    {
+      "path": "macro/inflation/runs/fetch_date=2026-11-21/run-20261121T205902Z.json",
+      "bytes": 96946,
+      "sha256": "b28a2f6719107b3cd87e96b18d5da0b5eca2e757f641a4fe662504742a4c6afa"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/inflation/",
+  "hf_revision": "9542994b5eb979c1acd2939ad13fc8a5ab0cb7a8",
+  "notes": "SBP EasyData API, Inflation Snapshot (New Base: 2015-16), original data from the Pakistan Bureau of Statistics. 60 monthly series (15 measures x 4 bases), one row per series per month (long format; index_group, region, component and measure_base identify the series). Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept (append_only_snapshot); revisions and status-only changes against the previous run are logged as warnings. Empty values are kept with value null and is_missing true; leading empty months in 12MMA and trimmed-core series are expected. Series names have leading dots and spaces removed in processed; interim keeps them as returned. published_at = 10th of the month after observation_date 23:59:59 Asia/Karachi in UTC, floored at 2019-09-10 23:59:59 PKT (basis conservative_10th_next_month_rebase_2019_09). Months before 2019-08 were back-calculated at the 2019 rebase (is_back_calculated). Older bases (2007-08 and earlier) are not included.",
+  "warnings": [
+    "TS_GP_PT_CPI_M.P00091516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00101516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00161516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00171516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00181516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00191516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00201516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00211516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00221516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00231516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00241516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00251516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00261516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00271516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00281516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00291516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00301516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00341516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00351516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00361516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00371516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00391516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00401516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00411516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00421516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00431516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00441516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00451516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00541516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30",
+    "TS_GP_PT_CPI_M.P00551516: 1 row(s) have a value but status 'Missing value' (value kept): 2026-04-30"
+  ],
+  "extra": {
+    "series": {
+      "TS_GP_PT_CPI_M.P00011516": {
+        "name": "National CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "National CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22266,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00011516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00011516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00021516": {
+        "name": "Urban CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Urban CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21881,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00021516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00021516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00031516": {
+        "name": "Rural CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Rural CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21894,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00031516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00031516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00041516": {
+        "name": "Urban Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Urban Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22513,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00041516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00041516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00051516": {
+        "name": "Rural Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Rural Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22512,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00051516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00051516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00061516": {
+        "name": "Urban Non-Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Urban Non-Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "non_food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23002,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00061516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00061516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00071516": {
+        "name": "Rural Non-Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Rural Non-Food CPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "non_food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22992,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00071516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00071516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00081516": {
+        "name": "WPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "WPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21156,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00081516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00081516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00091516": {
+        "name": "WPI Food; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "WPI Food; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21768,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00091516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00091516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00101516": {
+        "name": "WPI Non-Food; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "WPI Non-Food; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "non_food",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22293,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00101516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00101516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00111516": {
+        "name": "SPI; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "SPI; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "spi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21148,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00111516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00111516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00121516": {
+        "name": "Urban NFNE Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Urban NFNE Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "core_nfne",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23852,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00121516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00121516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00131516": {
+        "name": "Rural NFNE Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Rural NFNE Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "core_nfne",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23862,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00131516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00131516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00141516": {
+        "name": "Urban Trimmed Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Urban Trimmed Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "core_trimmed",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 26344,
+        "rows": 124,
+        "missing_rows": 12,
+        "leading_missing": 12,
+        "leading_missing_last": "2017-06-30",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 12,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00141516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00141516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00151516": {
+        "name": "Rural Trimmed Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "meta_name_as_returned": "Rural Trimmed Core Inflation; an Inflation Measure (Year-on-Year basis)",
+        "index_group": "core_trimmed",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "yoy",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 26352,
+        "rows": 124,
+        "missing_rows": 12,
+        "leading_missing": 12,
+        "leading_missing_last": "2017-06-30",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 12,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00151516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00151516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00161516": {
+        "name": "National CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "National CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25727,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00161516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00161516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00171516": {
+        "name": "Urban CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Urban CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25349,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00171516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00171516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00181516": {
+        "name": "Rural CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Rural CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25353,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00181516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00181516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00191516": {
+        "name": "Urban Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Urban Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25984,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00191516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00191516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00201516": {
+        "name": "Rural Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Rural Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25978,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00201516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00201516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00211516": {
+        "name": "Urban Non-Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Urban Non-Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "non_food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 26457,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00211516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00211516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00221516": {
+        "name": "Rural Non-Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Rural Non-Food CPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "non_food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 26457,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00221516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00221516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00231516": {
+        "name": "WPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "WPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24606,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00231516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00231516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00241516": {
+        "name": "WPI Food; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "WPI Food; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25239,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00241516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00241516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00251516": {
+        "name": "WPI Non-Food; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "WPI Non-Food; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "non_food",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25738,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00251516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00251516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00261516": {
+        "name": "SPI; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "SPI; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "spi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24611,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00261516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00261516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00271516": {
+        "name": "Urban NFNE Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Urban NFNE Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "core_nfne",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 27329,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00271516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00271516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00281516": {
+        "name": "Rural NFNE Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Rural NFNE Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "core_nfne",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 27321,
+        "rows": 124,
+        "missing_rows": 11,
+        "leading_missing": 11,
+        "leading_missing_last": "2017-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 11,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00281516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00281516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00291516": {
+        "name": "Urban Trimmed Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Urban Trimmed Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "core_trimmed",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 29843,
+        "rows": 124,
+        "missing_rows": 23,
+        "leading_missing": 23,
+        "leading_missing_last": "2018-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 23,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00291516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00291516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00301516": {
+        "name": "Rural Trimmed Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "meta_name_as_returned": "Rural Trimmed Core Inflation; an Inflation Measure (12-Months Moving average basis)",
+        "index_group": "core_trimmed",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mma12",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 29845,
+        "rows": 124,
+        "missing_rows": 23,
+        "leading_missing": 23,
+        "leading_missing_last": "2018-05-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 23,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00301516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00301516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00311516": {
+        "name": "National CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "National CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23873,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00311516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00311516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00321516": {
+        "name": "Urban CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Urban CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23493,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00321516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00321516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00331516": {
+        "name": "Rural CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Rural CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23501,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00331516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00331516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00341516": {
+        "name": "Urban Food CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Urban Food CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24137,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00341516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00341516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00351516": {
+        "name": "Rural Food CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Rural Food CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24131,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00351516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00351516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00361516": {
+        "name": "Urban Non-Food CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Urban Non-Food CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "non_food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24615,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00361516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00361516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00371516": {
+        "name": "Rural Non-Food CPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Rural Non-Food CPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "non_food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24613,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00371516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00371516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00381516": {
+        "name": "WPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "WPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22772,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00381516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00381516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00391516": {
+        "name": "WPI Food; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "WPI Food; an Inflation Measure (Period average Since July basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23384,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00391516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00391516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00401516": {
+        "name": "WPI Non-Food; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "WPI Non-Food; an Inflation Measure (Period average Since July basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "non_food",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23898,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00401516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00401516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00411516": {
+        "name": "SPI; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "SPI; an Inflation Measure (Period average Since July basis)",
+        "index_group": "spi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22774,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00411516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00411516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00421516": {
+        "name": "Urban NFNE Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Urban NFNE Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "index_group": "core_nfne",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25462,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00421516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00421516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00431516": {
+        "name": "Rural NFNE Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Rural NFNE Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "index_group": "core_nfne",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 25480,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00431516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00431516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00441516": {
+        "name": "Urban Trimmed Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Urban Trimmed Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "index_group": "core_trimmed",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 27989,
+        "rows": 124,
+        "missing_rows": 12,
+        "leading_missing": 12,
+        "leading_missing_last": "2017-06-30",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 12,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00441516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00441516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00451516": {
+        "name": "Rural Trimmed Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "meta_name_as_returned": "Rural Trimmed Core Inflation; an Inflation Measure (Period average Since July basis)",
+        "index_group": "core_trimmed",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "period_avg_since_july",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 28001,
+        "rows": 124,
+        "missing_rows": 12,
+        "leading_missing": 12,
+        "leading_missing_last": "2017-06-30",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 12,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00451516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00451516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00461516": {
+        "name": "National CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "National CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22422,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00461516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00461516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00471516": {
+        "name": "Urban CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Urban CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22051,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00471516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00471516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00481516": {
+        "name": "Rural CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Rural CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22053,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00481516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00481516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00491516": {
+        "name": "Urban Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Urban Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22706,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00491516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00491516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00501516": {
+        "name": "Rural Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Rural Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22700,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00501516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00501516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00511516": {
+        "name": "Urban Non-Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Urban Non-Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "urban",
+        "component": "non_food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23149,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00511516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00511516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00521516": {
+        "name": "Rural Non-Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Rural Non-Food CPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "cpi",
+        "region": "rural",
+        "component": "non_food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23145,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00521516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00521516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00531516": {
+        "name": "WPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "WPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21321,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00531516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00531516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00541516": {
+        "name": "WPI Food; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "WPI Food; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21960,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00541516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00541516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00551516": {
+        "name": "WPI Non-Food; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "WPI Non-Food; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "wpi",
+        "region": "national",
+        "component": "non_food",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 22468,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00551516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00551516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00561516": {
+        "name": "SPI; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "SPI; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "spi",
+        "region": "national",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 21328,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00561516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00561516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00571516": {
+        "name": "Urban NFNE Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Urban NFNE Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "core_nfne",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23999,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00571516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00571516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00581516": {
+        "name": "Rural NFNE Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Rural NFNE Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "core_nfne",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 23989,
+        "rows": 124,
+        "missing_rows": 0,
+        "leading_missing": 0,
+        "leading_missing_last": null,
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 0,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00581516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00581516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00591516": {
+        "name": "Urban Trimmed Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Urban Trimmed Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "core_trimmed",
+        "region": "urban",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24500,
+        "rows": 124,
+        "missing_rows": 1,
+        "leading_missing": 1,
+        "leading_missing_last": "2016-07-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 1,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00591516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00591516_data.json"
+        }
+      },
+      "TS_GP_PT_CPI_M.P00601516": {
+        "name": "Rural Trimmed Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "meta_name_as_returned": "Rural Trimmed Core Inflation; an Inflation Measure (Month-on-Month basis)",
+        "index_group": "core_trimmed",
+        "region": "rural",
+        "component": "general",
+        "measure_base": "mom",
+        "meta_start_date": "2016-07-31",
+        "portal_last_refresh_date": "2026-11-05",
+        "meta_dataset_name": "Inflation Snapshot (New Base: 2015-16)",
+        "http_status": 200,
+        "bytes": 24507,
+        "rows": 124,
+        "missing_rows": 1,
+        "leading_missing": 1,
+        "leading_missing_last": "2016-07-31",
+        "back_calculated_rows": 37,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "json_repairs": 1,
+        "first_observation": "2016-07-31",
+        "last_observation": "2026-10-31",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00601516_meta.json",
+          "data": "raw/fetch_date=2026-11-21/20261121T205902Z_TS_GP_PT_CPI_M.P00601516_data.json"
+        }
+      }
+    },
+    "latest_month": "2026-10-31",
+    "published_at_basis": "conservative_10th_next_month_rebase_2019_09",
+    "citation": "State Bank of Pakistan, (2026), Monthly data from Inflation Snapshot (New Base: 2015-16), for 31-Jul-2016 to 31-Oct-2026, Source EasyData, Inflation Snapshot (New Base: 2015-16), 05-Nov-2026",
+    "last_run": {
+      "run_id": "20261121T205902Z",
+      "fetched_at": "2026-11-21T20:59:02Z",
+      "end_date": "2026-11-22",
+      "git": {
+        "commit": "a6dc861bbd77577eb61acdc9ffdc49514c0b869e",
+        "dirty": false
+      },
+      "rows": 7440,
+      "back_calculated_rows": 2220,
+      "json_repairs": {
+        "series": 21,
+        "total": 239
+      },
+      "revisions": {
+        "previous": null,
+        "status_changed": 0
+      },
+      "published_at_basis": "conservative_10th_next_month_rebase_2019_09",
+      "citation": "State Bank of Pakistan, (2026), Monthly data from Inflation Snapshot (New Base: 2015-16), for 31-Jul-2016 to 31-Oct-2026, Source EasyData, Inflation Snapshot (New Base: 2015-16), 05-Nov-2026"
+    }
+  }
+}

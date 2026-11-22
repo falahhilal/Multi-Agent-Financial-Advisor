@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "id": "macro_policy_rate",
+  "stream": "macro",
+  "dataset": "policy_rate",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Structure of Interest Rate: State Bank of Pakistan Policy Rates', series TS_GP_IR_SIRPR_AH.SBPOL0030, TS_GP_IR_SIRPR_AH.SBPOL0020, TS_GP_IR_SIRPR_AH.SBPOL0010",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-14T10:19:08Z",
+  "script": "backend/jobs/macro_policy_rate.py",
+  "git_commit": "180d96e1644c3d5357269b6ed8b13f855c6ef0ac",
+  "git_dirty": false,
+  "row_count": 194,
+  "file_count": 9,
+  "date_range": {
+    "min": "1956-01-01",
+    "max": "2026-10-26"
+  },
+  "files": [
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0030_meta.json",
+      "bytes": 554,
+      "sha256": "daf735d7a268a5345af62173f51774c831d52d383782404ee7921b318df80829"
+    },
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0030_data.json",
+      "bytes": 7953,
+      "sha256": "9f9c60c5d9b8879c28fcc32e91579deb0c96fd56ddf798af446215d8e7a0a63c"
+    },
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0020_meta.json",
+      "bytes": 559,
+      "sha256": "4c3b0a6db9c8ac1aaf1c91cadc125a132fe62e55b96e3507614ecf3d6f5d936f"
+    },
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0020_data.json",
+      "bytes": 10622,
+      "sha256": "2c8394158f93634027fc43d382e87a259ef0b5936652be441a327323f8250326"
+    },
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0010_meta.json",
+      "bytes": 719,
+      "sha256": "9c30429f9d0f31292c644f9931718ae17a2cfe73a95a0978a476e62b9daa5380"
+    },
+    {
+      "path": "macro/policy_rate/raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0010_data.json",
+      "bytes": 18738,
+      "sha256": "de47c80cdc67ca10f1c8a9be343f823cd6c82d4ddf1edd286592334d6ca1a5f5"
+    },
+    {
+      "path": "macro/policy_rate/interim/fetch_date=2026-11-14/observations-20261114T101849Z.parquet",
+      "bytes": 5372,
+      "sha256": "663f9b42a1793a0f3bb44908fb30e394a3681d301366b6ccc568e61b6b3b1fe7"
+    },
+    {
+      "path": "macro/policy_rate/processed/policy_rate.parquet",
+      "bytes": 8663,
+      "sha256": "dfbc05dc12f4cc1226514491648c4889a528ea1fb3267ec13c0729967d70e3d3"
+    },
+    {
+      "path": "macro/policy_rate/runs/fetch_date=2026-11-14/run-20261114T101849Z.json",
+      "bytes": 2991,
+      "sha256": "530ab0eaf1b4e5cf59e3e8d4c8adf03dbf7054258ea515af0d27e1972ea8a974"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/policy_rate/",
+  "hf_revision": "78a04d6f222e30af60c0b242acb6b5265964485e",
+  "notes": "SBP EasyData API, As-Needed series (a row only when a rate changes). Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept as the record of what we saw (append_only_snapshot); revisions against the previous run are logged as warnings. Long format, one row per series per observation; the three series are never merged. To get the policy rate on day d: take the series whose policy window contains d (Reverse Repo 2009-08-17..2015-05-24, Target Rate from 2015-05-25), then its latest row with observation_date <= d. effective_to is the next observation date of the same series (exclusive). published_at is null (basis 'unknown'): the API has no publication date; announcement dates will come from a separate MPC calendar dataset. Do not back-fill before a series' first observation.",
+  "warnings": [],
+  "extra": {
+    "series": {
+      "TS_GP_IR_SIRPR_AH.SBPOL0030": {
+        "name": "State Bank of Pakistan's Policy (Target) Rate",
+        "role": "policy_target",
+        "meta_start_date": "2015-05-25",
+        "portal_last_refresh_date": "2026-10-28",
+        "meta_dataset_name": "Structure of Interest Rate: State Bank of Pakistan Policy Rates",
+        "http_status": 200,
+        "bytes": 7953,
+        "rows": 40,
+        "first_observation": "2015-05-25",
+        "last_observation": "2026-10-26",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0030_meta.json",
+          "data": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0030_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on State Bank of Pakistan's Policy (Target) Rate from Structure of Interest Rate: State Bank of Pakistan Policy Rates, Source EasyData"
+      },
+      "TS_GP_IR_SIRPR_AH.SBPOL0020": {
+        "name": "State Bank of Pakistan's Repo Rate",
+        "role": "repo_floor",
+        "meta_start_date": "2009-08-17",
+        "portal_last_refresh_date": "2026-10-28",
+        "meta_dataset_name": "Structure of Interest Rate: State Bank of Pakistan Policy Rates",
+        "http_status": 200,
+        "bytes": 10622,
+        "rows": 57,
+        "first_observation": "2009-08-17",
+        "last_observation": "2026-10-26",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0020_meta.json",
+          "data": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0020_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on State Bank of Pakistan's Repo Rate from Structure of Interest Rate: State Bank of Pakistan Policy Rates, Source EasyData"
+      },
+      "TS_GP_IR_SIRPR_AH.SBPOL0010": {
+        "name": "State Bank of Pakistan's Reverse Repo Rate",
+        "role": "reverse_repo_ceiling",
+        "meta_start_date": "1956-01-01",
+        "portal_last_refresh_date": "2026-10-28",
+        "meta_dataset_name": "Structure of Interest Rate: State Bank of Pakistan Policy Rates",
+        "http_status": 200,
+        "bytes": 18738,
+        "rows": 97,
+        "first_observation": "1956-01-01",
+        "last_observation": "2026-10-26",
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0010_meta.json",
+          "data": "raw/fetch_date=2026-11-14/20261114T101849Z_TS_GP_IR_SIRPR_AH.SBPOL0010_data.json"
+        },
+        "citation": "State Bank of Pakistan, (2026), As-Needed data on State Bank of Pakistan's Reverse Repo Rate from Structure of Interest Rate: State Bank of Pakistan Policy Rates, Source EasyData"
+      }
+    },
+    "published_at_basis": "unknown",
+    "last_run": {
+      "run_id": "20261114T101849Z",
+      "fetched_at": "2026-11-14T10:18:49Z",
+      "end_date": "2026-11-14",
+      "git": {
+        "commit": "180d96e1644c3d5357269b6ed8b13f855c6ef0ac",
+        "dirty": false
+      },
+      "rows": 194,
+      "revisions": {
+        "previous": null
+      },
+      "published_at_basis": "unknown"
+    }
+  }
+}

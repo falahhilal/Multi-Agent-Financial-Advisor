@@ -264,3 +264,270 @@ filings, KSE-100 levels, unrelated endpoints, or other licensing and
 redistribution rights. Verify the source-specific scope before collecting
 those datasets. Announcements reported by the press are covered by the news
 datasets above.
+
+---
+
+## SBP & macro stream (owner: Mahrukh)
+
+### macro_policy_rate
+
+| | |
+|---|---|
+| Purpose | SBP policy-rate history for the Macro Agent (monetary-stance signals) and the backtests (point-in-time rate regime; corridor context for `CASH` returns alongside T-bill yields). |
+| Loader | `backend/jobs/macro_policy_rate.py`. Run manually after each MPC decision and before each experiment freeze (the series are As-Needed). Not scheduled in GitHub Actions, because the API key expires every 90 days. |
+| Source | SBP EasyData API, dataset "Structure of Interest Rate: State Bank of Pakistan Policy Rates". Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`. The key is passed as `api_key`, read from `EASYDATA_API_KEY`, and never logged, stored or uploaded (the job scans every output for it). |
+| Series | `TS_GP_IR_SIRPR_AH.SBPOL0030` State Bank of Pakistan's Policy (Target) Rate (role `policy_target`); `TS_GP_IR_SIRPR_AH.SBPOL0020` State Bank of Pakistan's Repo Rate (`repo_floor`); `TS_GP_IR_SIRPR_AH.SBPOL0010` State Bank of Pakistan's Reverse Repo Rate (`reverse_repo_ceiling`). Names are checked against `/meta` on every run; a mismatch aborts before any data is fetched. Each series' start date is read from `/meta`. |
+| Fetch mode | `append_only_snapshot`. The API can be queried again, but SBP may revise or remove data without notice, so each run's raw responses are the record of what we saw. Changed, removed and back-filled observations against the previous run are logged as warnings. |
+| Location | HF `macro/policy_rate/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (parsed, values as returned), `processed/policy_rate.parquet` (validated; rebuilt each run, HF history keeps earlier versions), `runs/fetch_date=D/run-<run>.json` (per-run log), `manifest.json` |
+| Format | Parquet, long format, one row per series per observation: `series_key`, `series_name`, `series_role`, `observation_date`, `effective_to` (next observation of the same series, exclusive), `value` (percent), `unit`, `observation_status`, `status_comments`, `dataset_name`, `is_policy_rate`, `policy_rate_basis`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Policy-rate flag | The three series are never merged into one column. `is_policy_rate` is true when the value was the official policy rate for at least part of the time it was in effect: the O/N Reverse Repo from 2009-08-17 to 2015-05-24 (per the dataset description), the Policy (Target) Rate from 2015-05-25. The Reverse Repo series itself begins in 1956, but is flagged as the policy rate only from 2009-08-17 to 2015-05-24. The Repo Rate is never flagged. Policy rate on day d: take the series whose window contains d, then its latest row with `observation_date` ≤ d. |
+| Point-in-time key | **None yet.** The API has no publication-date column. `published_at` is null with `published_at_basis = "unknown"`; `observation_date`, `fetched_at` and the portal last-refresh date (from `/meta`, when present) are stored instead. Decision (Mahrukh, 2026-11-12): option A now; announcement dates will come from a separate MPC calendar dataset (option E). |
+| Coverage | Per-series start dates from `/meta` on 2026-11-12: Policy (Target) Rate 2015-05-25, Repo Rate 2009-08-17, Reverse Repo Rate 1956-01-01; last observation 2026-10-26; portal last refresh 2026-10-28. |
+| Citation | State Bank of Pakistan, (2026), As-Needed data on <series name> from Structure of Interest Rate: State Bank of Pakistan Policy Rates, Source EasyData |
+
+**Terms and access** (EasyData disclaimer read 2026-11-12):
+
+- Data are provided for information and reference, with no warranty of
+  accuracy or availability; SBP may alter data and methods without notice.
+- Intended users include academia and researchers.
+- The disclaimer does not address redistribution.
+- Machine access is explicitly offered by the EasyData Developer Guide (REST
+  API with a personal key; 2,000 requests/day, 250/hour; key valid 90 days).
+  `easydata.sbp.org.pk/robots.txt` returned 404 (no restrictions) on 2026-11-12.
+- The guide's sample code disables TLS verification (`verify=False`); our
+  loader keeps default verification.
+- The main site `sbp.org.pk` blocks automated requests and is **not** used as a
+  source by any job.
+
+Handling: private dataset, non-commercial academic use, never redistributed;
+raw snapshots kept with `fetched_at`.
+
+Known gaps and limits:
+
+- **No publication date.** The API gives only the observation date, and it is
+  not yet confirmed whether that is the announcement date or the effective
+  date (SBP decisions usually take effect the day after announcement). Until
+  the MPC announcement/effective-date calendar (follow-up dataset) exists, no
+  backtest may read this series as point-in-time without a documented rule.
+  See the date finding below: dates are mostly "with effect from", with two
+  2020 exceptions.
+- As-Needed frequency: a row exists only when a rate changes. Forward-fill to
+  build a daily series; never back-fill before a series' first observation.
+- No Target Rate before 2015-05-25, and no designated policy rate before
+  2009-08-17, in this dataset.
+- SBP may revise history silently; we only detect revisions between our own
+  runs.
+- Field names confirmed on 2026-11-12 (`/meta`: "Available Since", "Available
+  Upto", "Last Refresh Date", "Reference Dataset Name"; `/data`: columns/rows
+  layout from the Developer Guide).
+- An expired key stops refreshes until it is renewed.
+- Compared every row of all three series against SBP's OVR Repo History PDF
+  (archive.sbp.org.pk copy, ends 2026-04-28) on 2026-11-12. All values match
+  on every shared date. Differences: (a) EasyData's Reverse Repo lacks two
+  1991 rows: 1991-02-26 (10%), which repeats the 1977-06-07 value and so
+  carries no new information, and 1991-03-25 (12%), the only 1991 row that
+  would change a value (EasyData goes from 10% on 1977-06-07 straight to 13%
+  on 1991-10-10). Pre-2009 history is not used as the policy rate;
+  (b) EasyData has two extra dates in all three series, 2020-04-16 and
+  2020-05-16, each with the same values as the PDF rows for 2020-04-17 and
+  2020-05-18; (c) EasyData also has 1956-1977 history and the 2026-10-26 row,
+  which the PDF does not. Rows where only the Repo floor changed (e.g.
+  2013-02-11) repeat the Reverse Repo value; this is genuine. Extra rows are
+  kept as returned.
+- The PDF labels its dates "with effect from", and EasyData's dates equal the
+  PDF's except for the two extra 2020 dates, so `observation_date` is mostly
+  the effective date but not consistently (the 2020 extras may be announcement
+  dates). Do not treat `observation_date` as purely the effective or the
+  announcement date until checked against MPC statements.
+
+### macro_tbill_auctions
+
+| | |
+|---|---|
+| Purpose | Market T-bill yields so `CASH` earns a realistic return and the fixed-rule baseline is credible; short-rate context for the Macro Agent. |
+| Loader | `backend/jobs/macro_tbill_auctions.py` (EasyData helpers shared with `macro_policy_rate` in `backend/jobs/easydata.py`). Run manually after auctions and before each experiment freeze. |
+| Source | SBP EasyData API, dataset "Structure of Interest Rate: T-Bills Auction Result" (`TS_GP_BAM_SIRTBIL_AH`). Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | `TS_GP_BAM_SIRTBIL_AH.TB0010` / `TB0020` / `TB0030`: Treasury Bills' Cut-off Yield 3-Months / 6-Months / 12-Months; `TB0040` / `TB0050` / `TB0060`: Treasury Bills' Weighted Average Yield 3-Months / 6-Months / 12-Months. Names are checked against `/meta` on every run after removing a leading ". " (the prefix appears only in the manual CSV's "Series Display Name"; the API names, in `/data` and `/meta`, have none; the strip rule stays); a mismatch aborts before any data is fetched. |
+| Fetch mode | `append_only_snapshot`, with revision warnings between runs (same reasoning as `macro_policy_rate`). |
+| Location | HF `macro/tbill_auctions/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/tbill_auctions.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with check details and gap report), `manifest.json` |
+| Format | Parquet, long format, one row per series per auction date: `series_key`, `series_name` (". " removed), `tenor_months` (3, 6, 12), `yield_type` (`cutoff`, `weighted_average`), `observation_date` (auction date), `value` (percent; null where SBP reports "Missing value"), `is_missing`, `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = auction date 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "auction_date_end_of_day_pkt"`. Evidence (Mahrukh, 2026-11-16): EasyData dates 30-Sep-2026 and 14-Oct-2026 are SBP auction dates (settlement is the next day); EasyData values match SBP's published cut-offs after rounding (11.9944 → 11.99, 11.9999 → 12); SBP results are public the same afternoon. **Checked on 2026 auctions only.** |
+| Coverage | From the EasyData dataset web page on 2026-11-16: Available Since 24-Jun-2004, Available Upto 14-Oct-2026, Last Refresh Date 16-Oct-2026, frequency As-Needed. Manual CSV download (2026-11-14): 3,516 rows, 586 dates per series, no duplicates. |
+| Citation | State Bank of Pakistan, (2026), As-Needed data on <series name> from Structure of Interest Rate: T-Bills Auction Result, Source EasyData |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, duplicate dates,
+unparseable dates, non-numeric values, values ≤ 0 or ≥ 100, dates after the
+run date, fewer than two rows per series, or an empty value whose status is not
+"Missing value". It **warns** on: first observation different from Available
+Since, an unexpected dataset name, several units, yields outside [1, 35],
+weighted average above cut-off by more than 0.01, cut-off/weighted-average
+pairs with one side empty, a value present with status "Missing value", the
+latest auction more than 45 days old, and revisions since the previous run.
+
+Known gaps and limits:
+
+- 507 rows (in the 2026-11-14 CSV) have status "Missing value", spread through
+  2004-2024, mostly in the 6- and 12-month series. 503 of them are empty and
+  are kept with `value` null and `is_missing` true; counts and dates are in
+  each run log. The other 4 have a value (TB0030 and TB0060 on 2021-12-01 and
+  2021-12-15); the value is kept (`is_missing` false) and the rows are listed
+  in a warning.
+- Some values lack a leading zero (e.g. ".1215"); they parse as numbers. TB0050
+  on 2007-12-05 is .1215, which is implausible for a yield in percent and is
+  flagged by the [1, 35] range warning, not corrected.
+- Precision varies: most older values have up to 4 decimals; a few carry 7-9
+  decimals (seen in both the 2026-11-14 CSV and the API; likely
+  floating-point noise); 2026 values have 2 or fewer (SBP's published cut-offs
+  are rounded, e.g. 11.9944 → 11.99). The run log records the maximum
+  decimals per series.
+- Expected warnings in the real data: weighted average above cut-off (e.g.
+  6-month on 2009-10-07) and pairs with one side empty (e.g. 2024-10-02).
+- Gaps of more than 21 days between auction dates (reported in `extra.gaps`,
+  not warned): 2009-06-17 to 2009-07-15, 2010-06-16 to 2010-07-14, 2024-01-10
+  to 2024-02-06, 2026-03-16 to 2026-04-15, 2026-09-02 to 2026-09-30.
+- SBP held an auction on 2026-09-16 (settlement 2026-09-17) that is missing
+  from EasyData.
+- SBP also auctions 1-month bills; this dataset does not include them.
+- The `published_at` rule was checked on 2026 auctions only. Older dates are
+  assumed to be auction dates too, but this has not been verified.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
+
+### macro_inflation
+
+| | |
+|---|---|
+| Purpose | Monthly inflation (headline CPI, core, WPI, SPI) for the Macro Agent's real-rate and price-pressure signals, and for real-return context in the backtest. |
+| Loader | `backend/jobs/macro_inflation.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually after each monthly refresh (around the 5th) and before each experiment freeze. One run makes 120 requests (60 `/meta` + 60 `/data`; limits are 250/hour and 2,000/day per key): wait at least one hour between runs, and do not run other EasyData loaders in the same hour. |
+| Source | SBP EasyData API, dataset "Inflation Snapshot (New Base: 2015-16)" (`TS_GP_PT_CPI_M`). Original data source: Pakistan Bureau of Statistics. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 60 series, `TS_GP_PT_CPI_M.P00011516` to `P00601516`: 15 measures (National CPI, Urban CPI, Rural CPI, Urban Food CPI, Rural Food CPI, Urban Non-Food CPI, Rural Non-Food CPI, WPI, WPI Food, WPI Non-Food, SPI, Urban/Rural NFNE Core Inflation, Urban/Rural Trimmed Core Inflation) x 4 bases: Year-on-Year (`P0001`-`P0015`), 12-Months Moving average (`P0016`-`P0030`), Period average Since July (`P0031`-`P0045`), Month-on-Month (`P0046`-`P0060`). API names follow "<measure>; an Inflation Measure (<base> basis)", e.g. "National CPI; an Inflation Measure (Year-on-Year basis)"; the manual CSV's "Series name" column shows ", " instead of "; ". Confirmed 2026-11-21 for `/meta` (all 60 series passed the name check on the first `--no-upload` run) and for `/data` (the saved raw responses of that run). The loader expects the API's "; " form exactly. `index_group`, `region`, `component` and `measure_base` come from a fixed table in the loader, not from parsing names. Names are checked against `/meta` every run after removing leading dots and spaces (the manual CSV's "Series Display Name" indents with ". " or "............. "); a mismatch aborts before any data is fetched. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/inflation/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/inflation.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per month: `series_key`, `series_name` (leading dots and spaces removed), `index_group` (`cpi`, `core_nfne`, `core_trimmed`, `wpi`, `spi`), `region` (`national`, `urban`, `rural`; WPI and SPI are `national`), `component` (`general`, `food`, `non_food`; core and SPI are `general`), `measure_base` (`yoy`, `mma12`, `period_avg_since_july`, `mom`), `base_year` (`2015-16`), `observation_date` (month end), `value` (percent; null where empty), `is_missing`, `is_back_calculated` (`observation_date` before 2019-08-01), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = the 10th of the month after `observation_date`, 23:59:59 Asia/Karachi, stored in UTC, but never earlier than 2019-09-10 23:59:59 Asia/Karachi; `published_at_basis = "conservative_10th_next_month_rebase_2019_09"`. Evidence (Mahrukh, 2026-11-20): the SBP Advance Release Calendar 2026 (ARC.xls, archive.sbp.org.pk) lists the Inflation Monitor no later than the 3rd-6th of the following month, holidays moving to the next working day; EasyData updates key indicators the next working day after the PBS release and others after the Inflation Monitor; Oct-2026 data was refreshed 05-Nov-2026. The 2015-16 base was first published in September 2019 (August 2019 data); earlier months were back-calculated. National YoY 2019-07 = 8.38 and 2019-08 = 10.49 in the 2026-11-20 CSV match the figures reported at the September 2019 rebase. |
+| Coverage | From the EasyData dataset web page on 2026-11-20: Jul-2016 to Oct-2026, monthly, Last Refresh Date 05-Nov-2026. Manual Long Format CSV (2026-11-20): 7,440 rows (60 series x 124 months), month-end dates 2016-07-31 to 2026-10-31, no duplicates, no skipped months. |
+| Citation | State Bank of Pakistan, (2026), Monthly data from Inflation Snapshot (New Base: 2015-16), for 31-Jul-2016 to 31-Oct-2026, Source EasyData, Inflation Snapshot (New Base: 2015-16), 05-Nov-2026. Original data source: Pakistan Bureau of Statistics. (The loader writes the citation with the run's actual date range and refresh date to the run log and manifest.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, duplicate dates,
+unparseable or non-month-end dates, non-numeric values, values ≤ -100 or
+≥ 1000, dates after the run date, fewer than two rows per series, or an empty
+value whose status is not "Missing value". It **warns** on: an empty value
+after a series' first value, leading empty values beyond the expected months,
+a value present with status "Missing value", values outside [-50, 100],
+skipped months, first observation different from Available Since, series
+ending on different months, the latest month more than 45 days old, an
+unexpected dataset name, several units, value revisions since the previous
+run, and status-only changes since the previous run.
+
+Known gaps and limits:
+
+- Leading empty values are expected (status "Missing value"; the status
+  comment explains the trimmed and 12MMA computation) and are kept with `value`
+  null and `is_missing` true, without warning: every 12MMA series 2016-07 to
+  2017-05; trimmed core YoY and period average 2016-07 to 2017-06; trimmed core
+  12MMA 2016-07 to 2018-05; trimmed core MoM 2016-07. Counts are in each run
+  log.
+- 30 rows on 2026-04-30 (in the 2026-11-20 CSV) have status "Missing value"
+  (comment "0") but a value; the value is kept (`is_missing` false) and the
+  rows are listed in a warning. The other 30 April-2026 rows are "Normal" with
+  comment "0". A later fix of these statuses is reported as a status-only
+  change.
+- Values range from about -7.4 (MoM) to 52.4 (Rural Food YoY, May 2023, a real
+  value). Precision varies: most values have 1-2 decimals, about 540 have 7-9
+  (e.g. 13.37790337); some lack a leading zero (".5", "-.3"). Values are stored
+  as returned; the run log records the maximum decimals per series.
+- Months before 2019-08 were back-calculated at the 2019 rebase, not published
+  at the time (`is_back_calculated`); their `published_at` is floored at the
+  rebase release.
+- The `published_at` rule is conservative (10th of the next month) and was not
+  checked month by month against actual release dates. A release delayed past
+  the 10th would make the rule leak.
+- Older bases (2007-08 and earlier) are not collected, so this dataset has no
+  inflation before Jul-2016; backtest windows before then have no CPI series.
+- EasyData `/data` returns invalid JSON for 21 series (seen 2026-11-21): the
+  status comment on the leading empty rows, "The observation status is missing
+  "MIS" due to trimmed inflation ...", has its quotes around `MIS` unescaped.
+  Affected: trimmed core YoY (P0014, P0015), every 12MMA series (P0016-P0030),
+  trimmed core period average (P0044, P0045) and trimmed core MoM (P0059,
+  P0060). The manual CSV is not affected. The loader repairs only the exact
+  bytes `missing "MIS" due` (escaping the quotes), only when the body does not
+  parse, and only in memory for parsing; raw files keep the response exactly
+  as returned. Repairs are counted per series in the run log (`json_repairs`);
+  a repair on a series with no expected leading empties, or a count different
+  from its leading empty rows, warns. Any other invalid JSON still fails the
+  run.
+- The loader requests 60 fixed keys and cannot detect series added to the
+  dataset later.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
+
+### macro_fx
+
+| | |
+|---|---|
+| Purpose | Daily PKR exchange rates for the Macro Agent's currency signals (PKR/USD above all) and FX context in the backtest. |
+| Loader | `backend/jobs/macro_fx.py` (EasyData helpers in `backend/jobs/easydata.py`). Run manually after each monthly refresh (around the 5th) and before each experiment freeze. One run makes 46 requests (23 `/meta` + 23 `/data`); keep all EasyData runs within 250 requests per hour and 2,000 per day per key. The run log and the final log line give the row count per series. |
+| Source | SBP EasyData API, dataset "Bank Floating Daily Average Exchange Rates (PKR per National Currency)" (`TS_GP_ES_FADERPKR_M`), source SBP. Endpoints `https://easydata.sbp.org.pk/api/v1/series/<series_key>/meta` and `/data`; key from `EASYDATA_API_KEY`, never logged, stored or uploaded (every output is scanned for it). |
+| Series | 23 series, `TS_GP_ES_FADERPKR_M.XRDAVG0010` to `XRDAVG0230`, unit PKR: "Daily Average Exchange rate of PAK Rupees per <currency>" for AUD, BHD, CAD, CNY, DKK, HKD, JPY, KWD, MYR, NZD, NOK, OMR, QAR, SGD, SEK, CHF, SAR, THB, TRY, AED, GBP, USD (`XRDAVG0220`), EUR (`XRDAVG0230`), in key order. Values are PAK Rupees per one unit of the currency (JPY per 1 yen: about 1.76 PKR in Oct-2026). `currency_code` and `currency_name` come from a fixed table in the loader, not from parsing names. Expected names are taken from the manual CSV's "Series name" column (2026-11-22) and are checked exactly against `/meta` on every run, after removing leading dots and spaces; a mismatch aborts before any data is fetched. Confirmed 2026-11-22: all 23 `/meta` names matched the CSV exactly on the first `--no-upload` run (including "Hong Kong Dollar" and "U.A.E. Dirham"). The spelling "Hon Kong" appears only on the EasyData dataset web page, not in the API or the CSV. |
+| Fetch mode | `append_only_snapshot`, with warnings for value revisions and for status-only changes (status or status comment changed, value unchanged) between runs. |
+| Location | HF `macro/fx/`: `raw/fetch_date=D/<run>_<series_key>_{meta,data}.json` (unmodified responses), `interim/fetch_date=D/observations-<run>.parquet` (values and names as returned), `processed/fx.parquet` (validated), `runs/fetch_date=D/run-<run>.json` (per-run log with row counts and check details), `manifest.json` |
+| Format | Parquet, long format, one row per series per date: `series_key`, `series_name` (leading dots and spaces removed), `currency_code` (ISO 4217), `currency_name`, `observation_date`, `value` (PKR per one unit of the currency), `unit`, `observation_status`, `status_comments`, `dataset_name`, `published_at`, `published_at_basis`, `portal_last_refresh_date`, `source_endpoint` (no key), `fetched_at` (UTC), `raw_file`, `run_id` |
+| Point-in-time key | `published_at` = the 10th of the month after `observation_date`, 23:59:59 Asia/Karachi, stored in UTC; `published_at_basis = "monthly_release_10th_next_month"`. Evidence (Mahrukh, 2026-11-22): the dataset overview says "This daily data is compiled and disseminated on monthly basis"; Oct-2026 data was refreshed 05-Nov-2026; SBP publishes the same series as a monthly table ("Daily Average Banks' Floating Exchange Rates", BFER_Daily.pdf). **Consequence: backtests see each FX value up to about 40 days after its date** (a value for the 1st of a month becomes visible on the 10th of the next month). SBP's daily "Weighted Average Customer Exchange Rates" are a different series (buying and selling rates, close to but not equal to these values), public the same day, and are not collected. |
+| Coverage | From the EasyData dataset web page on 2026-11-22: 02-Jul-2013 to 30-Oct-2026, daily, Last Refresh Date 05-Nov-2026. Manual Long Format CSV (2026-11-22): 75,325 rows (23 series x 3,275 dates), no empty values, all status "Normal", no duplicates. |
+| Citation | State Bank of Pakistan, (2026), Daily data from Bank Floating Daily Average Exchange Rates (PKR per National Currency), for 02-Jul-2013 to 30-Oct-2026, Source EasyData, Bank Floating Daily Average Exchange Rates (PKR per National Currency), 05-Nov-2026. (The loader writes the citation with the run's actual date range to the run log and manifest; year and refresh date come from the Last Refresh Date, never the run date.) |
+
+**Terms and access:** as for `macro_policy_rate` (same EasyData disclaimer and
+Developer Guide; `sbp.org.pk` is not used as a source). Same handling: private
+dataset, non-commercial academic use, never redistributed; raw snapshots kept
+with `fetched_at`.
+
+Checks: the run **fails** on a wrong series key or name, a `/data` response
+that is not valid JSON (no repair, unlike `macro_inflation`), unparseable or
+duplicate dates, dates after the run date, fewer than two rows per series, or
+a value that is empty, non-numeric or ≤ 0. It **warns** on: weekend dates
+other than the four known Saturdays, gaps of more than 14 days between
+consecutive dates, a change of more than 10% against the series' previous
+observation, series with different date sets or end dates, the latest date
+more than 45 days old, first observation different from Available Since, an
+unexpected dataset name, a unit other than PKR, a status other than "Normal",
+value revisions since the previous run, and status-only changes since the
+previous run. Status comments are kept as returned and never warned about.
+
+Known gaps and limits:
+
+- Dates are working days. Four Saturdays exist (2019-08-17, 2022-04-16,
+  2022-04-23, 2022-04-30) and are allowed. Holiday gaps of up to 10 days
+  (e.g. 2021-05-07 to 2021-05-17) are normal and not warned; the run log
+  records the largest gap per series.
+- Large real moves exist. USD +5.65% on 2023-01-26 and +6.35% on 2023-01-27
+  (below 10%, no warning). Five moves above 10% against the previous
+  observation (checked on all 23 series of the 2026-11-22 CSV) warn on every
+  run, as expected: TRY (XRDAVG0190) −14.63% on 2018-08-13, −10.65% on
+  2021-11-24, +28.10% on 2021-12-21; NOK (XRDAVG0110) −12.15% on 2020-03-19;
+  CHF (XRDAVG0160) +13.84% on 2015-01-16. No other series has a move above
+  10%.
+- 29 rows have status "Normal" but an unrelated status comment ("Iraqi
+  invasion of Kuwait from Aug-1990 till Sep-1991"): XRDAVG0030 2022-07-13 to
+  2022-08-01 and XRDAVG0130 2016-12-05 to 2016-12-26. Kept as returned, not
+  warned.
+- Values carry 6-9 decimals (e.g. USD 2026-10-30 = 277.0589286) and are stored
+  as returned; the run log records the maximum decimals per series.
+- The `published_at` rule rests on the current monthly dissemination and one
+  observed refresh date (05-Nov-2026). It was not checked against historical
+  release dates; a release after the 10th would make the rule leak.
+- No data before 02-Jul-2013; backtest windows before then have no FX series
+  from this dataset.
+- The loader requests 23 fixed keys and cannot detect series added to the
+  dataset later.
+- SBP may revise history silently; we only detect revisions between our own
+  runs. An expired key stops refreshes until it is renewed.
