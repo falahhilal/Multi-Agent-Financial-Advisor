@@ -656,3 +656,274 @@ Known gaps and limits:
 - The loader requests 50 fixed keys and cannot detect series added to the
   dataset later.
 - An expired key stops refreshes until it is renewed.
+
+### US series from their original publishers (not FRED)
+
+FRED is not used: its terms forbid storing, caching or archiving its content
+and using it to develop software, and every loader here stores snapshots on
+HF (Proposed [ADR-0006](adr/0006-replace-fred-with-original-publishers.md)).
+The three datasets below come from the institutions that produce the series.
+They need no API key. Shared helpers are in `backend/jobs/us_macro.py`; the
+generic file, revision and manifest helpers come from
+`backend/jobs/easydata.py`. `macro_us_effr` and `macro_us_dollar_index` use
+`common.http_get`; `macro_us_treasury_yields` uses `us_macro.get_bounded`,
+which adds a total time limit per response (see that entry's known limits).
+
+**`published_at` for US series.** US release date plus a fixed number of
+days, at 23:59:59 Asia/Karachi, stored in UTC. US Eastern time is UTC−5
+(EST) or UTC−4 (EDT); Pakistan time is UTC+5 with no daylight saving, so it
+is 10 or 9 hours ahead. Every instant of US date D falls between D 09:00 PKT
+and D+1 09:59:59 PKT, so D+1 23:59:59 PKT is after all of it whether or not
+DST is in effect. No DST table is needed; the cost is up to about a day of
+extra lag.
+
+Expected constants (field names, feed title, element names, zip members,
+series attributes) were fixed from manual downloads on 2026-11-23, kept in
+`data/macro/manual/` (gitignored): `effr_last1.json`, `treasury_2026.xml`,
+`FRB_h10_xml.zip`. Tests use synthetic fixtures with the same shape, not
+these files.
+
+### macro_us_effr
+
+| | |
+|---|---|
+| Purpose | US policy-rate signal (effective federal funds rate) for the Macro Agent's external drivers. |
+| Loader | `backend/jobs/macro_us_effr.py`. Run manually each week on Tuesday (Pakistan time) with the other US loaders, and before each experiment freeze. One run makes 2 requests (probe + full history), spaced by 2 seconds. No rate limit is documented; `markets.newyorkfed.org/robots.txt` returns 404 (no restrictions). |
+| Source | New York Fed Markets Data API (no key). Probe `https://markets.newyorkfed.org/api/rates/unsecured/effr/last/1.json`; history `https://markets.newyorkfed.org/api/rates/unsecured/effr/search.json?startDate=1954-07-01&endDate=<today PKT>`. The early `startDate` asks for everything the API has; the API accepted it on the first run (2026-11-23). |
+| Series | One series, EFFR, percent. Probe fields (manual download 2026-11-23): `effectiveDate`, `type` (`"EFFR"`), `percentRate`, `percentPercentile1/25/75/99`, `targetRateFrom`, `targetRateTo`, `volumeInBillions`, `revisionIndicator` (`""` when not revised); `footnoteId` appears on footnoted records. Field sets in the first full run (6,630 records): from 2016-03-01, percentiles and volume (2,694 records, one with `footnoteId`); 2008-12-16 to 2016-02-29, `intraDayLow`, `intraDayHigh`, `stdDeviation`, `targetRateFrom` and `targetRateTo` (1,810); before 2008-12-16, the same with `targetRateFrom` only, a single target (2,126). `targetRange` (API spec) did not occur but is accepted. The probe must have exactly one record of type EFFR with only the probe fields, or the run stops before the full request. |
+| Fetch mode | `append_only_snapshot`. The NY Fed revises only on the same day (about 2:30 p.m. ET, if the change exceeds 1 bp) "except in extraordinary circumstances", but each run's raw responses are kept and revisions and revision-indicator or footnote changes against the previous run are warned. |
+| Location | HF `macro/us_effr/`: `raw/fetch_date=D/<run>_effr_last1.json` and `<run>_effr_search.json` (unmodified), `interim/fetch_date=D/observations-<run>.parquet` (values as the JSON text, unknown fields in `extra_fields`), `processed/us_effr.parquet`, `runs/fetch_date=D/run-<run>.json`, `manifest.json` |
+| Format | Parquet, one row per date: `series_key` (`EFFR`), `series_name`, `series_code`, `observation_date`, `value` (percent), `unit`, `percentile_1/25/75/99`, `target_rate_from`, `target_rate_to`, `volume_billions`, `target_range`, `intraday_low`, `intraday_high`, `std_deviation`, `observation_status` (= `revisionIndicator`, empty → null), `status_comments` (= `footnoteId`), `published_at`, `published_at_basis`, `source_endpoint`, `fetched_at`, `raw_file`, `run_id` |
+| Point-in-time key | The NY Fed "publishes the EFFR for the prior business day … at approximately 9:00 a.m." (ET) and may revise it at about 2:30 p.m. ET the same day. Release date R = the next EFFR date in the series (EFFR dates are exactly the business days, so R is never earlier than the true release). `published_at` = R + 1 day, 23:59:59 PKT (`effr_next_business_day_plus_1d`); the +1 day covers the 2:30 p.m. revision, which is 00:30 PKT the next day in winter. The latest row has no next date and gets the fetch date at 23:59:59 PKT (`effr_latest_row_fetch_date`); it is recomputed on the next run. **Consequence: a Friday's EFFR is visible from Tuesday 23:59:59 PKT** (Monday release + 1 day). |
+| Coverage | First `--no-upload` run (2026-11-23, run `20261123T100939Z`): 6,630 records, 2000-07-03 to 2026-11-19, business days only (holidays have no record), largest gap 4 days, no unknown fields; one weekend record (2003-07-20, below); records carry revision indicator `r` where the NY Fed revised them (listed in the run log). |
+| Citation | Federal Reserve Bank of New York, Effective Federal Funds Rate (EFFR), daily, {first} to {last}, New York Fed Markets Data API (markets.newyorkfed.org), retrieved {date}. © {year} Federal Reserve Bank of New York. Content from the New York Fed subject to the Terms of Use at newyorkfed.org. (The loader writes it with the actual dates to the run log and manifest.) |
+
+**Terms and access** (newyorkfed.org/privacy/termsofuse, last updated
+9 June 2023; read 2026-11-23): "The New York Fed grants you a non-exclusive
+license … to use, copy, and distribute Content for your personal or business
+purposes" and you may "Download, store, and use Content in any format or
+media". Automated access is allowed provided it does not disable, damage or
+interfere with the website. Storing raw snapshots in the private HF dataset
+and using them in our system is allowed. **Reference-rate notice:** wherever
+the EFFR is shown to users, the terms require "The [DATA NAME] is subject to
+the Terms of Use posted at newyorkfed.org" and a statement that the New York
+Fed is not responsible for the republication and does not sanction or
+endorse it. The loader stores this text in the manifest
+(`extra.reference_rate_notice`): "The Effective Federal Funds Rate (EFFR) is
+subject to the Terms of Use posted at newyorkfed.org. The New York Fed is not
+responsible for publication of the EFFR by this project, does not sanction or
+endorse any particular republication, and has no liability for your use."
+"None of the Content is investment advice." The last part of the terms
+(indemnification and similar) was only read as a summary.
+
+Checks: the run **fails** on a probe that is not one EFFR record with known
+fields, a record whose `type` is not EFFR, a missing date or rate, an
+unparseable or duplicate date, a date after the run date, fewer than two
+rows, or a non-numeric value in any numeric field. It **warns** on: weekend
+dates not in the loader's reviewed `KNOWN_WEEKEND_DATES`, a gap of more than
+4 calendar days, a rate below 0 or above 20, a daily change above 0.30 pp
+from 2016-03-01 or above 1.00 pp before then on a day the FOMC target did not
+change against the previous record (target = `targetRateFrom`,
+`targetRateTo` and `targetRange` as returned; moves with a target change are
+listed in the run log under `large_moves_with_target_change`, and moves in
+the reviewed `KNOWN_MOVES` under `reviewed_large_moves`, not warned; moves
+are checked within each period, not across 2016-03-01), a rate outside
+the target range ± 0.10 pp from 2008-12-16, percentiles out of order, volume
+≤ 0, unknown field names, a first date different from the expected start,
+the latest date more than 7 days old, the probe disagreeing with the full
+history, value revisions, and revision-indicator or footnote changes since
+the previous run. Revised records are listed in the run log.
+
+Known gaps and limits:
+
+- The methodology changed on 2016-03-01 (volume-weighted median of FR 2420
+  transactions, from a brokered-trade mean); the series is not one method
+  throughout, and the record fields differ before and after.
+- **2003-07-20 (a Sunday) has a record.** Its values (1.02, intraday low
+  0.94 and high 1.13, standard deviation 0.02, target 1.00) are identical to
+  Monday 2003-07-21's. Friday 2003-07-18 and Monday 2003-07-21 are both
+  present and no date is duplicated (Saturday 2003-07-19 is absent, as
+  usual). It looks like a misdated copy of the Monday record. Kept as
+  returned; listed in `KNOWN_WEEKEND_DATES` so it does not warn again
+  (reviewed by Mahrukh, 2026-11-23). Consumers that need one value per
+  business day can drop it.
+- **Large moves.** The first run had 15 moves above the thresholds. 10
+  coincide with a target change and are not warned (2019-09-19, 2020-03-04,
+  2020-03-16, the six 2022 hikes on 2022-05-05, 06-16, 07-28, 09-22, 11-03,
+  12-15, and 2024-09-19). 5 have no target change and were reviewed as real
+  (Mahrukh, 2026-11-23); they are in the loader's `KNOWN_MOVES` and listed in
+  the run log under `reviewed_large_moves`, not warned: 2000-12-29 (−1.12 pp,
+  year end), 2001-01-02 (+1.26), 2001-09-20 (+1.03, after 9/11), 2008-01-02
+  (+1.05) and 2008-10-07 (+1.01), all from the brokered-trade period before
+  2016. The first run had 72 target changes in total. Re-validating the
+  first run's raw files offline with these lists gives 0 warnings.
+- Thresholds are first guesses; the first run had no gap above 4 days, so
+  `KNOWN_GAPS` is empty.
+- Same-day revisions after our fetch are caught only by the next run.
+- History before our first run is as the API serves it now; we cannot see
+  past revisions.
+
+### macro_us_treasury_yields
+
+| | |
+|---|---|
+| Purpose | US long and short rates (10-year required; the full par curve gives slopes such as 10y−2y and 10y−3m) for the Macro Agent's external drivers. |
+| Loader | `backend/jobs/macro_us_treasury_yields.py`. Run weekly on Tuesday (PKT) and before each experiment freeze. One request per year from 1990 to the current year (37 in 2026), spaced by 5 seconds, about 3-4 minutes, with an INFO line before and after each year (year, bytes, seconds, entries). The last complete year is fetched first as the probe (a change from the plan, which said the current year: the current year can be empty in early January). Requests go through `us_macro.get_bounded` (below): each year's whole response must arrive within 120 s, otherwise the connection is closed and the year is retried after 30 s, up to 3 attempts, then the run fails naming the year. Requests ask for gzip. No rate limit is documented; robots.txt is `User-agent: * / Allow: /`. |
+| Source | US Treasury interest-rate XML feed (no key): `https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=YYYY`. |
+| Series | 14 maturities, percent, element names from the 2026 feed: `BC_1MONTH`, `BC_1_5MONTH`, `BC_2MONTH`, `BC_3MONTH`, `BC_4MONTH`, `BC_6MONTH`, `BC_1YEAR`, `BC_2YEAR`, `BC_3YEAR`, `BC_5YEAR`, `BC_7YEAR`, `BC_10YEAR`, `BC_20YEAR`, `BC_30YEAR`. Expected starts (fixed table): 1-month 2001-07-31, 2-month 2018-10-16, 20-year 1993-10-01 and all others 1990-01-02 (from knowledge, to confirm on the first run); 4-month 2022-10-19 and 1.5-month 2025-02-18 (Treasury developer notice); 30-year not published 2002-02-18 to 2006-02-08 (Treasury: ceased 18 Feb 2002, resumed 9 Feb 2006). `BC_30YEARDISPLAY` (a display copy of the 30-year) and `Id` are kept in raw and interim only. Feed shape checked on the probe: title `DailyTreasuryYieldCurveRateData`; each entry has `m:properties` with `d:NEW_DATE` (`Edm.DateTime`, `YYYY-MM-DDT00:00:00`) and `d:BC_*` (`Edm.Double`); `d:BC_10YEAR` present. Unknown element names warn. |
+| Fetch mode | `append_only_snapshot`: Treasury may correct values without notice; revisions against the previous run are warned. |
+| Location | HF `macro/us_treasury_yields/`: `raw/fetch_date=D/<run>_par_yield_YYYY.xml` (one per year; the XML document as served, decompressed if the server sent gzip, otherwise unmodified; the run log records each year's content encoding, bytes and seconds), `interim/fetch_date=D/observations-<run>.parquet` (one row per entry per element, as returned), `processed/us_treasury_yields.parquet`, `runs/fetch_date=D/run-<run>.json`, `manifest.json` |
+| Format | Parquet, long format, one row per maturity per date with a value: `series_key` and `series_code` (feed element), `series_name` ("Treasury par yield, 10 Yr"), `maturity_label`, `maturity_months`, `observation_date`, `value` (percent), `unit`, `published_at`, `published_at_basis`, `feed_updated` (the feed's `<updated>`), `source_endpoint` (the year's URL), `fetched_at`, `raw_file`, `run_id` |
+| Point-in-time key | Treasury: par yields are based on quotes at about 3:30 p.m. and are "usually available" by 6:00 p.m. ET the same trading day, "but may be delayed". `published_at` = `observation_date` + 1 day, 23:59:59 PKT (`treasury_same_day_plus_1d`); 6:00 p.m. ET is 03:00 or 04:00 PKT the next day, and the rule also covers a delay until about 2 p.m. ET the next day. |
+| Coverage | 2026 feed (manual download 2026-11-23): 223 dates, 2026-01-02 to 2026-11-20, all 16 elements on every date, longest gap 4 days (holiday weekends); Good Friday 2026-04-03 is present. First full `--no-upload` run (2026-11-23, run `20261123T124214Z`): all 37 years 1990-2026, 100,160 rows, about 18 s per year, no stall; no first-date or gap warnings, so the expected start dates in the fixed table are confirmed. |
+| Citation | U.S. Department of the Treasury, Daily Treasury Par Yield Curve Rates, {first} to {last}, home.treasury.gov interest rate XML feed (daily_treasury_yield_curve), retrieved {date}. (No citation is required; this is our wording.) |
+
+**Terms and access** (read 2026-11-23): no copyright, reuse or citation
+statement was found on home.treasury.gov (site policies and notices, privacy
+policy, Interest Rate XML page, Treasury Open Data page). The only explicit
+Treasury licence found is on fiscaldata.treasury.gov ("available to copy,
+adapt, redistribute, or otherwise use for non-commercial and commercial
+purposes"), which covers Fiscal Data, not necessarily these pages. Use rests
+on 17 U.S.C. §105 (no US copyright in works of the federal government); this
+is a weaker basis than an explicit licence. robots.txt allows everything.
+Storing raw snapshots privately and using them in our system is allowed on
+that basis. Contact if certainty is needed: debt.management@treasury.gov.
+
+Checks: the run **fails** on XML that does not parse or has a DTD, a wrong
+feed title, an entry without `m:properties` or with other than one
+`NEW_DATE`, a wrong `m:type`, an unparseable date, a date outside the
+requested year, duplicate dates, dates after the run date, a non-numeric
+value, a completed year with no dates, or a year where the 10-year is missing
+on every date. A probe failure stops the run before any other request; a
+shape failure in any year stops it before anything is written. It **warns**
+on: unknown element names, weekend dates, a gap of more than 4 calendar days,
+a completed year with fewer than 240 dates, a year with exactly 300 dates
+(possible page cap), an empty current year, a maturity missing (no tag or
+`m:null="true"`) on a date inside its span that is not in the reviewed
+`KNOWN_MISSING_ALL`/`KNOWN_MISSING`, a value before its expected start
+or inside the 30-year gap, a first value different from the expected start, a
+value below −0.5 or above 20, a daily change above 1.00 pp (maturities up to
+1 year) or 0.35 pp (2 years and longer) that is not in the reviewed
+`KNOWN_MOVES` (moves are never measured across a series' publication gap:
+the first value after the gap has no previous value), the latest date more
+than 7 days old, and value revisions since the previous run. Reviewed
+missing values and moves are listed in the run log per series
+(`known_missing_in_span`, `reviewed_large_moves`).
+
+Known gaps and limits:
+
+- Methodology changed to the monotone convex method on 2021-12-06 (from a
+  quasi-cubic Hermite spline).
+- Maturities start at different dates and the 30-year has a four-year gap;
+  curve measures must check which maturities exist on a date.
+- Holidays and bond-market closures have no entry. The holiday calendar is
+  the bond market's, not the federal one (Good Friday 2026 is present).
+- **The first run stalled (2026-11-23).** The probe (2025, 249 entries)
+  arrived; the next year's request then hung for over 10 minutes inside
+  `r.read()` (chunked response, SSL read) with no retry warning, and was
+  stopped by hand. Nothing was written. Reason: `common.http_get`'s
+  `timeout` is the socket timeout, which bounds each connect and each read
+  separately, not the whole response, so a body that keeps trickling bytes
+  never times out. A silent server would have hit the 60 s socket timeout and
+  logged a retry, which did not happen, so the response was most likely
+  trickling: a CDN slowing a client it flagged after a burst of requests 2 s
+  apart, or slow server-side streaming. Not confirmed. The browser opens
+  the same URL quickly, but it sends a browser User-Agent and asks for gzip.
+  Fix without editing `common.py`: `us_macro.get_bounded` keeps common's
+  robots.txt check, User-Agent, per-host spacing and redirect policy (it
+  uses common's private `_prepare`, `_wait_for_host` and `_opener`), reads
+  with `read1()` and stops a response after a total of 120 s; it also asks
+  for gzip (about ten times fewer bytes), and requests are now 5 s apart.
+  If a year still fails after 3 attempts, the run stops naming it; do not
+  work around it by changing the User-Agent. Raise it with the team instead.
+  The cleaner long-term fix is a `total_timeout` parameter in
+  `common.http_get`, to agree with Falah and Maryam.
+- **Reviewed missing values** (first full run, Mahrukh, 2026-11-23;
+  `KNOWN_MISSING_ALL` and `KNOWN_MISSING` in the loader, not warned again):
+  2010-10-11 (Columbus Day 2010) is listed in the feed with no value for any
+  maturity; the 3-month has no value on 2008-12-10, 2008-12-18 and
+  2008-12-24 (bill yields not published during the crisis). Consumers must
+  treat these as missing, not zero.
+- **Reviewed large moves** (first full run, `KNOWN_MOVES`; 25 per-maturity
+  moves on 11 dates, all real events): 1-month 2007-08-16, 2008-09-15,
+  2023-05-04; 2-year 1994-04-04, 2001-09-13, 2008-09-15, 2008-09-19,
+  2008-09-29, 2009-06-05, 2023-03-13; 3-year 1994-04-04, 2001-09-13,
+  2008-09-15, 2008-09-19, 2008-09-29, 2022-06-13 (+0.35 pp, just above the
+  threshold in floating point), 2023-03-13; 5-year 1994-04-04, 2001-09-13,
+  2008-09-15, 2009-03-18; 7-year and 10-year 1994-04-04, 2009-03-18.
+- **No move across a publication gap.** The first run warned on the 30-year
+  2006-02-09 (−0.86 pp), an artifact: the first value after the 2002-2006
+  gap was compared with the last value before it. Moves are now measured
+  within each segment of a series. With these lists, re-validating the
+  first run's raw files offline gives 0 warnings.
+- `KNOWN_GAPS` is empty: the first run had no gap of more than 4 days.
+- Corrections made after our fetch are caught only on the next run; earlier
+  corrections are invisible.
+
+### macro_us_dollar_index
+
+| | |
+|---|---|
+| Purpose | Dollar strength for the Macro Agent's external drivers: the nominal broad dollar index, and the AFE and EME indexes (EME is the closest to PKR). |
+| Loader | `backend/jobs/macro_us_dollar_index.py`. Run weekly on Tuesday (PKT), after the Monday release, and before each experiment freeze. One request per run. No rate limit is documented; `www.federalreserve.gov/robots.txt` returns 404 (no restrictions). |
+| Source | Federal Reserve Board H.10 release XML (no key): `https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip`, confirmed by the manual download of 2026-11-23 from the "XML" link on the H.10 current release page. Not the Data Download Program (its preformatted packages end 2027-03-31) and not FRED. |
+| Series | From `H10_data.xml` (SDMX-ML compact, 87 series in the 2026-11-23 file): `JRXWTFB_N.B` "Nominal Broad Dollar Index" (FX `BRD`), `JRXWTFN_N.B` "Nominal Advanced Foreign Economies Dollar Index" (`AFE`), `JRXWTFO_N.B` "Nominal Emerging Market Economies Dollar Index" (`EME`). Checked on every run before anything is written: zip has `H10_data.xml` (members other than `frb_common.xsd`, `H10_data.xml`, `H10_H10.xsd`, `H10_struct.xml` warn), message ID `H10`, each series exactly once with `CURRENCY="NA"`, `FREQ="9"` (daily), its `FX` code, `UNIT="Index:_1997_Jan_100"`, `UNIT_MULT="1"`, and the "Short Description" above. |
+| Fetch mode | `append_only_snapshot`, required: the Board overwrites the zip at each release ("archived versions from previous dates will not be available"), and revises past index values when trade weights change. Revisions against the previous run are warned. |
+| Location | HF `macro/us_dollar_index/`: `raw/fetch_date=D/<run>_FRB_h10_xml.zip` (unmodified, about 2 MB), `interim/fetch_date=D/observations-<run>.parquet` (the three series' observations as returned, `ND` rows included), `processed/us_dollar_index.parquet`, `runs/fetch_date=D/run-<run>.json` (ND dates, series attributes and annotations, release timestamp), `manifest.json` |
+| Format | Parquet, long format, `A` rows only: `series_key` (`JRXWTFB_N.B` etc.), `series_name`, `series_code` (FX code), `observation_date`, `value`, `unit` (as returned), `unit_mult`, `observation_status`, `published_at`, `published_at_basis`, `release_prepared` (`message:Prepared`, as returned), `source_endpoint`, `fetched_at`, `raw_file`, `run_id` |
+| Point-in-time key | H.10 country data "are updated weekly on Mondays at 4:15 p.m." (ET) with the previous week's daily values. `published_at` = the Monday after the observation's week + 2 days (Wednesday), 23:59:59 PKT (`h10_following_monday_plus_2d`). Monday 4:15 p.m. ET is 01:15 or 02:15 PKT on Tuesday; the extra day covers a release moved to Tuesday by a Monday holiday (to confirm). The loader warns if the release's `Prepared` date is later than the Tuesday after the latest week. **Consequence: a Monday's value is visible 9 days later, a Friday's 5 days later.** |
+| Coverage | 2026-11-23 zip (prepared 2026-11-16T16:47:01): each series 5,445 dates, 2006-01-02 to 2026-11-13, every weekday present; 5,231 `A` and 214 `ND` (`OBS_VALUE="-9999"`, holidays); at most 15 `ND` days in a year; longest `ND` run 4 days (2010-02-08 to 02-11). Ranges: broad 85.47-130.04, AFE 81.38-124.85, EME 89.15-139.99; 4 decimals. |
+| Citation | Board of Governors of the Federal Reserve System, H.10 Foreign Exchange Rates, Nominal Broad, Advanced Foreign Economies and Emerging Market Economies U.S. Dollar Indexes (JRXWTFB_N.B, JRXWTFN_N.B, JRXWTFO_N.B), daily, {first} to {last}, release prepared {prepared}, federalreserve.gov H.10 release XML, retrieved {date}. |
+
+**Terms and access** (federalreserve.gov/disclaimer.htm, read 2026-11-23):
+information on the Board's website "is in the public domain and may be copied
+and distributed without permission" unless otherwise indicated; "Please cite
+to the Board as the source of the information." Third-party copyrighted
+material needs permission from its source; the H.10 pages note no such
+restriction (the rates are noon buying rates in New York certified by the New
+York Fed, a provenance note). Storing raw snapshots privately and using them
+in our system is allowed.
+
+Checks: the run **fails** on a response that is not a zip, a zip member name
+with a path part, a missing or oversized (> 200 MB) `H10_data.xml`, XML with
+a DTD or that does not parse, a message ID other than `H10`, a target series
+missing or duplicated, a series attribute or "Short Description" mismatch, an
+unparseable or duplicate date, a date after the run date, an `OBS_STATUS`
+other than `A` or `ND`, a non-numeric `A` value, or fewer than two `A` rows.
+Metadata failures stop the run before anything is written. It **warns** on:
+extra or missing zip members, extra series attributes, a different "Long
+Description", weekend dates, a weekday missing from the date grid, an `ND`
+value other than `-9999`, more than 16 `ND` days in a year, a run of more than
+4 `ND` days, a value outside 80-160, a daily move above 2% that is not in the
+loader's `KNOWN_MOVES` list, a first date other than 2006-01-02, series with
+different date sets, the latest value more than 14 days old, a release
+prepared later than the Tuesday after the latest week, a missing `Prepared`
+timestamp, and value revisions since the previous run.
+
+Known moves above 2% in the 2026-11-23 file (listed in the loader and not
+warned again): broad 2008-10-29, 2008-11-24, 2009-03-19, 2016-03-17; AFE
+2008-10-29, 2008-11-24, 2008-12-08, 2008-12-11, 2008-12-17, 2008-12-19,
+2009-01-21, 2009-03-19, 2011-09-22, 2016-03-17, 2016-12-15; EME 2008-10-06,
+2008-10-08, 2008-10-09, 2008-10-14, 2016-11-09, 2020-03-12.
+
+Known gaps and limits:
+
+- **Indexation change on 2019-06-24.** The H.10 page says that effective
+  2019-06-24 the Board changed the indexation of the daily broad, AFE and EME
+  dollar indexes (see the H.10 Technical Q&As: before, the value on
+  2006-01-02 was set to 100; after, the monthly average of January 2006 is
+  100). Values before and after are not on the same indexation basis unless
+  the Board's history has been restated; state this in the thesis.
+- The unit code reads `Index:_1997_Jan_100` ("Index: 1997 Jan = 100" in
+  `H10_struct.xml`), which does not match the January 2006 base in the
+  Technical Q&As. Stored as returned.
+- **Latest vintage only.** Past values are revised when trade weights change
+  (about once a year; the Board's pages give 2025-03-24 and 2026-02-02 for
+  recent weight changes). The zip has no archive, so history before our
+  first run reflects the latest weights, not what was public at the time.
+  Revisions after our first run are warned (and can be long, the open
+  `diff_revisions` issue).
+- No data before 2006-01-02 for these three series (the goods-only `V0.`
+  versions start earlier but ended in 2019 and are not collected).
+- The `published_at` rule assumes the weekly Monday release; it was not
+  checked against historical release dates.

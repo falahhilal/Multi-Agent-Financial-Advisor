@@ -176,7 +176,13 @@ Covers everything about the Pakistan economy and monetary policy.
 5. **FX (PKR/USD)** daily or monthly series.
 6. **Reserves and money supply** from SBP releases.
 7. **World Bank indicators** for Pakistan through `wbgapi`.
-8. **FRED series** that act as external drivers (US rates, oil, dollar index).
+8. **US external drivers from their original publishers, not FRED** (FRED's
+   terms forbid storing or archiving its content; Proposed ADR-0006): the
+   effective federal funds rate from the New York Fed Markets Data API, the
+   daily Treasury par yield curve (all maturities) from the US Treasury XML
+   feed, and the nominal broad, AFE and EME dollar indexes from the Federal
+   Reserve Board H.10 release XML. Brent comes from the World Bank Pink Sheet
+   in the World Bank loader (item 7), not from EIA.
 9. **PDF parsing test:** run `pdfplumber` over each SBP document type. Note
    which pages are scanned and need an OCR fallback. Keep page numbers and
    section headings, because citations need them.
