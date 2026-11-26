@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+from typing import Literal
 
 from pydantic import AwareDatetime, Field, model_validator
 
@@ -85,7 +86,7 @@ class MacroFinding(ContractModel):
 
     finding: NonEmptyString
 
-    impact: str
+    impact: Literal["positive", "negative", "mixed", "neutral"]
 
     explanation: NonEmptyString
 
@@ -99,11 +100,11 @@ class MacroAgentOutput(ContractModel):
 
     schema_version: str = "2.0"
 
-    status: str
+    status: Literal["success", "partial", "failed"]
 
     as_of: AwareDatetime
 
-    macro_stance: str
+    macro_stance: Literal["hawkish", "neutral", "dovish"]
 
     key_findings: list[MacroFinding] = Field(
         min_length=1

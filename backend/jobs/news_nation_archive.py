@@ -331,7 +331,7 @@ class _Budget:
         self.done = 0
 
     def stop_reason(self) -> str | None:
-        if time.monotonic() > self.deadline:
+        if time.monotonic() >= self.deadline:
             return "time budget reached"
         if self.limit is not None and self.done >= self.limit:
             return f"limit {self.limit} reached"

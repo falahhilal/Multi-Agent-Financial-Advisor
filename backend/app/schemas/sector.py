@@ -1,3 +1,4 @@
+from typing import Literal
 from datetime import date
 from decimal import Decimal
 
@@ -123,7 +124,7 @@ class SectorAgentOutput(ContractModel):
 
     schema_version: str = "2.0"
 
-    status: str
+    status: Literal["success", "partial", "failed"]
 
     as_of_date: date
 
