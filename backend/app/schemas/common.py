@@ -44,7 +44,16 @@ class SourceCitation(ContractModel):
 class AgentMetadata(ContractModel):
     """Common metadata returned by an agent."""
 
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
     status: str = "success"
     as_of_date: datetime
     warnings: list[str] = Field(default_factory=list)
+
+class RetrievedPassage(ContractModel):
+    """A retrieved document passage supplied to an agent."""
+
+    passage_id: NonEmptyString
+
+    text: NonEmptyString
+
+    source_citation_id: NonEmptyString

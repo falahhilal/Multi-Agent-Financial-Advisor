@@ -1,6 +1,5 @@
 from datetime import date
 from decimal import Decimal
-from typing import Literal
 
 from pydantic import Field, model_validator
 
@@ -10,6 +9,8 @@ from .common import (
     NonEmptyString,
     SourceCitation,
 )
+
+from .market_view import MarketView
 
 
 class CompanySnapshot(ContractModel):
@@ -49,11 +50,7 @@ class NewsSentimentItem(ContractModel):
 
     published_at: date
 
-    sentiment_label: Literal[
-        "positive",
-        "neutral",
-        "negative",
-    ]
+    sentiment_label: str
 
     sentiment_score: Decimal = Field(
         ge=Decimal("-1"),
@@ -74,7 +71,7 @@ class NewsSentimentItem(ContractModel):
 class SectorAgentInput(ContractModel):
     """Input to Sector Analysis Agent."""
 
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
 
     as_of_date: date
 
@@ -121,78 +118,18 @@ class SectorAgentInput(ContractModel):
         return self
 
 
-class StockAssessment(ContractModel):
-    """Analysis of an individual PSX stock."""
-
-    ticker: NonEmptyString
-
-    sector: NonEmptyString
-
-    outlook: Literal[
-        "positive",
-        "neutral",
-        "negative",
-    ]
-
-    rationale: NonEmptyString
-
-    confidence_score: ConfidenceScore
-
-    source_citation_ids: list[NonEmptyString] = Field(
-        min_length=1
-    )
-
-
-class SectorAssessment(ContractModel):
-    """Overall analysis of a sector."""
-
-    sector: NonEmptyString
-
-    outlook: Literal[
-        "positive",
-        "neutral",
-        "negative",
-    ]
-
-    explanation: NonEmptyString
-
-    confidence_score: ConfidenceScore
-
-    analyzed_tickers: list[NonEmptyString] = Field(
-        default_factory=list
-    )
-
-    source_citation_ids: list[NonEmptyString] = Field(
-        min_length=1
-    )
-
-
 class SectorAgentOutput(ContractModel):
     """Output from Sector Analysis Agent."""
 
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
 
-    status: Literal[
-        "success",
-        "partial",
-        "failed",
-    ]
+    status: str
 
     as_of_date: date
 
-    sector_assessments: list[SectorAssessment] = Field(
-        min_length=1
-    )
+    market_view: MarketView
 
-    stock_assessments: list[StockAssessment] = Field(
-        default_factory=list
-    )
-
-    overall_sentiment: Literal[
-        "positive",
-        "neutral",
-        "negative",
-    ]
+    sentiment_summary: NonEmptyString
 
     confidence_score: ConfidenceScore
 
@@ -203,3 +140,28 @@ class SectorAgentOutput(ContractModel):
     warnings: list[str] = Field(
         default_factory=list
     )
+
+    @model_validator(mode="after")
+    def validate_output_citations(self):
+        citation_ids = {
+            citation.source_id
+            for citation in self.source_citations
+        }
+
+        referenced_ids = set()
+
+        for sector in self.market_view.sector_views:
+            referenced_ids.update(sector.source_citation_ids)
+
+        referenced_ids.update(
+            self.market_view.overall_stock_view.source_citation_ids
+        )
+
+        missing = referenced_ids - citation_ids
+
+        if missing:
+            raise ValueError(
+                f"Unknown source citations in Sector output: {missing}"
+            )
+
+        return self
