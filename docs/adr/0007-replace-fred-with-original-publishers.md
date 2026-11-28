@@ -1,4 +1,6 @@
-# ADR-0006: Replace FRED with the original publishers of US macro series
+# ADR-0007: Replace FRED with the original publishers of US macro series
+
+Originally numbered 0006; renumbered 2026-11-28 because ADR-0006 on main is the market debate ADR.
 
 - **Status:** Proposed (needs agreement from Falah and Maryam)
 - **Date:** 2026-11-23

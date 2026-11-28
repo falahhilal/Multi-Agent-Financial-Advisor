@@ -2,7 +2,7 @@
 
 Source: New York Fed Markets Data API (no key),
 ``https://markets.newyorkfed.org/api/rates/unsecured/effr/...``. Replaces
-FRED, whose terms forbid storing its content (Proposed ADR-0006).
+FRED, whose terms forbid storing its content (Proposed ADR-0007).
 
 Each run:
 
@@ -200,7 +200,7 @@ NOTES = (
     "API gives them (records before 2016-03-01 carry intraDayLow/intraDayHigh/stdDeviation "
     "instead of percentiles and volume; before 2008-12-16 a single target in targetRateFrom). "
     "2003-07-20 is a Sunday record identical to 2003-07-21, kept as returned. observation_status = revisionIndicator, status_comments = "
-    "footnoteId, as returned (empty -> null). Not FRED (Proposed ADR-0006). Re-queryable; the NY "
+    "footnoteId, as returned (empty -> null). Not FRED (Proposed ADR-0007). Re-queryable; the NY "
     "Fed revises only on the same day except in extraordinary circumstances, but each run's raw "
     "responses are kept (append_only_snapshot) and revisions against the previous run are "
     "warned. published_at = next EFFR date + 1 day 23:59:59 Asia/Karachi in UTC (basis "

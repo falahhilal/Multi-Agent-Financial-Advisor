@@ -4,7 +4,7 @@
 Source: US Treasury interest-rate XML feed (no key),
 ``https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=YYYY``,
 one request per year from 1990. Replaces FRED, whose terms forbid storing its
-content (Proposed ADR-0006).
+content (Proposed ADR-0007).
 
 Long format: one row per maturity per date where the feed has a value, with
 ``series_code`` = the feed element (``BC_10YEAR`` etc.) from the fixed table
@@ -214,7 +214,7 @@ NOTES = (
     "series_code is the feed element, e.g. BC_10YEAR). BC_30YEARDISPLAY and Id are kept in raw "
     "and interim only. Maturities start at different dates and the 30-year was not published "
     "2002-02-18 to 2006-02-08 (fixed table in the loader). Methodology changed to monotone "
-    "convex on 2021-12-06. Not FRED (Proposed ADR-0006). Treasury may correct values without "
+    "convex on 2021-12-06. Not FRED (Proposed ADR-0007). Treasury may correct values without "
     "notice, so each run's raw responses are kept (append_only_snapshot) and revisions against "
     "the previous run are warned. No explicit Treasury licence was found; use rests on 17 U.S.C. "
     "105 (no US copyright in federal works). published_at = observation_date + 1 day 23:59:59 "

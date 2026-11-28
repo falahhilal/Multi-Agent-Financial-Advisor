@@ -661,7 +661,7 @@ Known gaps and limits:
 
 FRED is not used: its terms forbid storing, caching or archiving its content
 and using it to develop software, and every loader here stores snapshots on
-HF (Proposed [ADR-0006](adr/0006-replace-fred-with-original-publishers.md)).
+HF (Proposed [ADR-0007](adr/0007-replace-fred-with-original-publishers.md)).
 The three datasets below come from the institutions that produce the series.
 They need no API key. Shared helpers are in `backend/jobs/us_macro.py`; the
 generic file, revision and manifest helpers come from

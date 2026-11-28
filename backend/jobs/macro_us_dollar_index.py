@@ -4,7 +4,7 @@
 Source: Federal Reserve Board H.10 release XML (no key),
 ``https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip``, one
 request per run. Not the Data Download Program (being retired) and not FRED,
-whose terms forbid storing its content (Proposed ADR-0006).
+whose terms forbid storing its content (Proposed ADR-0007).
 
 The zip (manual download 2026-11-23) holds ``H10_data.xml`` (SDMX-ML compact,
 all 87 H.10/G.5 series), ``H10_struct.xml``, ``H10_H10.xsd`` and
@@ -175,7 +175,7 @@ NOTES = (
     "no archive, and revises past values when trade weights change, so each run's zip is kept "
     "(append_only_snapshot) and revisions against the previous run are warned; history before "
     "our first run is the latest vintage. Not the Data Download Program and not FRED (Proposed "
-    "ADR-0006). Public domain unless otherwise indicated; cite the Board. published_at = the "
+    "ADR-0007). Public domain unless otherwise indicated; cite the Board. published_at = the "
     "Monday after the observation's week + 2 days 23:59:59 Asia/Karachi in UTC (basis "
     "h10_following_monday_plus_2d)."
 )
