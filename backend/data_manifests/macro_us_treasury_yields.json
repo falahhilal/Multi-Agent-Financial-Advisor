@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "id": "macro_us_treasury_yields",
+  "stream": "macro",
+  "dataset": "us_treasury_yields",
+  "source": "US Treasury interest-rate XML feed <https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=YYYY>, daily par yield curve, years 1990-2026 (37 requests)",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-23T13:46:10Z",
+  "script": "backend/jobs/macro_us_treasury_yields.py",
+  "git_commit": "341431d8f36a9f6884322b6593359ae605288de5",
+  "git_dirty": false,
+  "row_count": 100160,
+  "file_count": 40,
+  "date_range": {
+    "min": "1990-01-02",
+    "max": "2026-11-20"
+  },
+  "files": [
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1990.xml",
+      "bytes": 321673,
+      "sha256": "49f771bcb032d9bc482ee1b943769f16414f3d39cddcf9299a9d8413d3e2151e"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1991.xml",
+      "bytes": 321673,
+      "sha256": "62599fb8fd41a700f59ee35abd2b32ebbe9dc0cb2f3898b9496c99b02557664b"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1992.xml",
+      "bytes": 322957,
+      "sha256": "dea17a19be7b58430525db9bddc92ef885d59d04904eb8c636c8efda2351c367"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1993.xml",
+      "bytes": 324897,
+      "sha256": "04fcc5830b5be3caf683c6d5994d14a970568a77aed2cbb052cda18bc50ae2d5"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1994.xml",
+      "bytes": 333337,
+      "sha256": "367ef7ef9085834d5291498f5a3c314146814ba42b10142cc4e3a33a6647c08c"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1995.xml",
+      "bytes": 334115,
+      "sha256": "a92314799949cd912d478fc1edeb95623c828d22da6b20bebcb6a9aad7b677e2"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1996.xml",
+      "bytes": 336442,
+      "sha256": "729af57913e4079c216651f92e0410457e43a6e678f5a3f800aa81eb9a0f5db6"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1997.xml",
+      "bytes": 333839,
+      "sha256": "0f247e844646577b036649d1ad3961f81f86c391f2e906688d23abcec64cf577"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1998.xml",
+      "bytes": 334634,
+      "sha256": "246061ec7bf61abadb22623a7ba655173b402c113dfdf5ec2a3a0ccc7684df21"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_1999.xml",
+      "bytes": 335397,
+      "sha256": "1bc7f3758dcf8f21dc2b3b52f26c482a2170576fe1ab61eee4e4108e95435ef2"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2000.xml",
+      "bytes": 335634,
+      "sha256": "d64c98c46a5d6d81a443d1f539efd41514c9f2c6e150a7bfa1c1497b7edb83d3"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2001.xml",
+      "bytes": 337357,
+      "sha256": "89a2a27c2e6e8acb4625b3dfa2f1ffc870d6f4b4313dca54ecf2986ca9a80c1b"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2002.xml",
+      "bytes": 336337,
+      "sha256": "b4f7157c6844ed6fc96bb673420e3acc31ba9465c6869e73c03a47d6316d63bf"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2003.xml",
+      "bytes": 334673,
+      "sha256": "7adcc2106217e5db371e36359ee77f906b2ff0ac024a8c12a6ceaeca0b17cd14"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2004.xml",
+      "bytes": 334673,
+      "sha256": "506561c6715c2431cdc167064ccc50b83422974430815a53483901c47eb0c9e8"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2005.xml",
+      "bytes": 334673,
+      "sha256": "4e64a78ad784e421034760f470b9f2f5a2d9212594ba524fdf0e9b6c5a9d64a6"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2006.xml",
+      "bytes": 346321,
+      "sha256": "56676148e9d00b7c1582308ee9d3f31669cfa6441f712776d79184f337c80c10"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2007.xml",
+      "bytes": 349061,
+      "sha256": "cbbb559ec96be53d57c971604b81263952e875443bbcbdc66108ebc9507817a6"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2008.xml",
+      "bytes": 348905,
+      "sha256": "f6b9f1b731d33616f1ec263a0afde51933ee8e3af9b0061b5fa1a46427712f1d"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2009.xml",
+      "bytes": 347673,
+      "sha256": "3fa87b9b80078d9f3a9297b286becf0c4c8d15e17dbce06e12a870239d2ebbe6"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2010.xml",
+      "bytes": 349887,
+      "sha256": "55ecf831f5c296ffafd6b19521096f8a5b10a7f0b63eac923eef3a5d76825e42"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2011.xml",
+      "bytes": 347673,
+      "sha256": "d3c7d8aee82bb2c58ee382de602ca859bf677c862dcc63d6c485edc9bf974f6b"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2012.xml",
+      "bytes": 347673,
+      "sha256": "b2e3b09b89cd8ee280ab5785ccb332176067695b4b05066c1a10eac61e4bfed3"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2013.xml",
+      "bytes": 347673,
+      "sha256": "f1347ee4467ba455cc25059124b151567fe88379d45d6ca2c8e91a3c70f683b9"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2014.xml",
+      "bytes": 347673,
+      "sha256": "9af186a63f33974c915149466dd46809266232252166720da8291beb66257389"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2015.xml",
+      "bytes": 349061,
+      "sha256": "2a6cc7bdc6b8bdca7fcd5426e65a3eecd7c433f8627555d35b51ffc340340243"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2016.xml",
+      "bytes": 347673,
+      "sha256": "f4cc5ad76ff4b6fe91a4422bdf76325bd98b3c0793d4a9b774808cd936a67c57"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2017.xml",
+      "bytes": 347673,
+      "sha256": "6b3866e4ae7be7c42b73d11fdf56df03aa8cb4e231b881a6f02a8392467a8e22"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2018.xml",
+      "bytes": 348937,
+      "sha256": "108157185e93e8d74fc7ac7e7f31f71a68411bea886f341e0f4336250971023f"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2019.xml",
+      "bytes": 360673,
+      "sha256": "e2906483b941074041025c0c2065ff41d70972fbd7cfa8d0f17a89fe27474707"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2020.xml",
+      "bytes": 362113,
+      "sha256": "df9c67fdf0399d7adc7127bdaad854147978196f8547f938fc97291433056db5"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2021.xml",
+      "bytes": 362113,
+      "sha256": "a8a48006fd28672e07a3ae9515bee51906f6a4caf788cb3fdf3e0d92e406083a"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2022.xml",
+      "bytes": 343983,
+      "sha256": "7326b15063bc9954f6bc5e168a4c6f20ab7de400c3f988c5a423a59d18607265"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2023.xml",
+      "bytes": 284423,
+      "sha256": "680034fef98e3fc6b0c085ddffa2de48563154999870a1967432de2aa0729737"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2024.xml",
+      "bytes": 284423,
+      "sha256": "1354ecc52b4be303b5b4c200d24e310432547610db2dfa6bc6e8fa06ccc21bd3"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2025.xml",
+      "bytes": 345104,
+      "sha256": "f5fc47ccf34b71ad7101d9796d312a8d176be380698ba5efcb91e1ebd9859abe"
+    },
+    {
+      "path": "macro/us_treasury_yields/raw/fetch_date=2026-11-23/20261123T133345Z_par_yield_2026.xml",
+      "bytes": 345208,
+      "sha256": "80fb996d1364c97ebfdd9346de1b08896c15fbc323f743db8de0719baef4ee3b"
+    },
+    {
+      "path": "macro/us_treasury_yields/interim/fetch_date=2026-11-23/observations-20261123T133345Z.parquet",
+      "bytes": 210649,
+      "sha256": "7ee072e77e327c2925b2f06da7e32e0dabf8ff9145731d7624f6573c518b21dd"
+    },
+    {
+      "path": "macro/us_treasury_yields/processed/us_treasury_yields.parquet",
+      "bytes": 451497,
+      "sha256": "6113ff353aa5d391293d32c6f9493cc46ba583035ff5a024367fd6c96b786bd9"
+    },
+    {
+      "path": "macro/us_treasury_yields/runs/fetch_date=2026-11-23/run-20261123T133345Z.json",
+      "bytes": 24050,
+      "sha256": "144a4687f9b1576503c06fd4075e78550a3f5c931bb3ba2657df6b4d4525d1c0"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/us_treasury_yields/",
+  "hf_revision": "c60c868cae84047bfa70774afafacbf607c0b3c3",
+  "notes": "US Treasury interest-rate XML feed, daily Treasury par yield curve, all maturities (1 month to 30 years), percent, one row per maturity per date with a value (long format; series_code is the feed element, e.g. BC_10YEAR). BC_30YEARDISPLAY and Id are kept in raw and interim only. Maturities start at different dates and the 30-year was not published 2002-02-18 to 2006-02-08 (fixed table in the loader). Methodology changed to monotone convex on 2021-12-06. Not FRED (Proposed ADR-0006). Treasury may correct values without notice, so each run's raw responses are kept (append_only_snapshot) and revisions against the previous run are warned. No explicit Treasury licence was found; use rests on 17 U.S.C. 105 (no US copyright in federal works). published_at = observation_date + 1 day 23:59:59 Asia/Karachi in UTC (basis treasury_same_day_plus_1d).",
+  "warnings": [],
+  "extra": {
+    "rows_per_series": {
+      "BC_1MONTH": 6329,
+      "BC_1_5MONTH": 441,
+      "BC_2MONTH": 2024,
+      "BC_3MONTH": 9225,
+      "BC_4MONTH": 1022,
+      "BC_6MONTH": 9228,
+      "BC_1YEAR": 9228,
+      "BC_2YEAR": 9228,
+      "BC_3YEAR": 9228,
+      "BC_5YEAR": 9228,
+      "BC_7YEAR": 9228,
+      "BC_10YEAR": 9228,
+      "BC_20YEAR": 8289,
+      "BC_30YEAR": 8234
+    },
+    "dates": 9229,
+    "dates_per_year": {
+      "1990": 250,
+      "1991": 250,
+      "1992": 251,
+      "1993": 250,
+      "1994": 249,
+      "1995": 250,
+      "1996": 252,
+      "1997": 250,
+      "1998": 250,
+      "1999": 251,
+      "2000": 251,
+      "2001": 248,
+      "2002": 250,
+      "2003": 250,
+      "2004": 250,
+      "2005": 250,
+      "2006": 250,
+      "2007": 251,
+      "2008": 251,
+      "2009": 250,
+      "2010": 252,
+      "2011": 250,
+      "2012": 250,
+      "2013": 250,
+      "2014": 250,
+      "2015": 251,
+      "2016": 250,
+      "2017": 250,
+      "2018": 249,
+      "2019": 250,
+      "2020": 251,
+      "2021": 251,
+      "2022": 249,
+      "2023": 250,
+      "2024": 250,
+      "2025": 249,
+      "2026": 223
+    },
+    "published_at_basis": "treasury_same_day_plus_1d",
+    "citation": "U.S. Department of the Treasury, Daily Treasury Par Yield Curve Rates, 02-Jan-1990 to 20-Nov-2026, home.treasury.gov interest rate XML feed (daily_treasury_yield_curve), retrieved 23-Nov-2026.",
+    "last_run": {
+      "run_id": "20261123T133345Z",
+      "fetched_at": "2026-11-23T13:33:45Z",
+      "end_date": "2026-11-23",
+      "git": {
+        "commit": "341431d8f36a9f6884322b6593359ae605288de5",
+        "dirty": false
+      },
+      "probe_year": 2025,
+      "rows": 100160,
+      "revisions": {
+        "previous": null
+      },
+      "published_at_basis": "treasury_same_day_plus_1d",
+      "citation": "U.S. Department of the Treasury, Daily Treasury Par Yield Curve Rates, 02-Jan-1990 to 20-Nov-2026, home.treasury.gov interest rate XML feed (daily_treasury_yield_curve), retrieved 23-Nov-2026."
+    }
+  }
+}

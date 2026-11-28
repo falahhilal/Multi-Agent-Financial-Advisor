@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "id": "macro_us_dollar_index",
+  "stream": "macro",
+  "dataset": "us_dollar_index",
+  "source": "Federal Reserve Board H.10 release XML <https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip>, H10_data.xml, series JRXWTFB_N.B, JRXWTFN_N.B, JRXWTFO_N.B",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-23T13:32:25Z",
+  "script": "backend/jobs/macro_us_dollar_index.py",
+  "git_commit": "341431d8f36a9f6884322b6593359ae605288de5",
+  "git_dirty": false,
+  "row_count": 15693,
+  "file_count": 4,
+  "date_range": {
+    "min": "2006-01-02",
+    "max": "2026-11-13"
+  },
+  "files": [
+    {
+      "path": "macro/us_dollar_index/raw/fetch_date=2026-11-23/20261123T133158Z_FRB_h10_xml.zip",
+      "bytes": 2088268,
+      "sha256": "c424bcdfe0947e48d9bc3937fd3a9e82bf144e5ac6454ae95a68346196394c77"
+    },
+    {
+      "path": "macro/us_dollar_index/interim/fetch_date=2026-11-23/observations-20261123T133158Z.parquet",
+      "bytes": 121776,
+      "sha256": "594d88bf1eeaf1bbde23e4a753413f6a84428dd26832937c6b8c4fd71e243ded"
+    },
+    {
+      "path": "macro/us_dollar_index/processed/us_dollar_index.parquet",
+      "bytes": 155593,
+      "sha256": "344cc0a90efeba3652ab4799a0ae515fb8a9da27cb2bc44ca1236d20b73e6256"
+    },
+    {
+      "path": "macro/us_dollar_index/runs/fetch_date=2026-11-23/run-20261123T133158Z.json",
+      "bytes": 20174,
+      "sha256": "6c1464366c8af4529445a5ddb86baf7ecac756030a4af0ca4d0403f295795233"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/us_dollar_index/",
+  "hf_revision": "0cc6cf979f280377ca7d3ffb9d076e07de5f1edc",
+  "notes": "Federal Reserve Board H.10 release XML (FRB_h10_xml.zip), the three daily nominal dollar indexes (broad, AFE, EME), long format, one row per series per date with status A; ND (no data, value -9999) rows are kept in interim and listed in the run log, not in processed. Unit code as returned (Index:_1997_Jan_100, although the Technical Q&As give a January 2006 base). Effective 2019-06-24 the Board changed the indexation of the daily broad, AFE and EME indexes (H.10 Technical Q&As). The Board overwrites the zip at each release and keeps no archive, and revises past values when trade weights change, so each run's zip is kept (append_only_snapshot) and revisions against the previous run are warned; history before our first run is the latest vintage. Not the Data Download Program and not FRED (Proposed ADR-0006). Public domain unless otherwise indicated; cite the Board. published_at = the Monday after the observation's week + 2 days 23:59:59 Asia/Karachi in UTC (basis h10_following_monday_plus_2d).",
+  "warnings": [],
+  "extra": {
+    "rows_per_series": {
+      "JRXWTFB_N.B": 5231,
+      "JRXWTFN_N.B": 5231,
+      "JRXWTFO_N.B": 5231
+    },
+    "release_prepared": "2026-11-16T16:47:01",
+    "series_attributes": {
+      "JRXWTFB_N.B": {
+        "CURRENCY": "NA",
+        "FREQ": "9",
+        "FX": "BRD",
+        "SERIES_NAME": "JRXWTFB_N.B",
+        "UNIT": "Index:_1997_Jan_100",
+        "UNIT_MULT": "1"
+      },
+      "JRXWTFN_N.B": {
+        "CURRENCY": "NA",
+        "FREQ": "9",
+        "FX": "AFE",
+        "SERIES_NAME": "JRXWTFN_N.B",
+        "UNIT": "Index:_1997_Jan_100",
+        "UNIT_MULT": "1"
+      },
+      "JRXWTFO_N.B": {
+        "CURRENCY": "NA",
+        "FREQ": "9",
+        "FX": "EME",
+        "SERIES_NAME": "JRXWTFO_N.B",
+        "UNIT": "Index:_1997_Jan_100",
+        "UNIT_MULT": "1"
+      }
+    },
+    "published_at_basis": "h10_following_monday_plus_2d",
+    "citation": "Board of Governors of the Federal Reserve System, H.10 Foreign Exchange Rates, Nominal Broad, Advanced Foreign Economies and Emerging Market Economies U.S. Dollar Indexes (JRXWTFB_N.B, JRXWTFN_N.B, JRXWTFO_N.B), daily, 02-Jan-2006 to 13-Nov-2026, release prepared 2026-11-16T16:47:01, federalreserve.gov H.10 release XML, retrieved 23-Nov-2026.",
+    "last_run": {
+      "run_id": "20261123T133158Z",
+      "fetched_at": "2026-11-23T13:31:58Z",
+      "end_date": "2026-11-23",
+      "git": {
+        "commit": "341431d8f36a9f6884322b6593359ae605288de5",
+        "dirty": false
+      },
+      "request": {
+        "url": "https://www.federalreserve.gov/releases/h10/data/FRB_h10_xml.zip",
+        "http_status": 200,
+        "bytes": 2088268,
+        "raw_file": "raw/fetch_date=2026-11-23/20261123T133158Z_FRB_h10_xml.zip"
+      },
+      "release": {
+        "message_id": "H10",
+        "message_name": "G.5/H.10 - Foreign Exchange Rates",
+        "prepared": "2026-11-16T16:47:01",
+        "series_in_file": 87
+      },
+      "rows": 15693,
+      "revisions": {
+        "previous": null
+      },
+      "published_at_basis": "h10_following_monday_plus_2d",
+      "citation": "Board of Governors of the Federal Reserve System, H.10 Foreign Exchange Rates, Nominal Broad, Advanced Foreign Economies and Emerging Market Economies U.S. Dollar Indexes (JRXWTFB_N.B, JRXWTFN_N.B, JRXWTFO_N.B), daily, 02-Jan-2006 to 13-Nov-2026, release prepared 2026-11-16T16:47:01, federalreserve.gov H.10 release XML, retrieved 23-Nov-2026."
+    }
+  }
+}

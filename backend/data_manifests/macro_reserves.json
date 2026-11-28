@@ -1,0 +1,724 @@
+{
+  "schema_version": 1,
+  "id": "macro_reserves",
+  "stream": "macro",
+  "dataset": "reserves",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Gold and Foreign Exchange Reserves of Pakistan' (TS_GP_EXT_PAKRES_M), series TS_GP_EXT_PAKRES_M.Z00010 to TS_GP_EXT_PAKRES_M.Z00070 (19)",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-22T18:22:11Z",
+  "script": "backend/jobs/macro_reserves.py",
+  "git_commit": "b87311509476526fe2250fa33de1c306bedbe77b",
+  "git_dirty": false,
+  "row_count": 7112,
+  "file_count": 41,
+  "date_range": {
+    "min": "1948-06-30",
+    "max": "2026-10-31"
+  },
+  "files": [
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00010_meta.json",
+      "bytes": 505,
+      "sha256": "7de3573c904542732109e81a5aeec68b1154deeab7a045c6fa44c82df681a1bc"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00010_data.json",
+      "bytes": 102669,
+      "sha256": "c21bc982ea3e7e0d4751b5a2a01ebd9c8ff1063c267ad2a594a6741d16daba0d"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00011_meta.json",
+      "bytes": 485,
+      "sha256": "b9c5b6d38e93f90e768d514b4cee488f5c6e3837bc4cbaade32975c04f0b067e"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00011_data.json",
+      "bytes": 110539,
+      "sha256": "1f6a194fb2880e5189b7d4556c92d8eb48b64d7704153f00093b060398cc33d3"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00012_meta.json",
+      "bytes": 504,
+      "sha256": "e40287ba442dbc64613c1c4ded687d8f54beb23a504dd1a3a1170e9bde8ccb9b"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00012_data.json",
+      "bytes": 43922,
+      "sha256": "1ec3e15f7eaa46e0936b8c7949094967c5024da35f1ddd6e7311279038a4cca8"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00013_meta.json",
+      "bytes": 587,
+      "sha256": "81b95ea14e14e5185db248bb1a0f278bfcef5c4f57f17a9b4d30aa4b5af963c0"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00013_data.json",
+      "bytes": 109355,
+      "sha256": "568053a4c1dc5243f1dde8f1fa42d0044894629390d71c97a04751059afd6c82"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00014_meta.json",
+      "bytes": 475,
+      "sha256": "82354d262add6dba557a129b39b3039b52df48b85a841db292dcf62d53a3b52c"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00014_data.json",
+      "bytes": 13435,
+      "sha256": "c326b950b28600d8050fae7ede311a38beb73e6f82c45d67ac0c415188c4bfef"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00015_meta.json",
+      "bytes": 467,
+      "sha256": "09585f2acb60a29e33666d43a1d4f85b4fc8b10e9cab8b0c66ff9540935b63db"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00015_data.json",
+      "bytes": 12441,
+      "sha256": "c6469a354a3133b27b4e895ec9121f02f9a8f87ae86b115cea51efb345cd9e04"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00016_meta.json",
+      "bytes": 557,
+      "sha256": "152f2f7b10356abc588fa3e1f2aa93b33021729b32a2e106d8acde892b5c4921"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00016_data.json",
+      "bytes": 15268,
+      "sha256": "6af9754a90830d0591b73c933dc1dbdbb370790f96bee7bb5bc4f94aaf4c08f6"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00017_meta.json",
+      "bytes": 513,
+      "sha256": "9af8378f5a6e30a213270ddd4dd437051d3c8ddca82317d2f1ae7285953c0953"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00017_data.json",
+      "bytes": 54838,
+      "sha256": "e5336cc152334857a74b5c74832fcedc906022b9b4387b2384f221af288f46e2"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00018_meta.json",
+      "bytes": 548,
+      "sha256": "1fb187328122c669ac6ef44a2a34229b2dc044502a648f826e25d7d61550f8a3"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00018_data.json",
+      "bytes": 104392,
+      "sha256": "bbaadb6c477398095d6e281547a413d2dc40d6ceaf1dbb52e8e2470e0a39a17d"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00019_meta.json",
+      "bytes": 485,
+      "sha256": "c16fe699ca0fa5f5def9a00e98f3e386176b48ea945973a240d02b90a0cd3d5b"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00019_data.json",
+      "bytes": 41646,
+      "sha256": "d944238dd79ee148f0ecc1ea950cbf5f49942e001f1802a50768ea10f1f4e4aa"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00020_meta.json",
+      "bytes": 709,
+      "sha256": "3c6f0bfb97cfb689407df34dbbbb308d4840960873c612ad9e8de0657e39b467"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00020_data.json",
+      "bytes": 106531,
+      "sha256": "4b8202362d7f7c547c05c60b6f65f941a222eef0a03d5eead274387c5698393b"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00021_meta.json",
+      "bytes": 508,
+      "sha256": "e16d9484c6f607822658bc6a9f213647fbd53c7d443816e32a1372fa50c3f086"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00021_data.json",
+      "bytes": 41154,
+      "sha256": "b8e7495653424ddd563fe719207cbba6591f229021bf6befd6ade95fc8487e8a"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00022_meta.json",
+      "bytes": 517,
+      "sha256": "a1042199bec8e4d64225be8cebe2ff6eee752242674847c1d64c0d2ba046477c"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00022_data.json",
+      "bytes": 44677,
+      "sha256": "0550a654462386e2f057f5b311f1598fcb2efeef537caa4292138b5e6cf35f41"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00023_meta.json",
+      "bytes": 495,
+      "sha256": "46bb27a9fe0778ec4e5e64b9b2173b95254fe28d0d57039ab28d70f26cd726af"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00023_data.json",
+      "bytes": 41698,
+      "sha256": "915bef312fc8eef3e1a865fcf6f2aadab1c729393425ce3ae74e22d38550e481"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00030_meta.json",
+      "bytes": 697,
+      "sha256": "9cd64b3b74c910d981152d1319b086e3403ca3d17bba4e0af318539172d94763"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00030_data.json",
+      "bytes": 31418,
+      "sha256": "aa26f2d1e9f466e1ee717cb8ed218647b5cbce368271799e3529985d46368746"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00040_meta.json",
+      "bytes": 613,
+      "sha256": "637ccd1cfebd195fa2bae0ee860b692ea8b355de6aa8900c2ff2b854df51ec32"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00040_data.json",
+      "bytes": 103888,
+      "sha256": "8e64a976ee4f02761d49a475019531a06f8954e3b6e15241dc81694fb481c389"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00050_meta.json",
+      "bytes": 535,
+      "sha256": "628f7655411b4343e1eba3d7add7349fb171f7867d818506578ab8d94356a28e"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00050_data.json",
+      "bytes": 31887,
+      "sha256": "bc84c1bb76c24f83842a26af79d2dbc3da5be457a91c311e4498644b8a6f10a1"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00060_meta.json",
+      "bytes": 577,
+      "sha256": "7086d68aebfaad2a25cfd553e040f706e4079400ad97e0e87d4b1a374db46574"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00060_data.json",
+      "bytes": 28048,
+      "sha256": "411f69dd1218e1b9919f41580e7a48b6dcac0af33281ada4f7065797cc9b83a7"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00070_meta.json",
+      "bytes": 633,
+      "sha256": "edd3f918ac4507e42484d24709418c79edbc8cee76558ae169d42ca44f12ba11"
+    },
+    {
+      "path": "macro/reserves/raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00070_data.json",
+      "bytes": 104102,
+      "sha256": "9876f404536fd9690fbe559b809a02a553ea09ddf4b60f320e932da8be3fe6cc"
+    },
+    {
+      "path": "macro/reserves/interim/fetch_date=2026-11-22/observations-20261122T182016Z.parquet",
+      "bytes": 35398,
+      "sha256": "ee8dcbc8ceddca7a2979befe6ae1ed252027279105a473c2bd53089877defc5b"
+    },
+    {
+      "path": "macro/reserves/processed/reserves.parquet",
+      "bytes": 45143,
+      "sha256": "d5d84fee625a202b9b40fd4c3391f29ea9629d0954155c8a053d185a5d3e10a8"
+    },
+    {
+      "path": "macro/reserves/runs/fetch_date=2026-11-22/run-20261122T182016Z.json",
+      "bytes": 25772,
+      "sha256": "03e3dc6b2587dc0a120e1c5f411b342b50481a5e906c451f034145cb9a8946e2"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/reserves/",
+  "hf_revision": "3ba9355b1188dedde9dd05a3e995868b1de52c56",
+  "notes": "SBP EasyData API, Gold and Foreign Exchange Reserves of Pakistan. 19 series, Million USD, one row per series per date (long format; series_code identifies the series). Annual values (30 June) 1948-1970, partial 1971, month-end from 1972; series have different spans (fixed table in the loader). Data kept as returned: Z00060 (Total Liquid FX Reserves) and Z00070 (Total Reserve Assets) end at 2024-09 and are not derived; consumers can rebuild them as Z00060 = Z00030 + Z00050 and Z00070 = Z00010 + Z00020 + Z00040 (checked wherever all parts exist, tolerance 1). Negative values are real in Z00018 and Z00040. Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept (append_only_snapshot); revisions and status-only changes against the previous run are logged as warnings. EasyData returns the latest revised values, not first-release vintages. Series names have leading dots and spaces removed in processed; interim keeps them as returned. published_at = 25th of the month after observation_date 23:59:59 Asia/Karachi in UTC (basis bop_release_25th_next_month).",
+  "warnings": [],
+  "extra": {
+    "series": {
+      "TS_GP_EXT_PAKRES_M.Z00010": {
+        "name": "Gold reserves",
+        "meta_name_as_returned": "Gold reserves",
+        "series_code": "Z00010",
+        "expected_start": "1948-06-30",
+        "expected_end": null,
+        "meta_start_date": "1948-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 102669,
+        "rows": 688,
+        "first_observation": "1948-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 30,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00010_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00010_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00011": {
+        "name": "Special Drawing rights holdings",
+        "meta_name_as_returned": "Special Drawing rights holdings",
+        "series_code": "Z00011",
+        "expected_start": "1971-06-30",
+        "expected_end": null,
+        "meta_start_date": "1971-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 110539,
+        "rows": 665,
+        "first_observation": "1971-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 7,
+        "negative_values": 0,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00011_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00011_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00012": {
+        "name": "Cash Foreign Currency with SBP-BSC",
+        "meta_name_as_returned": "Cash Foreign Currency with SBP-BSC",
+        "series_code": "Z00012",
+        "expected_start": "2005-07-31",
+        "expected_end": null,
+        "meta_start_date": "2005-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 43922,
+        "rows": 256,
+        "first_observation": "2005-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00012_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00012_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00013": {
+        "name": "Nostro balances of SBP",
+        "meta_name_as_returned": "Nostro balances of SBP",
+        "series_code": "Z00013",
+        "expected_start": "1948-06-30",
+        "expected_end": null,
+        "meta_start_date": "1948-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 109355,
+        "rows": 688,
+        "first_observation": "1948-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 30,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00013_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00013_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00014": {
+        "name": "Net Asian clearing unit balances",
+        "meta_name_as_returned": "Net Asian clearing unit balances",
+        "series_code": "Z00014",
+        "expected_start": "2020-06-30",
+        "expected_end": null,
+        "meta_start_date": "2020-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 13435,
+        "rows": 77,
+        "first_observation": "2020-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00014_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00014_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00015": {
+        "name": "IMF reserve position",
+        "meta_name_as_returned": "IMF reserve position",
+        "series_code": "Z00015",
+        "expected_start": "2020-06-30",
+        "expected_end": null,
+        "meta_start_date": "2020-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 12441,
+        "rows": 77,
+        "first_observation": "2020-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00015_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00015_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00016": {
+        "name": "Cash reserve requirement and special cash reserve requirement (CRR/SCRR)",
+        "meta_name_as_returned": "Cash reserve requirement and special cash reserve requirement (CRR/SCRR)",
+        "series_code": "Z00016",
+        "expected_start": "1999-06-30",
+        "expected_end": "2005-06-30",
+        "meta_start_date": "1999-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 15268,
+        "rows": 73,
+        "first_observation": "1999-06-30",
+        "last_observation": "2005-06-30",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 0,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00016_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00016_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00017": {
+        "name": "FE-25 deposits of banks",
+        "meta_name_as_returned": "FE-25 deposits of banks",
+        "series_code": "Z00017",
+        "expected_start": "1998-07-31",
+        "expected_end": null,
+        "meta_start_date": "1998-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 54838,
+        "rows": 340,
+        "first_observation": "1998-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00017_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00017_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00018": {
+        "name": "Trade Nostro of banks",
+        "meta_name_as_returned": "Trade Nostro of banks",
+        "series_code": "Z00018",
+        "expected_start": "1971-06-30",
+        "expected_end": null,
+        "meta_start_date": "1971-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 104392,
+        "rows": 665,
+        "first_observation": "1971-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 7,
+        "negative_values": 224,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00018_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00018_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00019": {
+        "name": "Place abroad(other than FE-25) of banks",
+        "meta_name_as_returned": "Place abroad(other than FE-25) of banks",
+        "series_code": "Z00019",
+        "expected_start": "2007-03-31",
+        "expected_end": null,
+        "meta_start_date": "2007-03-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 41646,
+        "rows": 236,
+        "first_observation": "2007-03-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00019_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00019_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00020": {
+        "name": "Total SBP Reserves",
+        "meta_name_as_returned": "Total SBP Reserves",
+        "series_code": "Z00020",
+        "expected_start": "1948-06-30",
+        "expected_end": null,
+        "meta_start_date": "1948-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 106531,
+        "rows": 688,
+        "first_observation": "1948-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 30,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00020_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00020_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00021": {
+        "name": "Trade Finance from FCA",
+        "meta_name_as_returned": "Trade Finance from FCA",
+        "series_code": "Z00021",
+        "expected_start": "2005-07-31",
+        "expected_end": null,
+        "meta_start_date": "2005-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 41154,
+        "rows": 256,
+        "first_observation": "2005-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00021_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00021_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00022": {
+        "name": "FE-25 Placements of banks in Pakistan",
+        "meta_name_as_returned": "FE-25 Placements of banks in Pakistan",
+        "series_code": "Z00022",
+        "expected_start": "2005-07-31",
+        "expected_end": null,
+        "meta_start_date": "2005-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 44677,
+        "rows": 256,
+        "first_observation": "2005-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00022_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00022_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00023": {
+        "name": "FE-25 utilization-Others",
+        "meta_name_as_returned": "FE-25 utilization-Others",
+        "series_code": "Z00023",
+        "expected_start": "2005-07-31",
+        "expected_end": null,
+        "meta_start_date": "2005-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 41698,
+        "rows": 256,
+        "first_observation": "2005-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00023_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00023_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00030": {
+        "name": "Net Reserves with SBP",
+        "meta_name_as_returned": "Net Reserves with SBP",
+        "series_code": "Z00030",
+        "expected_start": "2010-07-31",
+        "expected_end": null,
+        "meta_start_date": "2010-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 31418,
+        "rows": 196,
+        "first_observation": "2010-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 2,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00030_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00030_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00040": {
+        "name": "Total Banks Reserves",
+        "meta_name_as_returned": "Total Banks Reserves",
+        "series_code": "Z00040",
+        "expected_start": "1971-06-30",
+        "expected_end": null,
+        "meta_start_date": "1971-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 103888,
+        "rows": 665,
+        "first_observation": "1971-06-30",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 7,
+        "negative_values": 10,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00040_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00040_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00050": {
+        "name": "Net Reserves With Banks",
+        "meta_name_as_returned": "Net Reserves With Banks",
+        "series_code": "Z00050",
+        "expected_start": "2010-07-31",
+        "expected_end": null,
+        "meta_start_date": "2010-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 31887,
+        "rows": 196,
+        "first_observation": "2010-07-31",
+        "last_observation": "2026-10-31",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00050_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00050_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00060": {
+        "name": "Total Liquid FX Reserves",
+        "meta_name_as_returned": "Total Liquid FX Reserves",
+        "series_code": "Z00060",
+        "expected_start": "2010-07-31",
+        "expected_end": "2024-09-30",
+        "meta_start_date": "2010-07-31",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 28048,
+        "rows": 171,
+        "first_observation": "2010-07-31",
+        "last_observation": "2024-09-30",
+        "annual_rows_before_1972": 0,
+        "negative_values": 0,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00060_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00060_data.json"
+        }
+      },
+      "TS_GP_EXT_PAKRES_M.Z00070": {
+        "name": "Total Reserve Assets",
+        "meta_name_as_returned": "Total Reserve Assets",
+        "series_code": "Z00070",
+        "expected_start": "1948-06-30",
+        "expected_end": "2024-09-30",
+        "meta_start_date": "1948-06-30",
+        "portal_last_refresh_date": "2026-11-18",
+        "meta_dataset_name": "Gold and Foreign Exchange Reserves of Pakistan",
+        "http_status": 200,
+        "bytes": 104102,
+        "rows": 663,
+        "first_observation": "1948-06-30",
+        "last_observation": "2024-09-30",
+        "annual_rows_before_1972": 30,
+        "negative_values": 0,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00070_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182016Z_TS_GP_EXT_PAKRES_M.Z00070_data.json"
+        }
+      }
+    },
+    "rows_per_series": {
+      "TS_GP_EXT_PAKRES_M.Z00010": 688,
+      "TS_GP_EXT_PAKRES_M.Z00011": 665,
+      "TS_GP_EXT_PAKRES_M.Z00012": 256,
+      "TS_GP_EXT_PAKRES_M.Z00013": 688,
+      "TS_GP_EXT_PAKRES_M.Z00014": 77,
+      "TS_GP_EXT_PAKRES_M.Z00015": 77,
+      "TS_GP_EXT_PAKRES_M.Z00016": 73,
+      "TS_GP_EXT_PAKRES_M.Z00017": 340,
+      "TS_GP_EXT_PAKRES_M.Z00018": 665,
+      "TS_GP_EXT_PAKRES_M.Z00019": 236,
+      "TS_GP_EXT_PAKRES_M.Z00020": 688,
+      "TS_GP_EXT_PAKRES_M.Z00021": 256,
+      "TS_GP_EXT_PAKRES_M.Z00022": 256,
+      "TS_GP_EXT_PAKRES_M.Z00023": 256,
+      "TS_GP_EXT_PAKRES_M.Z00030": 196,
+      "TS_GP_EXT_PAKRES_M.Z00040": 665,
+      "TS_GP_EXT_PAKRES_M.Z00050": 196,
+      "TS_GP_EXT_PAKRES_M.Z00060": 171,
+      "TS_GP_EXT_PAKRES_M.Z00070": 663
+    },
+    "latest_month": "2026-10-31",
+    "identities": {
+      "Z00060 = Z00030 + Z00050": {
+        "checked": 171,
+        "skipped_incomplete": 25,
+        "mismatches": []
+      },
+      "Z00070 = Z00010 + Z00020 + Z00040": {
+        "checked": 640,
+        "skipped_incomplete": 48,
+        "mismatches": []
+      }
+    },
+    "published_at_basis": "bop_release_25th_next_month",
+    "citation": "State Bank of Pakistan, (2026), Monthly data from Gold and Foreign Exchange Reserves of Pakistan, for 30-Jun-1948 to 31-Oct-2026, Source EasyData, Gold and Foreign Exchange Reserves of Pakistan, 18-Nov-2026",
+    "last_run": {
+      "run_id": "20261122T182016Z",
+      "fetched_at": "2026-11-22T18:20:16Z",
+      "end_date": "2026-11-22",
+      "git": {
+        "commit": "b87311509476526fe2250fa33de1c306bedbe77b",
+        "dirty": false
+      },
+      "rows": 7112,
+      "revisions": {
+        "previous": null,
+        "status_changed": 0
+      },
+      "published_at_basis": "bop_release_25th_next_month",
+      "citation": "State Bank of Pakistan, (2026), Monthly data from Gold and Foreign Exchange Reserves of Pakistan, for 30-Jun-1948 to 31-Oct-2026, Source EasyData, Gold and Foreign Exchange Reserves of Pakistan, 18-Nov-2026"
+    }
+  }
+}

@@ -1,7 +1,8 @@
 """Shared helpers for macro-stream loaders that read the SBP EasyData API.
 
 Used by ``macro_policy_rate.py``, ``macro_tbill_auctions.py``,
-``macro_inflation.py`` and ``macro_fx.py``. Not part of
+``macro_inflation.py``, ``macro_fx.py``, ``macro_reserves.py`` and
+``macro_money_supply.py``. Not part of
 ``common.py`` (shared by all streams); this module belongs to the macro stream.
 
 EasyData passes the API key (``EASYDATA_API_KEY``) in the query string, and
@@ -457,6 +458,56 @@ def status_changes(
             f"({len(changed)} row(s)): {listed(changed)}"
         )
     return {"status_changed": len(changed), "status_changes": changed}, warnings
+
+
+def check_identities(
+    by_date: Mapping[date, Mapping[str, float]],
+    identities: Sequence[tuple[str, Sequence[str]]],
+    tolerance: float,
+) -> tuple[dict[str, Any], list[str]]:
+    """Check ``total = sum(parts)`` on every date where the total and all its
+    parts exist; dates with any of them missing are skipped and counted.
+    A difference above ``tolerance`` (absolute) is a warning. Nothing is
+    derived or changed. Keys in the report and warnings are the series keys'
+    last component (e.g. ``Z00060``)."""
+
+    def short(k: str) -> str:
+        return k.rsplit(".", 1)[-1]
+
+    report: dict[str, Any] = {}
+    warnings: list[str] = []
+    for total, parts in identities:
+        label = f"{short(total)} = " + " + ".join(short(p) for p in parts)
+        checked = skipped = 0
+        mismatches: list[str] = []
+        for day in sorted(by_date):
+            values = by_date[day]
+            if total not in values or any(p not in values for p in parts):
+                if total in values or any(p in values for p in parts):
+                    skipped += 1
+                continue
+            checked += 1
+            s = sum(values[p] for p in parts)
+            diff = values[total] - s
+            if abs(diff) > tolerance:
+                mismatches.append(f"{day} ({short(total)} {values[total]:.2f}, sum {s:.2f}, diff {diff:+.2f})")
+        report[label] = {"checked": checked, "skipped_incomplete": skipped, "mismatches": mismatches}
+        if mismatches:
+            warnings.append(
+                f"identity {label} differs by more than {tolerance:g} on {len(mismatches)} date(s): "
+                f"{listed(mismatches)}"
+            )
+    return report, warnings
+
+
+def rows_summary(rows_per_series: Mapping[str, int]) -> str:
+    """One line for the final log: the common count, or every series' count."""
+    counts = set(rows_per_series.values())
+    total = sum(rows_per_series.values())
+    if len(counts) == 1:
+        return f"rows per series: {counts.pop()} for all {len(rows_per_series)} series ({total} total)"
+    each = ", ".join(f"{k.rsplit('.', 1)[-1]}={n}" for k, n in rows_per_series.items())
+    return f"rows per series differ ({total} total): {each}"
 
 
 # --------------------------------------------------------------------------

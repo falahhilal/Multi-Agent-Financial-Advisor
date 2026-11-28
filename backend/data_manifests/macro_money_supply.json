@@ -1,0 +1,1678 @@
+{
+  "schema_version": 1,
+  "id": "macro_money_supply",
+  "stream": "macro",
+  "dataset": "money_supply",
+  "source": "SBP EasyData API <https://easydata.sbp.org.pk/api/v1/series/<series_key>/{meta,data}>, dataset 'Weekly Broad Money M2' (TS_GP_BAM_M2_W), series TS_GP_BAM_M2_W.M000010 to TS_GP_BAM_M2_W.M000500 (50)",
+  "fetch_mode": "append_only_snapshot",
+  "fetched_at": "2026-11-22T18:27:20Z",
+  "script": "backend/jobs/macro_money_supply.py",
+  "git_commit": "b87311509476526fe2250fa33de1c306bedbe77b",
+  "git_dirty": false,
+  "row_count": 32250,
+  "file_count": 103,
+  "date_range": {
+    "min": "2014-07-04",
+    "max": "2026-11-06"
+  },
+  "files": [
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000010_meta.json",
+      "bytes": 460,
+      "sha256": "bef55c07dcb293f621e4fe798ff05150bed7ee61f34fc9e173f590c8614a9fc0"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000010_data.json",
+      "bytes": 89100,
+      "sha256": "d0c11c57e270847096f543b3402a394ef8c2313074524fea743f173e166c018e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000020_meta.json",
+      "bytes": 695,
+      "sha256": "0c3827ac857c6c6eca51eb0de3483b3feb58541a7cbed6b037d1306bb371788e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000020_data.json",
+      "bytes": 118125,
+      "sha256": "9158624e03fb6813deba5604f673800e5ddc93aaa40a6b8d4fc4b76ff2efc6e4"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000030_meta.json",
+      "bytes": 498,
+      "sha256": "54e1a9ad2c500e3d2ff298913165630b1edd199d3a660803e4303b12f689bd8f"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000030_data.json",
+      "bytes": 96815,
+      "sha256": "3356084b267b84c416111d439f841c844ef28940079f1e949563e4472e74df2d"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000040_meta.json",
+      "bytes": 416,
+      "sha256": "56e680661c4018d78b07a5eb04da972976d80a04650275626e16989e3ff950d5"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000040_data.json",
+      "bytes": 83942,
+      "sha256": "abf6a8bb853ab6ba8db2809c90a84f0359f2ba1b3fd513a0cb4e29897af79c55"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000050_meta.json",
+      "bytes": 410,
+      "sha256": "0501c2ee79830f8d1f19a218ebc0f03a79d0c403afcd5f184f6626d66d077c6e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000050_data.json",
+      "bytes": 82308,
+      "sha256": "c0e83c9ad9d321c3ca735510612cebdad0a468e990720288eddd2dd0c70b8f8a"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000060_meta.json",
+      "bytes": 418,
+      "sha256": "e068c59b4652debe957334877c9b7dac96b1c615acf5bfa1f3f62a277a183e33"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000060_data.json",
+      "bytes": 101945,
+      "sha256": "4b93cc1c8071ede1cf26f0f9ec66c06ae939ecacbf7f8673a33681a1423579db"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000070_meta.json",
+      "bytes": 626,
+      "sha256": "25586b6a2a2df32f6255c16ca77f6723359ac118c5d8391dc72f181f7004323f"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000070_data.json",
+      "bytes": 92320,
+      "sha256": "a5f5b85e2f4d7b5ceae9139dadd171af697c8ae009d2db358f87f794ad655d01"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000080_meta.json",
+      "bytes": 502,
+      "sha256": "bd1b395bd1035b5098f1011cf7d79d9c0cee3cd8febac1c466d9160fa8259c07"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000080_data.json",
+      "bytes": 100315,
+      "sha256": "9cc13535b8d8781d83ea98b210221dad08302864a6bce1e181d0af9c8d1c6fe9"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000090_meta.json",
+      "bytes": 481,
+      "sha256": "b7b2eeb11773627d8a3934db86514b00589af768f091e082f65926ea64d58970"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000090_data.json",
+      "bytes": 102823,
+      "sha256": "9032eba12c1d2807a43dd46f8008560b0237222eeb81521713803b533b862d3d"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000100_meta.json",
+      "bytes": 458,
+      "sha256": "7734e2bfb4570f3623ecdf3df315b21c40f7dc59bbab6be8f6f02bdbc70c361f"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000100_data.json",
+      "bytes": 98651,
+      "sha256": "a897d13f8b99bc878e5e04e71fe306c293bbb069d074637dadd78ed8f8223b60"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000110_meta.json",
+      "bytes": 536,
+      "sha256": "c8d9537c8271aae95229c7c24abd1f1b2a7ca4d4ac7bf434cc732c3afea0c947"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000110_data.json",
+      "bytes": 100699,
+      "sha256": "4d170089a97307d4b74d49a643cf565ea193e552dbeec77869cb4a900442fcbb"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000120_meta.json",
+      "bytes": 456,
+      "sha256": "a19d9bfe68ce44b71a6770ec6ba3e1af2512295f8df1eeec78d2b59dd1c82d45"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000120_data.json",
+      "bytes": 103278,
+      "sha256": "33451887575ead8087cbce663765599d0cb67f3ac259b36669760ee463935dc6"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000130_meta.json",
+      "bytes": 433,
+      "sha256": "ffd294999dc44d8e8d82dc289dc5f78eefe1dc13b7b43b3ec1c016ee24908a4f"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000130_data.json",
+      "bytes": 98768,
+      "sha256": "612870ef724b6197663ccbbdad71421b79e59a0abbf0d4be30f4b3010ceff57b"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000140_meta.json",
+      "bytes": 556,
+      "sha256": "049dce0ad79deffe8c2eeae513d3f81c56ba6f3be70de593bf9c11630dc3e4bf"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000140_data.json",
+      "bytes": 94890,
+      "sha256": "bfc94cdf79e5dc8ab7f986b0b033e642b8e5f08cfa6fd0da524c923350f345b6"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000150_meta.json",
+      "bytes": 495,
+      "sha256": "6784ca71da79dc6849997da835745b1d2c744739a111ae0800facbfe2251f3f8"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000150_data.json",
+      "bytes": 101997,
+      "sha256": "b899c08e429994d3c84f1ed29c31c8fd1e261cbb5570cffec8609b7690261654"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000160_meta.json",
+      "bytes": 697,
+      "sha256": "c9c196ec5f69ad733fe65b851996865daf3ea21fe59e64e9a2d0e52294260877"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000160_data.json",
+      "bytes": 105874,
+      "sha256": "0f5d37c80a503037343e9be202b1abbe18e92983184e622c9426008a02c49c38"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000170_meta.json",
+      "bytes": 721,
+      "sha256": "93d97cdc5cff6e669324d1176673beff532ec28951e33b2e6bdb07e0ade17ea9"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000170_data.json",
+      "bytes": 111029,
+      "sha256": "86bce82a3f3ffd8de5f2c567c19c54b17098a35a58a7ae4d608ba280992b81b5"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000180_meta.json",
+      "bytes": 496,
+      "sha256": "07e357bcff0f217258c4b3fb2b9a64dc006d57fa505e8ce280b6a5fdca9e490e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000180_data.json",
+      "bytes": 110372,
+      "sha256": "3e0813ecc8570cab4619b84d3d9f066057b6f46773e0a722f7aec36982c2b777"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000190_meta.json",
+      "bytes": 657,
+      "sha256": "1d927fb7eccac4e5411552a0677f847df931547f0398557c9c3f0e75c246a229"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000190_data.json",
+      "bytes": 113617,
+      "sha256": "3661b4223d7d242755066d99861ea44abb427790fe3c5e3b01fe87f975b93118"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000200_meta.json",
+      "bytes": 529,
+      "sha256": "b1429604af412c2200e7df466abda1e83f814d845f9e0641e8ccbf08c83ea535"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000200_data.json",
+      "bytes": 114245,
+      "sha256": "a310ec704cf26cb79c1a4acf277d563ef78ce5f8698af9236feb13f166dde50b"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000210_meta.json",
+      "bytes": 535,
+      "sha256": "b78a35a5d9b45eaea40c05e7782536522a92970109ff8ec63812d649e783f212"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000210_data.json",
+      "bytes": 118758,
+      "sha256": "0af593ca6714b9044182ebe9433d0a122a5e80c280798aafea2db4e7633c6698"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000220_meta.json",
+      "bytes": 519,
+      "sha256": "d31048e16a29dd04fcb325c161c9542d72d53193cc112371209f8e9231d5bce6"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000220_data.json",
+      "bytes": 111039,
+      "sha256": "6c161b59ff4a3d17192c7f1d10e329d94cbdb6bbdb200c0c2a5904bb03952b59"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000230_meta.json",
+      "bytes": 516,
+      "sha256": "6917106b5368d253f84ca98eb94298a460b2c15e75455861de6a5a4f39c119e1"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000230_data.json",
+      "bytes": 110372,
+      "sha256": "09c7c94dc46d2fbd10ad8c9a6fe93f3e1a2203198c8fbd41f9e6f58a303a4721"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000240_meta.json",
+      "bytes": 544,
+      "sha256": "95890097ba4bd073bda93b98a6c0ff28fe9a6aeb6e37936676e9eb9dcb3d0dc1"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000240_data.json",
+      "bytes": 119854,
+      "sha256": "0b75ff73e981c0fe1e290e4ed35ab4740c1ccd1a08303e27d0f2c1027123b671"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000250_meta.json",
+      "bytes": 535,
+      "sha256": "d2c3e4ce0ba62b8886135c74ca514e27b69ddc30bf6ccbcf613a7c33b3f0d1eb"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000250_data.json",
+      "bytes": 117468,
+      "sha256": "600054d425775e99ba95ee9b9614e46b09f01cdf86d3d5dd9868a705b9eb6d87"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000260_meta.json",
+      "bytes": 596,
+      "sha256": "fde0d0643c1599ca76a5a1284c2f229ac1dfa03f84d25c2d18e0e63a3e0f3986"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000260_data.json",
+      "bytes": 101347,
+      "sha256": "dfeff9a3816eaafc00bcd86896aa3edf424887e1305c4ca30a750de9bc5806f3"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000270_meta.json",
+      "bytes": 620,
+      "sha256": "5085cdabef9106fb0c2d6c3abb31f6cd043fb50e526c1e732682a8aca6c459e0"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000270_data.json",
+      "bytes": 106497,
+      "sha256": "3d2af9700cd76ffeffb7615ce5bd7c6a10e55e68f4ebae2bb3b9838fe6412af4"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000280_meta.json",
+      "bytes": 460,
+      "sha256": "c538afdb84d76d15fdfbebeab7a3a0b2ee755e4460a149be22c9e949a31417c2"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000280_data.json",
+      "bytes": 105811,
+      "sha256": "745933b96e752b58c3a5314c0a6044c7ef7d997960a77a583da744e345df2c47"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000290_meta.json",
+      "bytes": 564,
+      "sha256": "3aa9a6ab69b4667fd7ef2e3b87366e90acb3f5d87ef84f8617b1308046910937"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000290_data.json",
+      "bytes": 109013,
+      "sha256": "b927e1cb0b4202c3310c95b6c75fa84d86e3ca31d4ee8f61b72e4163e635a531"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000300_meta.json",
+      "bytes": 466,
+      "sha256": "06c8786f0ca00d766eac1af92f3464815ee907b0522e6a435f6a8ac27ac86248"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000300_data.json",
+      "bytes": 107693,
+      "sha256": "e6458ef82259b17e4029279251c5e1607cd00c3a342a97f0a54cb59018625bcc"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000310_meta.json",
+      "bytes": 514,
+      "sha256": "592dfb5768c412d04243a70dd6966ea5493700c65194f5ef7e99f36f961ea06b"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000310_data.json",
+      "bytes": 87141,
+      "sha256": "fa9ea0c916c1965673c1a9d48855485fe753258d80f02e5182d3483f5cdfe81e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000320_meta.json",
+      "bytes": 542,
+      "sha256": "b3ed8e7e988fb2542b59e051fc9db9bb7c2214ba9c5644f94e5903f0039f6de5"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000320_data.json",
+      "bytes": 93615,
+      "sha256": "bbf423f3f4858d176439402b3387a334e9bce2ec1dfa0a0ac48251490f3ab4ea"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000330_meta.json",
+      "bytes": 579,
+      "sha256": "47f2b1d36e060cd288e61a64f84678dbd52f480a4aae871ebcb374fb72f53763"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000330_data.json",
+      "bytes": 94250,
+      "sha256": "d589cba6d1a7b444b0952ce111c8c950866ddfcb0cacd56e9293b2f76ac01b11"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000340_meta.json",
+      "bytes": 618,
+      "sha256": "7fdb1e8d78c22e6f4347355c5541b25289e057781b2e72b3aa237aa3016b94e2"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000340_data.json",
+      "bytes": 89743,
+      "sha256": "14eef215091300c5e9c59f5d4d55c6a32d03c1c966237377d36b3dd2ea2976f0"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000350_meta.json",
+      "bytes": 506,
+      "sha256": "27b8c22419f2bce40bfe2938906db3e7bbf9c3063346a97248870630c7e29a72"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000350_data.json",
+      "bytes": 112316,
+      "sha256": "042bc124072946ad5d74bf5f1c4a852d32db0a4b5bc11c98bcb969fee8185c94"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000360_meta.json",
+      "bytes": 456,
+      "sha256": "373946c09ae53dc6af2b66b0540c95900ddce52c8e52a43fe8728b687ba8603b"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000360_data.json",
+      "bytes": 101917,
+      "sha256": "d95c2fe773981a99c992cb92c85ef519000c75d2fbfefe9daacd608026ce2aae"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000370_meta.json",
+      "bytes": 516,
+      "sha256": "8640a7b9e5be16f225c8641e79a3e404f29d282548ded036f7b10323c97d5151"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000370_data.json",
+      "bytes": 123182,
+      "sha256": "e59b1c43a3210a41d78e75d49e4b21d42e823429cdbecea6ed7a525e480f7a56"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000380_meta.json",
+      "bytes": 513,
+      "sha256": "5e4fc55b1db733ffe88b6a12402a3494cd2c5b7393d953b5779ce8c593c7e4bb"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000380_data.json",
+      "bytes": 101758,
+      "sha256": "2f90754d9593285cb39b40d21ceeafa2f32a79108fc81b0e718cef4ff08d0b55"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000390_meta.json",
+      "bytes": 514,
+      "sha256": "7cdd42294631a665882815807b07d7051d47138a25ca2daf433d3e723608c9bb"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000390_data.json",
+      "bytes": 99076,
+      "sha256": "9f573a3cebeaa01af3c18ee3847a58229a43ca56269529db24fd4554e634a6c7"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000400_meta.json",
+      "bytes": 462,
+      "sha256": "9ba62a43419c84a9a40b9170f444238fe293ae014fe7dd1e571fb7de4f7a1422"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000400_data.json",
+      "bytes": 100528,
+      "sha256": "66048e61a29494a59dd56355d48af45f814e6e65fb25cd1555bbf2af4d834739"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000410_meta.json",
+      "bytes": 445,
+      "sha256": "27d9e485744e21e46af730b9cd3e3baa128831faf2ffb88cce73f72595743afd"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000410_data.json",
+      "bytes": 85871,
+      "sha256": "4d5d9d7dfd9ec4153e81c87658ece649df51de35b6300fd9fb950f217096329e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000420_meta.json",
+      "bytes": 460,
+      "sha256": "72211c95b5355565db917fd697006b50e4ebf386bc3a5963fad7c7f9afa2825d"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000420_data.json",
+      "bytes": 91030,
+      "sha256": "03a0d12f2d30ff89e4d7dfb98718da7051e25339d8d469ae1aedc86331cf5557"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000430_meta.json",
+      "bytes": 491,
+      "sha256": "7b74417f474bf0dc4d3f4159b4b0abb3a8661bc0933bd80cc29bcbf0a5599a20"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000430_data.json",
+      "bytes": 130363,
+      "sha256": "8878319316f5b1d95bd6620ad0c801210bea1f022540f487a602dc5d78067754"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000440_meta.json",
+      "bytes": 490,
+      "sha256": "65421f5e8784023e217674f487d048cde64c6f6959e3fac8a282e0fdd80dc62a"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000440_data.json",
+      "bytes": 121340,
+      "sha256": "18beab39827a628fa59b9b91796517577c32ed7b66182e9633e78fb4badc5f0d"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000450_meta.json",
+      "bytes": 595,
+      "sha256": "114c9d9badbde68c49ffdff0bde606eea514bc467c51fde8db0739629132038d"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000450_data.json",
+      "bytes": 131006,
+      "sha256": "d38a1f4d6e457cf24fd8886c5d2ebfbdfed1ac6aac7f49c28128b26b8632fcaf"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000460_meta.json",
+      "bytes": 564,
+      "sha256": "6af3c1b2d2a631f3ac242eaf88409d57b27b841bfbca85321010593cf10daa3f"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000460_data.json",
+      "bytes": 136183,
+      "sha256": "8d0068da9cc8801e41a151391fe4662be64e89be415d814bb8ec502449c504ad"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000470_meta.json",
+      "bytes": 549,
+      "sha256": "379730b49cf0deff9a29c8a59a8804e150296fae7db44a4a2cbca8eb322a6fae"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000470_data.json",
+      "bytes": 131673,
+      "sha256": "7f67d7429df713461850f46e38f9790933b6ec64285eb0ef984090f5312439af"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000480_meta.json",
+      "bytes": 658,
+      "sha256": "efe4e503074c46d8357c979bd2f9a85ca52377c50b451956c7730612bc49e63e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000480_data.json",
+      "bytes": 103319,
+      "sha256": "3312d04f460d05da0b0cf5c5abe5f59f58e18fb59e9d326def8fe4579dad742b"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000490_meta.json",
+      "bytes": 651,
+      "sha256": "b949288e8f3abb2da03f8e8c1d20932e1e73df96b5852ee5918599201160f874"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000490_data.json",
+      "bytes": 103939,
+      "sha256": "d7877994aa2f2fe01830723b8fb31fa4a34a633a75cf8a8b0a0f33e93c8dac8e"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000500_meta.json",
+      "bytes": 629,
+      "sha256": "6936afcff8e561049245dc59866bd5cce86975602c063578af006421da44e403"
+    },
+    {
+      "path": "macro/money_supply/raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000500_data.json",
+      "bytes": 97304,
+      "sha256": "f5a346bc85c1dd4c5fa154681e28e005ab4d922b05f6270aa0600084d27e687a"
+    },
+    {
+      "path": "macro/money_supply/interim/fetch_date=2026-11-22/observations-20261122T182322Z.parquet",
+      "bytes": 245162,
+      "sha256": "47fa0bc12a98ab2cc4a34802ab2eb841f1bd51eb9e2fc5c8e1731cc089d34074"
+    },
+    {
+      "path": "macro/money_supply/processed/money_supply.parquet",
+      "bytes": 308787,
+      "sha256": "77406cf0ce961395fc7d6f44815dd71821d5b69c45849e06b1771cb7f499a130"
+    },
+    {
+      "path": "macro/money_supply/runs/fetch_date=2026-11-22/run-20261122T182322Z.json",
+      "bytes": 57960,
+      "sha256": "a41599f929063c03f2884e9e0d4ba9db4d8b8739b47b3d74ddb5a5c0bb9a79a2"
+    }
+  ],
+  "hf_repo": "fyp-psx-advisor/fyp-data",
+  "hf_repo_type": "dataset",
+  "hf_path": "macro/money_supply/",
+  "hf_revision": "cee4924d17642354dd99135b50166853e32edfae",
+  "notes": "SBP EasyData API, Weekly Broad Money M2. 50 weekly series (as on Fridays), Million PKR (M000010-M000470) and Percent (M000480-M000500, YoY growth), one row per series per date (long format; series_code identifies the series). Many series are negative by construction (deposits, net positions). Identities checked, not derived: M000070 = M000420 and M000070 = M000010 + M000020 + M000030 (tolerance 5 million PKR). Re-queryable, but SBP may revise or remove data without notice, so each run's raw responses are kept (append_only_snapshot); revisions and status-only changes against the previous run are logged as warnings. EasyData returns the latest revised values, not first-release vintages (M2 is revised, e.g. after SBP's annual accounts in October), so point-in-time use sees revised numbers. Series names have leading dots and spaces removed in processed (double spaces kept); interim keeps them as returned. published_at = observation_date + 14 days 23:59:59 Asia/Karachi in UTC (basis weekly_release_friday_plus_14d).",
+  "warnings": [],
+  "extra": {
+    "series": {
+      "TS_GP_BAM_M2_W.M000010": {
+        "name": "Currency in Circulation",
+        "meta_name_as_returned": "Currency in Circulation",
+        "series_code": "M000010",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 89100,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000010_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000010_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000020": {
+        "name": "Deposits with SBP excluding banks; IMF and other Intl. Organizations",
+        "meta_name_as_returned": "Deposits with SBP excluding banks; IMF and other Intl. Organizations",
+        "series_code": "M000020",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 118125,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000020_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000020_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000030": {
+        "name": "Total Deposits with Scheduled Banks",
+        "meta_name_as_returned": "Total Deposits with Scheduled Banks",
+        "series_code": "M000030",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 96815,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000030_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000030_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000040": {
+        "name": "Demand Deposits",
+        "meta_name_as_returned": "Demand Deposits",
+        "series_code": "M000040",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 83942,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000040_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000040_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000050": {
+        "name": "Time Deposits",
+        "meta_name_as_returned": "Time Deposits",
+        "series_code": "M000050",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 82308,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000050_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000050_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000060": {
+        "name": "Residents Foreign Currency Deposits (RFCDs)",
+        "meta_name_as_returned": "Residents Foreign Currency Deposits (RFCDs)",
+        "series_code": "M000060",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 101945,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000060_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000060_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000070": {
+        "name": "Broad Money (liability side)",
+        "meta_name_as_returned": "Broad Money (liability side)",
+        "series_code": "M000070",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 92320,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000070_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000070_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000080": {
+        "name": "Net Foreign Assets of the Banking System",
+        "meta_name_as_returned": "Net Foreign Assets of the Banking System",
+        "series_code": "M000080",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 100315,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 256,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000080_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000080_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000090": {
+        "name": "Net Foreign Assets of State Bank of Pakistan",
+        "meta_name_as_returned": "Net Foreign Assets of State Bank of Pakistan",
+        "series_code": "M000090",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 102823,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 180,
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000090_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000090_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000100": {
+        "name": "Net Foreign Assets of Scheduled Banks",
+        "meta_name_as_returned": "Net Foreign Assets of Scheduled Banks",
+        "series_code": "M000100",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 98651,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 548,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000100_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000100_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000110": {
+        "name": "Net Domestic Assets of the Banking System",
+        "meta_name_as_returned": "Net Domestic Assets of the Banking System",
+        "series_code": "M000110",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 100699,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000110_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000110_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000120": {
+        "name": "Net Domestic Assets of State Bank of Pakistan",
+        "meta_name_as_returned": "Net Domestic Assets of State Bank of Pakistan",
+        "series_code": "M000120",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 103278,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000120_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000120_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000130": {
+        "name": "Net Domestic Assets of Scheduled Banks",
+        "meta_name_as_returned": "Net Domestic Assets of Scheduled Banks",
+        "series_code": "M000130",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 98768,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000130_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000130_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000140": {
+        "name": "Net Government Sector Borrowings",
+        "meta_name_as_returned": "Net Government Sector Borrowings",
+        "series_code": "M000140",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 94890,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000140_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000140_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000150": {
+        "name": "Government Borrowings for Budgetary Support",
+        "meta_name_as_returned": "Government Borrowings for Budgetary Support",
+        "series_code": "M000150",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 101997,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000150_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000150_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000160": {
+        "name": "Government Borrowings from State Bank of Pakistan",
+        "meta_name_as_returned": "Government Borrowings from State Bank of Pakistan",
+        "series_code": "M000160",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 105874,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 2,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000160_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000160_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000170": {
+        "name": "Federal Government Borrowings from State Bank of Pakistan",
+        "meta_name_as_returned": "Federal Government Borrowings from State Bank of Pakistan",
+        "series_code": "M000170",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 111029,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000170_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000170_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000180": {
+        "name": "Federal Government Deposits with State Bank of Pakistan",
+        "meta_name_as_returned": "Federal Government Deposits with State Bank of Pakistan",
+        "series_code": "M000180",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 110372,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000180_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000180_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000190": {
+        "name": "Provincial Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Provincial Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000190",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 113617,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000190_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000190_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000200": {
+        "name": "Balochistan Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Balochistan Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000200",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 114245,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 643,
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000200_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000200_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000210": {
+        "name": "Khyber Pakhtunkhwa Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Khyber Pakhtunkhwa Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000210",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 118758,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000210_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000210_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000220": {
+        "name": "Punjab Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Punjab Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000220",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 111039,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 642,
+        "max_decimals": 7,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000220_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000220_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000230": {
+        "name": "Sindh Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Sindh Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000230",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 110372,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 639,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000230_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000230_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000240": {
+        "name": "Azad Jammu & Kashmir Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Azad Jammu & Kashmir Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000240",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 119854,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 455,
+        "max_decimals": 8,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000240_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000240_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000250": {
+        "name": "Gilgit-Baltistan Government Borrowings From State Bank of Pakistan",
+        "meta_name_as_returned": "Gilgit-Baltistan Government Borrowings From State Bank of Pakistan",
+        "series_code": "M000250",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 117468,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000250_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000250_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000260": {
+        "name": "Government Borrowings from Scheduled Banks",
+        "meta_name_as_returned": "Government Borrowings from Scheduled Banks",
+        "series_code": "M000260",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 101347,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000260_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000260_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000270": {
+        "name": "Federal Government Borrowings from scheduled Banks",
+        "meta_name_as_returned": "Federal Government Borrowings from scheduled Banks",
+        "series_code": "M000270",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 106497,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000270_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000270_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000280": {
+        "name": "Federal Government Deposits with Scheduled Banks",
+        "meta_name_as_returned": "Federal Government Deposits with Scheduled Banks",
+        "series_code": "M000280",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 105811,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000280_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000280_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000290": {
+        "name": "Provincial Government Borrowings from Scheduled Banks",
+        "meta_name_as_returned": "Provincial Government Borrowings from Scheduled Banks",
+        "series_code": "M000290",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 109013,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000290_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000290_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000300": {
+        "name": "Provincial Government Deposits with Scheduled Banks",
+        "meta_name_as_returned": "Provincial Government Deposits with Scheduled Banks",
+        "series_code": "M000300",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 107693,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000300_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000300_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000310": {
+        "name": "Commodity Operations",
+        "meta_name_as_returned": "Commodity Operations",
+        "series_code": "M000310",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 87141,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000310_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000310_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000320": {
+        "name": "Net effect of Zakat Fund etc.",
+        "meta_name_as_returned": "Net effect of Zakat Fund etc.",
+        "series_code": "M000320",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 93615,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 6,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000320_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000320_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000330": {
+        "name": "Credit to Non-Government Sector",
+        "meta_name_as_returned": "Credit to Non-Government Sector",
+        "series_code": "M000330",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 94250,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000330_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000330_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000340": {
+        "name": "Credit to Private Sector",
+        "meta_name_as_returned": "Credit to Private Sector",
+        "series_code": "M000340",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 89743,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000340_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000340_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000350": {
+        "name": "Credit to Private Sector from Conventional Banking Branches",
+        "meta_name_as_returned": "Credit to Private Sector from Conventional Banking Branches",
+        "series_code": "M000350",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 112316,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000350_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000350_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000360": {
+        "name": "Credit to Private Sector from Islamic Banks",
+        "meta_name_as_returned": "Credit to Private Sector from Islamic Banks",
+        "series_code": "M000360",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 101917,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000360_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000360_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000370": {
+        "name": "Credit to Private Sector from Islamic Banking Branches of Conventional Banks",
+        "meta_name_as_returned": "Credit to Private Sector from Islamic Banking Branches of Conventional Banks",
+        "series_code": "M000370",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 123182,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000370_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000370_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000380": {
+        "name": "Credit to Public Sectors Enterprises (PSEs)",
+        "meta_name_as_returned": "Credit to Public Sectors Enterprises (PSEs)",
+        "series_code": "M000380",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 101758,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000380_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000380_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000390": {
+        "name": "PSEs Special Account-Debt Repayment with SBP",
+        "meta_name_as_returned": "PSEs Special Account-Debt Repayment with SBP",
+        "series_code": "M000390",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 99076,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 259,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000390_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000390_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000400": {
+        "name": "Credit to Non-Bank Financial Institutions",
+        "meta_name_as_returned": "Credit to Non-Bank Financial Institutions",
+        "series_code": "M000400",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 100528,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000400_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000400_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000410": {
+        "name": "Other Items (net)",
+        "meta_name_as_returned": "Other Items (net)",
+        "series_code": "M000410",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 85871,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 645,
+        "max_decimals": 4,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000410_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000410_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000420": {
+        "name": "Broad Money (Assets  side)",
+        "meta_name_as_returned": "Broad Money (Assets  side)",
+        "series_code": "M000420",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 91030,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000420_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000420_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000430": {
+        "name": "Accrued profit on holdings of MRTBs/MTBs  by SBP and its subsidiaries (memorandum Item)",
+        "meta_name_as_returned": "Accrued profit on holdings of MRTBs/MTBs  by SBP and its subsidiaries (memorandum Item)",
+        "series_code": "M000430",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 130363,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000430_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000430_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000440": {
+        "name": "Outstanding  amount of MTBs realized value in auctions  (memorandum Item)",
+        "meta_name_as_returned": "Outstanding  amount of MTBs realized value in auctions  (memorandum Item)",
+        "series_code": "M000440",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 121340,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000440_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000440_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000450": {
+        "name": "Net Government Budgetary Borrowings on cash basis from Banking Sector  (memorandum Item)",
+        "meta_name_as_returned": "Net Government Budgetary Borrowings on cash basis from Banking Sector  (memorandum Item)",
+        "series_code": "M000450",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 131006,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000450_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000450_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000460": {
+        "name": "Net Government Budgetary Borrowings on cash basis from State Bank of Pakistan  (memorandum Item)",
+        "meta_name_as_returned": "Net Government Budgetary Borrowings on cash basis from State Bank of Pakistan  (memorandum Item)",
+        "series_code": "M000460",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 136183,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 6,
+        "max_decimals": 5,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000460_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000460_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000470": {
+        "name": "Net Government Budgetary Borrowings on cash basis from Scheduled Banks  (memorandum Item)",
+        "meta_name_as_returned": "Net Government Budgetary Borrowings on cash basis from Scheduled Banks  (memorandum Item)",
+        "series_code": "M000470",
+        "expected_unit": "Million PKR",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 131673,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 3,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000470_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000470_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000480": {
+        "name": "Memorandum: Credit to Private Sector - YoY growth",
+        "meta_name_as_returned": "Memorandum: Credit to Private Sector - YoY growth",
+        "series_code": "M000480",
+        "expected_unit": "Percent",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 103319,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 79,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000480_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000480_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000490": {
+        "name": "Memorandum: Total Deposits with Banks - YoY growth",
+        "meta_name_as_returned": "Memorandum: Total Deposits with Banks - YoY growth",
+        "series_code": "M000490",
+        "expected_unit": "Percent",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 103939,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 0,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000490_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000490_data.json"
+        }
+      },
+      "TS_GP_BAM_M2_W.M000500": {
+        "name": "Memorandum: Broad Money (M2) - YoY growth",
+        "meta_name_as_returned": "Memorandum: Broad Money (M2) - YoY growth",
+        "series_code": "M000500",
+        "expected_unit": "Percent",
+        "meta_start_date": "2014-07-04",
+        "portal_last_refresh_date": "2026-11-16",
+        "meta_dataset_name": "Weekly Broad Money M2",
+        "http_status": 200,
+        "bytes": 97304,
+        "rows": 645,
+        "first_observation": "2014-07-04",
+        "last_observation": "2026-11-06",
+        "negative_values": 2,
+        "max_decimals": 9,
+        "rows_with_name_prefix": 0,
+        "raw_files": {
+          "meta": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000500_meta.json",
+          "data": "raw/fetch_date=2026-11-22/20261122T182322Z_TS_GP_BAM_M2_W.M000500_data.json"
+        }
+      }
+    },
+    "rows_per_series": {
+      "TS_GP_BAM_M2_W.M000010": 645,
+      "TS_GP_BAM_M2_W.M000020": 645,
+      "TS_GP_BAM_M2_W.M000030": 645,
+      "TS_GP_BAM_M2_W.M000040": 645,
+      "TS_GP_BAM_M2_W.M000050": 645,
+      "TS_GP_BAM_M2_W.M000060": 645,
+      "TS_GP_BAM_M2_W.M000070": 645,
+      "TS_GP_BAM_M2_W.M000080": 645,
+      "TS_GP_BAM_M2_W.M000090": 645,
+      "TS_GP_BAM_M2_W.M000100": 645,
+      "TS_GP_BAM_M2_W.M000110": 645,
+      "TS_GP_BAM_M2_W.M000120": 645,
+      "TS_GP_BAM_M2_W.M000130": 645,
+      "TS_GP_BAM_M2_W.M000140": 645,
+      "TS_GP_BAM_M2_W.M000150": 645,
+      "TS_GP_BAM_M2_W.M000160": 645,
+      "TS_GP_BAM_M2_W.M000170": 645,
+      "TS_GP_BAM_M2_W.M000180": 645,
+      "TS_GP_BAM_M2_W.M000190": 645,
+      "TS_GP_BAM_M2_W.M000200": 645,
+      "TS_GP_BAM_M2_W.M000210": 645,
+      "TS_GP_BAM_M2_W.M000220": 645,
+      "TS_GP_BAM_M2_W.M000230": 645,
+      "TS_GP_BAM_M2_W.M000240": 645,
+      "TS_GP_BAM_M2_W.M000250": 645,
+      "TS_GP_BAM_M2_W.M000260": 645,
+      "TS_GP_BAM_M2_W.M000270": 645,
+      "TS_GP_BAM_M2_W.M000280": 645,
+      "TS_GP_BAM_M2_W.M000290": 645,
+      "TS_GP_BAM_M2_W.M000300": 645,
+      "TS_GP_BAM_M2_W.M000310": 645,
+      "TS_GP_BAM_M2_W.M000320": 645,
+      "TS_GP_BAM_M2_W.M000330": 645,
+      "TS_GP_BAM_M2_W.M000340": 645,
+      "TS_GP_BAM_M2_W.M000350": 645,
+      "TS_GP_BAM_M2_W.M000360": 645,
+      "TS_GP_BAM_M2_W.M000370": 645,
+      "TS_GP_BAM_M2_W.M000380": 645,
+      "TS_GP_BAM_M2_W.M000390": 645,
+      "TS_GP_BAM_M2_W.M000400": 645,
+      "TS_GP_BAM_M2_W.M000410": 645,
+      "TS_GP_BAM_M2_W.M000420": 645,
+      "TS_GP_BAM_M2_W.M000430": 645,
+      "TS_GP_BAM_M2_W.M000440": 645,
+      "TS_GP_BAM_M2_W.M000450": 645,
+      "TS_GP_BAM_M2_W.M000460": 645,
+      "TS_GP_BAM_M2_W.M000470": 645,
+      "TS_GP_BAM_M2_W.M000480": 645,
+      "TS_GP_BAM_M2_W.M000490": 645,
+      "TS_GP_BAM_M2_W.M000500": 645
+    },
+    "latest_date": "2026-11-06",
+    "identities": {
+      "M000070 = M000420": {
+        "checked": 645,
+        "skipped_incomplete": 0,
+        "mismatches": []
+      },
+      "M000070 = M000010 + M000020 + M000030": {
+        "checked": 645,
+        "skipped_incomplete": 0,
+        "mismatches": []
+      }
+    },
+    "published_at_basis": "weekly_release_friday_plus_14d",
+    "citation": "State Bank of Pakistan, (2026), Weekly data from Weekly Broad Money M2, for 04-Jul-2014 to 06-Nov-2026, Source EasyData, Weekly Broad Money M2, 16-Nov-2026",
+    "last_run": {
+      "run_id": "20261122T182322Z",
+      "fetched_at": "2026-11-22T18:23:22Z",
+      "end_date": "2026-11-22",
+      "git": {
+        "commit": "b87311509476526fe2250fa33de1c306bedbe77b",
+        "dirty": false
+      },
+      "rows": 32250,
+      "revisions": {
+        "previous": null,
+        "status_changed": 0
+      },
+      "published_at_basis": "weekly_release_friday_plus_14d",
+      "citation": "State Bank of Pakistan, (2026), Weekly data from Weekly Broad Money M2, for 04-Jul-2014 to 06-Nov-2026, Source EasyData, Weekly Broad Money M2, 16-Nov-2026"
+    }
+  }
+}
